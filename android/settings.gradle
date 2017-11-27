@@ -1,6 +1,6 @@
 rootProject.name = 'drivingapp'
-include ':realm'
-project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
+//include ':realm'
+//project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
 include ':@mapbox/react-native-mapbox-gl'
 project(':@mapbox/react-native-mapbox-gl').projectDir = new File(rootProject.projectDir, '../node_modules/@mapbox/react-native-mapbox-gl/android')
 

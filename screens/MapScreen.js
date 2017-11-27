@@ -47,7 +47,7 @@ export default class MapScreen extends Component {
           let campuslist = JSON.parse(JSON.parse("[" + list + "]"))
 
           let alertslist = JSON.parse(JSON.parse("[" + alerts + "]"))
-
+          //ToastAndroid.showWithGravity( alertslist.length.toString() , ToastAndroid.SHORT, ToastAndroid.CENTER);
           let annotations = []
 
           campuslist.map((camp) => {
@@ -75,10 +75,10 @@ export default class MapScreen extends Component {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             let temp = {
-              //latitude: position.coords.latitude,
-              //longitude: position.coords.longitude
-              latitude: 18.87649,
-              longitude: -99.21986
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+              //latitude: 18.87649,
+              //longitude: -99.21986
             }
 
             
@@ -106,12 +106,11 @@ export default class MapScreen extends Component {
           initialZoomLevel={18}
           annotations={this.state.annotations}
           initialDirection={0}
-          
           rotateEnabled={true}
           scrollEnabled={true}
           zoomEnabled={true}
-          styleURL={Mapbox.mapStyles.light}
-          
+          styleURL={Mapbox.mapStyles.dark}
+          showsUserLocation={true}
         />
 
       )

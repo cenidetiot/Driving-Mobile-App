@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import { Card,Icon,Avatar,TYPO,COLOR,Toolbar as MaterialToolbar  } from 'react-native-material-design';
-import Nav from '../components/Nav.js'
 
 import ServerConnection from '../services/ServerConnection'
 
@@ -79,12 +78,8 @@ export default class SignupScreen extends Component {
     const { navigate } = this.props.navigation;
      
     return (
-    	<DrawerLayoutAndroid
-    		ref={'DRAWER'}
-		    drawerWidth={250}
-		    drawerPosition={DrawerLayoutAndroid.positions.Left}
-		    renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/> )}>
-	    	 <MaterialToolbar
+    	<View>
+        <MaterialToolbar
             style={{flex:1,backgroundColor:'#2980b9'}}
             title={'Sign Up'}
             icon={'arrow-back'}
@@ -123,7 +118,7 @@ export default class SignupScreen extends Component {
            <Button title="Sign Up" onPress={this.onButtonPress.bind(this)}/>
            <Text>{this.state.message}</Text>
         </ScrollView>
-	    </DrawerLayoutAndroid> 
+	    </View> 
       
     )
   }
@@ -132,7 +127,7 @@ export default class SignupScreen extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-	    flex: 1,
+	    
 	    marginTop:55,
       margin:5
 	}, 

@@ -11,18 +11,13 @@ import {
   AsyncStorage,
   TouchableHighlight
 } from 'react-native';
-import { Card,Avatar,TYPO,COLOR,Button } from 'react-native-material-design';
+import { Card,Avatar,TYPO,COLOR,Button,Toolbar as MaterialToolbar } from 'react-native-material-design';
 
-
+import { NavigationActions } from 'react-navigation'
 import ServerConnection from '../services/ServerConnection'
-
-import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
 import MyFloatButton from '../components/MyFloatButton'
   
-
-
-
 export default class AlertsScreen extends Component {
   
   constructor(props) {
@@ -39,10 +34,14 @@ export default class AlertsScreen extends Component {
     let t = this
     ServerConnection.updateAlertArray()
       .then((response) =>{
-        t.setState({alerts :  JSON.parse(response)})
+          t.setState({alerts :  JSON.parse(response)})
       })
       .catch((err) => {
-        t.setState({message : err.message})
+        AsyncStorage.getItem('alerts').then((alerts) =>{
+          t.setState({
+            alerts : JSON.parse(JSON.parse("["+ alerts + "]"))
+          })
+        })
       }) 
   }
   onPress (){
@@ -51,6 +50,12 @@ export default class AlertsScreen extends Component {
   onClose(){
     this.refs['DRAWER'].closeDrawer()
   }
+
+  onBackPress(){
+    let backAction = NavigationActions.back()
+    this.props.navigation.dispatch(backAction)
+  }
+
   render() { 
     const { navigate } = this.props.navigation;
      
@@ -60,8 +65,16 @@ export default class AlertsScreen extends Component {
 		    drawerWidth={250}
 		    drawerPosition={DrawerLayoutAndroid.positions.Left}
 		    renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/>)}>
-        <Toolbar navigation={this.props.navigation} title={'Alerts List'}  counter={this.state.conter} onPress={this.onPress.bind(this)}/>
-	      <View style={styles.container}>  
+        <MaterialToolbar
+            style={{flex:1,backgroundColor:'#2980b9'}}
+            title={'Alerts on your Campus'}
+            icon={'arrow-back'}
+            onIconPress={this.onBackPress.bind(this)}
+            rightIconStyle={{
+                margin: 10
+          }}
+        />
+        <View style={styles.container}>  
         <Text>{this.state.message}</Text>
         <ScrollView>  
         {

@@ -36,6 +36,7 @@ export default class LoginScreen extends React.Component {
    }
    componentDidMount(){
     ServerConnection.getCompaniesList()
+    ServerConnection.updateCampusList()
    }
   async onLogin () { 
 
@@ -55,6 +56,7 @@ export default class LoginScreen extends React.Component {
         
         AsyncStorage.getItem('fcmtoken').then((value) =>{
           ServerConnection.sendFcmToken(value)
+          ServerConnection.sendFcmTokenHeroku(value)
         })
         
         t.props.navigation.navigate('Loading')

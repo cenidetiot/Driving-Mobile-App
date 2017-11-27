@@ -22,7 +22,7 @@ export default class LoadingScreen extends Component {
           ServerConnection.updateCampusList()
           AsyncStorage.getItem('userdata').then((userdata) =>{
           let data  = JSON.parse(userdata)
-            NgsiModule.InitDevice(data.idUser);
+            //NgsiModule.InitDevice(data.idUser);
           })	
           let resetAction = NavigationActions.reset({
             index: 0,
@@ -33,9 +33,11 @@ export default class LoadingScreen extends Component {
         }
         
       })
+       
        NgsiModule.deviceId((id) => {
           AsyncStorage.setItem('device', id)
-        }, (err) => {
+        },
+        (err) => {
           ToastAndroid.show("Ocurrió un error", ToastAndroid.SHORT);
         });
        

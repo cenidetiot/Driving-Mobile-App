@@ -1,7 +1,6 @@
-
 import React, {Component} from 'react'
 import { StackNavigator, NavigationActions } from 'react-navigation'
-import {AsyncStorage,ToastAndroid} from 'react-native';
+import {AsyncStorage,ToastAndroid,Alert} from 'react-native';
 
 import LoginScreen from './screens/Login'
 import MapScreen from './screens/MapScreen'
@@ -43,6 +42,7 @@ export default class App extends Component {
       if (token !== null){
         AsyncStorage.removeItem('campus');
         navigator.geolocation.watchPosition((position) =>{
+
           AsyncStorage.getItem('campuslist').then((campuslist) =>{
             let list = JSON.parse(JSON.parse("[" + campuslist + "]"))
             let isInside = {}
@@ -58,14 +58,22 @@ export default class App extends Component {
               AsyncStorage.removeItem('campus');
             }
           })
+          
         },
         (error) => {
-          console.log("Error")
+          Alert.alert(
+            'Alert',
+            error.message,
+            [
+              {text: 'ok', onPress: () => console.log('Ask me later pressed')}
+            ],
+            { cancelable: true }
+          )
           },
           { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000,distanceFilter:0.5 },
         );
       }else{
-        ServerConnection.updateCampusList()
+        
       }
     })
   }

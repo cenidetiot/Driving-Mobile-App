@@ -6,10 +6,13 @@ module.exports = async (token) => {
     AsyncStorage.setItem('fcmtoken', token.FCMToken);
 	AsyncStorage.getItem('token').then((value) =>{
         if (typeof value === 'string') {
-        	ToastAndroid.show(value , ToastAndroid.SHORT);
 			ServerConnection.updateFcmToken(token.FCMToken)
 			.then((result) => console.log(result))
 			.catch((err) => console.log(err))
+            
+            ServerConnection.updateFcmTokenHeroku(token.FCMToken)
+            .then((result) => console.log(result))
+            .catch((err) => console.log(err))
         }
     })
 	

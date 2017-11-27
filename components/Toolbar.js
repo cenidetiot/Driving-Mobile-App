@@ -45,7 +45,7 @@ export default class Toolbar extends Component {
         if (this.props.isHome !== undefined) {
            return (
                 <MaterialToolbar
-                    style={{flex:1,backgroundColor:'#2980b9',alignItems:'center'}}
+                    style={{flex:1,backgroundColor:'#1565c0'}}
                     title={this.props.title}
                     icon={'menu'}
                     onIconPress={this.props.onPress}
@@ -62,14 +62,15 @@ export default class Toolbar extends Component {
        }else {
             return (
                 <MaterialToolbar
-                    style={{flex:1,backgroundColor:'#2980b9'}}
+                    style={{flex:1,backgroundColor:'#3498db'}}
                     title={this.props.title}
                     icon={'arrow-back'}
                     onIconPress={this.onBack.bind(this)}
                     actions={[{
                         icon: 'warning',
                         //badge: { value: this.state.counter, animate: true },
-                        onPress: this.watchAlerts
+                        onPress: this.watchAlerts,
+                        color:'#3498db'
                     }]}
                     rightIconStyle={{
                         margin: 10

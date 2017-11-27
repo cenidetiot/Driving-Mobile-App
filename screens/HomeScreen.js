@@ -13,7 +13,6 @@ import {
   Modal
 } from 'react-native';
 import { Avatar, TYPO,COLOR,Button } from 'react-native-material-design';
-import NgsiModule from '../NativeModules/NgsiModule';
 
 import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
@@ -34,7 +33,8 @@ export default class HomeScreen extends Component {
     this.state = {
       message : "No te encuentras en ningun campus",
       campus : null,
-      modalVisible: false
+      modalVisible: false,
+      token : ""
     }
   } 
   
@@ -51,20 +51,15 @@ export default class HomeScreen extends Component {
       })
     },
     (error) => {
-        Alert.alert(
-          'Alert',
-          error.message,
-          [
-            {text: 'ok', onPress: () => console.log('Ask me later pressed')}
-          ],
-          { cancelable: true }
-        )
+        
         t.setState({message:error.message})
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000,distanceFilter:0.5 },
     );
 
-    
+    AsyncStorage.getItem('fcmtoken').then((value) =>{
+          t.setState({token : value})
+        })
   
   }
 
@@ -77,20 +72,18 @@ export default class HomeScreen extends Component {
 
   isInside () {
     return(
-      <View style={{flex:4, alignItems:'center', marginTop : '20%'}} >
+      <View style={{flex:4, alignItems:'center', marginTop : '20%' }} >
         <Image
           source={require('../images/inside.png')}
         />
-        <Text style={{fontWeight:'bold'}}>Campus :{this.state.campus.name}</Text>
-        <Text style={{textAlign: 'center'}}>Address : {this.state.campus.address}</Text>
+        <Text style={{fontWeight:'bold'}}>{this.state.campus.name}</Text>
+        <Text style={{textAlign: 'center'}}>{this.state.campus.address}</Text>
       </View>
     )
-   
   }
   isOutside(){
     return (
       <View style={{flex:4, alignItems:'center', marginTop : '40%'}} >
-
         <Image
           style={{width : 200, height: 200}}
           source={require('../images/outside.png')}
@@ -126,7 +119,7 @@ const styles = StyleSheet.create({
 	    flex: 1,
 	    marginTop:45,
 	   alignItems: 'center',
-     backgroundColor : 'white'
+     backgroundColor:'#e8eaf6'
 	}, 
 	  icon: { 
 	    width: 30,
@@ -160,7 +153,6 @@ const styles = StyleSheet.create({
     alignItems:'center', 
     marginTop: 13,
     marginBottom :13,
-    backgroundColor: "white",
   },
   cardAvatar:{
     flex:1,

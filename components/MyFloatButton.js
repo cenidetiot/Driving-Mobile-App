@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Icon } from 'react-native-material-design';
 import { FloatingAction } from 'react-native-floating-action';
-import { Alert } from 'react-native';
+import { Alert, AsyncStorage } from 'react-native';
 import OCB from '../services/OCBConnection'
 
 export default class MyFloatButton extends Component {
@@ -14,8 +14,8 @@ export default class MyFloatButton extends Component {
     this.state = {
       actions : [
         {
-          text: 'Emergency',
-          name: 'Emergency',
+          text: 'Unknown emergency',
+          name: 'Unknown emergency',
           icon : require('../images/icons/warning.png'),
           color: '#e74c3c',
           position: 1
@@ -41,10 +41,9 @@ export default class MyFloatButton extends Component {
   sendAlert(){
     let t = this
     navigator.geolocation.getCurrentPosition((position) =>{
-      let deviceId = "Device_01"
       AsyncStorage.getItem('device').then((device) =>{
         let alert = {
-          id : `Alert:${deviceId}:${Date.now()}`,
+          id : `Alert:${device}:${Date.now()}`,
           type: "Alert",
           category: "Security",
           location :{
@@ -55,14 +54,12 @@ export default class MyFloatButton extends Component {
           dateObserved: new Date(),
           validFrom: new Date(),
           validTo: new Date(),
-          description: "Emergency Alert",
+          description: "Unknown emergency Alert",
           alertSource: device,
           severty : "high"
         }
 
         let newJson = OCB.sendAlert(alert)
-        let backAction = NavigationActions.back()
-        this.props.navigation.dispatch(backAction)
       })
 
     },
@@ -75,9 +72,9 @@ export default class MyFloatButton extends Component {
 
   onPressFloat(name){
 
-      if (name  === 'Emergency'){
+      if (name  === 'Unknown emergency'){
         Alert.alert(
-          'Emergency Alert',
+          'Unknown emergency Alert',
           'Do you want to send a Emergency Alert ?',
           [
             {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -98,8 +95,8 @@ export default class MyFloatButton extends Component {
         <FloatingAction
             actions={this.state.actions}
             onPressItem={this.onPressFloat}
-            buttonColor={'#e74c3c'}
-            floatingIcon={<Icon style={{marginBottom:5}} name="drive-eta" color={'#ecf0f1'} />}
+            buttonColor={'#d50000'}
+            floatingIcon={<Icon style={{marginBottom:4}} name="error-outline" color={'#ecf0f1'} />}
             style={{zIndex :5}}
             onPress={() => console.log("OK")}
         />

@@ -58,7 +58,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
     //Context context = getReactApplicationContext();
     Intent serviceIntent = new Intent(context, IntentServiceDeviceModel.class);
     context.startService(serviceIntent);
-    Toast.makeText(getReactApplicationContext(), "DeviceModelService is Running...!", Toast.LENGTH_SHORT).show();
+    //Toast.makeText(getReactApplicationContext(), "DeviceModelService is Running...!", Toast.LENGTH_SHORT).show();
     
   }
 
@@ -71,14 +71,14 @@ public class NgsiModule extends ReactContextBaseJavaModule {
     ResponseReceiver receiver = new ResponseReceiver();
     // Registrar el receiver y su filtro
     LocalBroadcastManager.getInstance(getReactApplicationContext()).registerReceiver(receiver, filter);
-    Toast.makeText(getReactApplicationContext(), "DeviceService is Running...!", Toast.LENGTH_SHORT).show();
+    //Toast.makeText(getReactApplicationContext(), "DeviceService is Running...!", Toast.LENGTH_SHORT).show();
   }
 
   @ReactMethod
   public void InitBackingUp(){
     Intent serviceBackingUp = new Intent(context, ServiceSendsDataDetectsConnection.class);
     context.startService(serviceBackingUp);
-    Toast.makeText(getReactApplicationContext(), "Backing-up Running...!", Toast.LENGTH_SHORT).show();
+    //Toast.makeText(getReactApplicationContext(), "Backing-up Running...!", Toast.LENGTH_SHORT).show();
   }
 
   /*@ReactMethod
@@ -128,7 +128,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
     public void onReceive(Context context, Intent intent) {
       switch (intent.getAction()) {
         case Constants.SERVICE_RUNNING_DEVICEMODEL:
-          Toast.makeText(getReactApplicationContext(), ""+intent.getStringExtra(Constants.SERVICE_RESULT_DEVICEMODEL), Toast.LENGTH_SHORT).show();
+          //Toast.makeText(getReactApplicationContext(), ""+intent.getStringExtra(Constants.SERVICE_RESULT_DEVICEMODEL), Toast.LENGTH_SHORT).show();
           break;
         case Constants.SERVICE_RUNNING_DEVICE:
           if(intent.getStringExtra(Constants.SERVICE_RESULT_DEVICE) != null)
@@ -139,7 +139,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
           speedMS = intent.getFloatExtra(Constants.DEVICE_GPS_RESULT_SPEED_MS, 0);
           speedKmHr = intent.getFloatExtra(Constants.DEVICE_GPS_RESULT_SPEED_KMHR, 0);
           if(speedMS != 0 && speedKmHr != 0)
-          Toast.makeText(getReactApplicationContext(), "Speed: "+speedMS+"m/s ---- Speed: "+speedKmHr+"km/h", Toast.LENGTH_SHORT).show();
+          //Toast.makeText(getReactApplicationContext(), "Speed: "+speedMS+"m/s ---- Speed: "+speedKmHr+"km/h", Toast.LENGTH_SHORT).show();
           Log.i("Speed: ", ""+speedMS+"m/s  "+speedKmHr+"km/h");
           break;
         case Constants.SERVICE_RUNNING_SENSORS:

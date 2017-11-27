@@ -48,7 +48,7 @@ export default class Nav extends Component {
             items={[
             {
                 icon: 'account-balance',
-                value: 'My Institution',
+                value: 'Home',
                 active: this.props.screen === 'Home',
                 onPress: () => {this.props.navigate('Home')
               this.props.onClose()},

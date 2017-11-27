@@ -40,13 +40,13 @@ public class DrivingFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            sendNotification(remoteMessage.getNotification().getBody());
+            sendNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
         	
         }
 
     }
 
-    private void sendNotification(String messageBody) {
+    private void sendNotification(String messageTitle ,String messageBody) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -58,12 +58,12 @@ public class DrivingFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this)
-                .setContentTitle("FCM Message")
+                .setContentTitle(messageTitle)
                 .setContentText(messageBody)
                 .setAutoCancel(true) 
                 .setColorized(true)
                 .setColor(Color.RED)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.warning)
                 .setVibrate(new long[] {100, 250, 100, 500})
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);

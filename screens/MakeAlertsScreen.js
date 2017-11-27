@@ -11,7 +11,8 @@ import {
   AsyncStorage,
   TouchableHighlight,
   TextInput,
-  Button
+  Button,
+  Slider
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 
@@ -29,14 +30,24 @@ export default class MakeAlertsScreen extends Component {
     this.chageEvent = this.chageEvent.bind(this)
     this.chageDescription = this.chageDescription.bind(this)
     this.sendAlert = this.sendAlert.bind(this)
+    this.severityChange = this.severityChange.bind(this)
     this.state = {
     	userid : "",
       typeAlert : "",
       event:"",
       description: "",
-      message : ""
+      message : "",
+      severityNumber:0,
+      sliderColor: '#3498db',
+      severityText:'informational',
+      sliderColors: {
+        informational: '#3498db',
+        low: '#2c3e50',
+        medium: '#f1c40f',
+        high: '#e67e22',
+        critical: '#c0392b' 
+      }
     }
-    
   } 
 
   componentDidMount() {
@@ -88,9 +99,9 @@ export default class MakeAlertsScreen extends Component {
           validTo: new Date(),
           description: t.state.description,
           alertSource: device,
-          severity : "informational"
+          severity : t.state.severityText
         }
-
+        t.setState({message: JSON.stringify(alert)})
         let newJson = OCB.sendAlert(alert)
         let backAction = NavigationActions.back()
         this.props.navigation.dispatch(backAction)
@@ -103,7 +114,18 @@ export default class MakeAlertsScreen extends Component {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
   }
-  
+  severityChange(value){
+    if(value === 0)
+      this.setState({sliderColor : this.state.sliderColors.informational, severityText: 'informational'})
+    else if(value === 25)
+      this.setState({sliderColor : this.state.sliderColors.low, severityText: 'low'})
+    else if (value === 50)
+      this.setState({sliderColor : this.state.sliderColors.medium, severityText: 'medium'})
+    else if(value === 75)
+      this.setState({sliderColor : this.state.sliderColors.high, severityText: 'high'})
+    else if (value === 100)
+      this.setState({sliderColor : this.state.sliderColors.critical, severityText: 'critical'}) 
+  }
   chageEvent (text) { 
     this.setState({event : text})
   } 
@@ -133,7 +155,19 @@ export default class MakeAlertsScreen extends Component {
             <Text style={styles.title}>{this.props.navigation.state.params.type}</Text>
             {this.checkType()}
           </View>
-          <Text>{this.state.message}</Text>
+          <View style={{backgroundColor : 'white', marginBottom : 10}}>
+            <Text style={{fontWeight:'bold',color: this.state.sliderColor,textAlign:'left',marginLeft:10}}>Severity: {this.state.severityText}</Text>
+            <Slider
+              minimumValue={0}
+              maximumValue={100}
+              value={this.state.severityNumber}
+              step={25}
+              thumbTintColor={this.state.sliderColor}
+              maximumTrackTintColor={this.state.sliderColor}
+              minimumTrackTintColor={'black'}
+              onValueChange={this.severityChange}
+            />
+          </View>
           <View style={{backgroundColor : 'white', marginBottom : 10}}>
             <TextInput onChangeText={this.chageDescription} placeholder={'Description'} style={styles.input} />
           </View>
@@ -152,6 +186,7 @@ const styles = StyleSheet.create({
 	container: {
 	    flex: 1,
 	    marginTop:55,
+      backgroundColor : 'white'
       //alignItems: 'center'
 	}, 
 	  icon: { 
@@ -179,7 +214,7 @@ const styles = StyleSheet.create({
   },
   button: {
   	flex: 1,
-    margin : 10
+    marginLeft : 20
   },
   form:{
     backgroundColor : 'red'
