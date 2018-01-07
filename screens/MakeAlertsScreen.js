@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 
-import OCB from '../services/OCBConnection'
+import OCBConnection from '../services/OCBConnection'
 
 import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
@@ -84,6 +84,7 @@ export default class MakeAlertsScreen extends Component {
     navigator.geolocation.getCurrentPosition((position) =>{
     
       AsyncStorage.getItem('device').then((device) =>{
+
         let alert = {
           id : `Alert:${device}:${Date.now()}`,
           type: "Alert",
@@ -91,8 +92,7 @@ export default class MakeAlertsScreen extends Component {
           subCategory : t.state.typeAlert,
           location :{
             type : "geo:point",  
-            value : `18.876420, -99.219536`
-            //value : `${position.coords.latitude} ,${position.coords.longitude}`
+            value : `${position.coords.latitude} ,${position.coords.longitude}`
           },
           dateObserved: new Date(),
           validFrom: new Date(),
@@ -101,10 +101,12 @@ export default class MakeAlertsScreen extends Component {
           alertSource: device,
           severity : t.state.severityText
         }
-        t.setState({message: JSON.stringify(alert)})
-        let newJson = OCB.sendAlert(alert)
+        let newJson = OCBConnection.sendAlert(alert)
+        
         let backAction = NavigationActions.back()
         this.props.navigation.dispatch(backAction)
+
+
       })
 
     },
@@ -224,3 +226,7 @@ const styles = StyleSheet.create({
   }
 
 });
+
+
+            //value : `18.879781, -99.221777` //Apatzingan
+            //value : `18.876438, -99.220000` //Palmira

@@ -35,49 +35,6 @@ const StackApp = StackNavigator({
 
 export default class App extends Component {
   
-
-  componentDidMount(){
-    let t = this
-    AsyncStorage.getItem('token').then((token) =>{
-      if (token !== null){
-        AsyncStorage.removeItem('campus');
-        navigator.geolocation.watchPosition((position) =>{
-
-          AsyncStorage.getItem('campuslist').then((campuslist) =>{
-            let list = JSON.parse(JSON.parse("[" + campuslist + "]"))
-            let isInside = {}
-            list.map((camp) => {
-              if (Functions.PointOnCampus([18.87649,-99.21986],camp.location)){
-              //if (Functions.PointOnCampus([position.coords.latitude,position.coords.longitude],camp.location)){
-                isInside = camp           
-              }
-            })
-            if(isInside != {}){
-              AsyncStorage.setItem('campus', JSON.stringify(isInside));
-            }else{
-              AsyncStorage.removeItem('campus');
-            }
-          })
-          
-        },
-        (error) => {
-          Alert.alert(
-            'Alert',
-            error.message,
-            [
-              {text: 'ok', onPress: () => console.log('Ask me later pressed')}
-            ],
-            { cancelable: true }
-          )
-          },
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000,distanceFilter:0.5 },
-        );
-      }else{
-        
-      }
-    })
-  }
-
   render() {
     return (
         <StackApp  ref={nav => { this.navigator = nav; }} />

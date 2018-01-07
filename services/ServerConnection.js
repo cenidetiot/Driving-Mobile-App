@@ -16,7 +16,6 @@ class ServerConection {
 	async login(user , pass ){
 		let ip = config.ip
 		let route = routes.login
-
 		let promise = new Promise((resolve, reject) => {
 			fetch(`http://${ip}${route}`, {
 		        method: 'POST',
@@ -30,25 +29,18 @@ class ServerConection {
 		        })
 		    })
 		    .then((response) => {
-
 		        if (response.status === 200){
-		        	
-           		//ToastAndroid.show(JSON.parse(response["_bodyInit"]).token , ToastAndroid.SHORT);
-		        	
 		         	AsyncStorage.setItem('token', JSON.parse(response["_bodyInit"]).token)
-		          	AsyncStorage.setItem('userid', JSON.parse(response["_bodyInit"]).idUser)
+		          	AsyncStorage.setItem('userid', JSON.parse(response["_bodyInit"]).id)
 		          	resolve({response : 200}) 
-				 
 		        }else {
 		           	reject({message : response["_bodyInit"]})
 		        }
-		       
 		    })
 		    .catch((err) => {         
 		        reject({message : err})
 		    })
 		})
-
 		return promise
 	}
 
@@ -69,15 +61,13 @@ class ServerConection {
 		          	})
 		          	.then((response) => {
 		            	if (response.status === 200){
-           		//ToastAndroid.show(  response["_bodyInit"], ToastAndroid.SHORT);
-
 		              		AsyncStorage.setItem('userdata', response["_bodyInit"] )
 		              		resolve({response : 200}) 
 		            	}else {
 		            		reject({message : response["_bodyInit"]})
 		            	}
 		          	})
-		        }else {reject({message : "idUser no encontrado"})}
+		        }else {reject({message : "id no encontrado"})}
 		    })
 		})
 		return promise
@@ -132,12 +122,10 @@ class ServerConection {
 		let t = this
 	   	let ip = config.ip
 		let route = routes.alerts
-
 		let promise = new Promise((resolve, reject) => {
 	   		AsyncStorage.getItem('campus').then((campus) =>{
-	   			let camp = JSON.parse(campus)._id
-		        if (campus !== "{}"){
-			        //ToastAndroid.show(`http://${ip}${route}${camp}` , ToastAndroid.SHORT);
+		        if (campus !== "{}" && campus !== null){
+		        	let camp = JSON.parse(campus)._id
 		        	fetch(`http://${ip}${route}${camp}`, {
 			     	   method: 'GET',
 			        	headers: {
@@ -148,16 +136,12 @@ class ServerConection {
 			      	})
 			      	.then((response) => {
 			        	if (response.status === 200){
-			          		AsyncStorage.setItem('alerts', JSON.stringify(response["_bodyInit"]))
 	              			resolve(response["_bodyInit"]) 
-
 			        	}else {
-			           		ToastAndroid.show("Error server " +response.status , ToastAndroid.SHORT);
 			           		reject({message : "Error "+ response.status })
 			        	}
 			      	})
 		        }else{
-			        ToastAndroid.show("No se ecuentra en un campus" , ToastAndroid.SHORT);
 		        	reject({message : "No se ecuentra en un campus"})
 		        }      
 		    })
@@ -357,7 +341,7 @@ class ServerConection {
 
 	}
 
-	async signUp(body ){
+	async signUp(body){
 		let ip = config.ip
 		let route = routes.user
 
@@ -393,7 +377,6 @@ class ServerConection {
 	async updateUserApi(body, id ){
 		let ip = config.ip
 		let route = routes.user
-
 		let promise = new Promise((resolve, reject) => {
 			fetch(`http://${ip}${route}${id}`, {
 		        method: 'PUT',
@@ -404,22 +387,17 @@ class ServerConection {
 		        body: JSON.stringify(body)
 		    })
 		    .then((response) => {
-
 		        if (response.status === 200){
-		        	
-           		ToastAndroid.show("Se ha actualizado correctamente" , ToastAndroid.SHORT);
+           			ToastAndroid.show("Se ha actualizado correctamente" , ToastAndroid.SHORT);
 		          	resolve({response : 200}) 
-				 
 		        }else {
 		           	reject({message : response["_bodyInit"]})
 		        }
-		       
 		    })
 		    .catch((err) => {         
 		        reject({message : err})
 		    })
 		})
-
 		return promise
 	}
 
@@ -477,6 +455,7 @@ class ServerConection {
 		        	
            			ToastAndroid.show("Se ha actualizado correctamente" , ToastAndroid.SHORT);
 		          	resolve({response : 200}) 
+
 				 
 		        }else {
 		           	reject({message : response["_bodyInit"]})

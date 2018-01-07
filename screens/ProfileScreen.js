@@ -44,11 +44,10 @@ export default class ProfileScreen extends Component {
     AsyncStorage.getItem('companieslist').then((companies) =>{
       t.setState( { companies : JSON.parse(JSON.parse(companies))})
     })
- 
-    AsyncStorage.getItem('userdata').then((userdata) =>{
+     AsyncStorage.getItem('userdata').then((userdata) =>{
       let data  = JSON.parse(userdata)
       let newState = {
-        id:data.idUser,
+        id:data.id,
         company:data.refCompany,
         phonenumber:data.phoneNumber[0],
         name:data.name,
@@ -69,9 +68,9 @@ export default class ProfileScreen extends Component {
     this.props.navigation.dispatch(backAction)
   }
 
-  async onButtonPress(){
+  async onUpdateUserData(){
     let me = {
-      idUser: this.state.id,
+      id: this.state.id,
       refCompany:this.state.company,
       phoneNumber: [this.state.phonenumber],
       name: this.state.name,
@@ -87,6 +86,7 @@ export default class ProfileScreen extends Component {
     let backAction = NavigationActions.back()
     this.props.navigation.dispatch(backAction)
   }
+
   onPress (){
     this.refs['DRAWER'].openDrawer()
 
@@ -104,7 +104,7 @@ export default class ProfileScreen extends Component {
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/> )}>
          <MaterialToolbar
-            style={{flex:1,backgroundColor:'#2980b9'}}
+            style={{flex:1,backgroundColor:'#2d5f73'}}
             title={'Profile Settings'}
             icon={'arrow-back'}
             onIconPress={this.onBackPress.bind(this)}
@@ -140,7 +140,7 @@ export default class ProfileScreen extends Component {
                 secureTextEntry={true} value={this.state.password} onChangeText={(text) => this.setState({password:text})}/>
 
             <View style={{flex: 1, flexDirection: 'row',justifyContent: 'space-between',}}>
-              <Button title="Update Profile " style={{flex: 1}} onPress={this.onButtonPress.bind(this)}/>
+              <Button title="Update Profile " style={{flex: 1}} onPress={this.onUpdateUserData.bind(this)}/>
               <Button title="Update Contact" style={{flex: 1}} onPress={() => navigate('UserContact', {id : this.state.id})}/>
             </View>
            <Text>{this.state.message}</Text>

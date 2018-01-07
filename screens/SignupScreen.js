@@ -52,7 +52,7 @@ export default class SignupScreen extends Component {
 
   onButtonPress(){
     let me = {
-      idUser: `${this.state.id}`,
+      id: `${this.state.id}`,
       refCompany:this.state.company,
       phoneNumber: [this.state.phonenumber],
       name: this.state.name,
@@ -80,7 +80,7 @@ export default class SignupScreen extends Component {
     return (
     	<View>
         <MaterialToolbar
-            style={{flex:1,backgroundColor:'#2980b9'}}
+            style={{flex:1,backgroundColor:'#2d5f73'}}
             title={'Sign Up'}
             icon={'arrow-back'}
             onIconPress={this.onBackPress.bind(this)}

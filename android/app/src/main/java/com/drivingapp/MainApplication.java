@@ -65,13 +65,5 @@ public class MainApplication extends Application implements ReactApplication {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-    //Intent serviceDM = new Intent(context, IntentServiceDeviceModel.class);
-    //context.startService(serviceDM);
-    
-    //Intent serviceD = new Intent(context, ServiceDevice.class);
-    //context.startService(serviceD);
-  
-
   }
 }

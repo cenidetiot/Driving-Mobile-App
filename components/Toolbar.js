@@ -45,7 +45,7 @@ export default class Toolbar extends Component {
         if (this.props.isHome !== undefined) {
            return (
                 <MaterialToolbar
-                    style={{flex:1,backgroundColor:'#1565c0'}}
+                    style={{flex:1,backgroundColor:'#2d5f73'}}
                     title={this.props.title}
                     icon={'menu'}
                     onIconPress={this.props.onPress}
@@ -62,7 +62,7 @@ export default class Toolbar extends Component {
        }else {
             return (
                 <MaterialToolbar
-                    style={{flex:1,backgroundColor:'#3498db'}}
+                    style={{flex:1,backgroundColor:'#2d5f73'}}
                     title={this.props.title}
                     icon={'arrow-back'}
                     onIconPress={this.onBack.bind(this)}

@@ -38,8 +38,8 @@ export default class LoginScreen extends React.Component {
     ServerConnection.getCompaniesList()
     ServerConnection.updateCampusList()
    }
+   
   async onLogin () { 
-
     let t =  this
     let errParams =false
     if (this.state.email === ""){
@@ -66,6 +66,7 @@ export default class LoginScreen extends React.Component {
       }) 
     }
   } 
+
   render() { 
     let { navigate } = this.props.navigation;
     return (
