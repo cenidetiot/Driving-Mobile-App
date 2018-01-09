@@ -21,7 +21,7 @@ import OCBConnection from '../services/OCBConnection'
 import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
 
-import style from '../styles/styles'
+import style from '../styles/MakeAlert'
 
 export default class MakeAlertsScreen extends Component {
   
@@ -186,7 +186,7 @@ export default class MakeAlertsScreen extends Component {
 
 
 
-const styles = StyleSheet.create(style.makeAlertsScreen);
+const styles = StyleSheet.create(style);
 
 
             //value : `18.879781, -99.221777` //Apatzingan

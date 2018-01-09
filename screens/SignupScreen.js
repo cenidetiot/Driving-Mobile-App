@@ -17,7 +17,7 @@ import { Card,Icon,Avatar,TYPO,COLOR,Toolbar as MaterialToolbar  } from 'react-n
 
 import ServerConnection from '../services/ServerConnection'
 
-import style from '../styles/styles'
+import style from '../styles/SignUp'
 
 export default class SignupScreen extends Component {
   
@@ -127,4 +127,4 @@ export default class SignupScreen extends Component {
   
 }
 
-const styles = StyleSheet.create(style.signUpScreen);
+const styles = StyleSheet.create(style);

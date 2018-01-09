@@ -1,3 +1,6 @@
+/*
+Importaciones de Modulos
+*/
 import React from 'react';
 import { 
   StyleSheet,
@@ -12,14 +15,13 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+
 import ServerConnection from '../services/ServerConnection'
-import style from '../styles/styles'
+import style from '../styles/Login'
 
 
 export default class LoginScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Login',
-  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -29,16 +31,19 @@ export default class LoginScreen extends React.Component {
       message:""
     }
    }
+
   updateEmail = (email) => {
       this.setState({ email: email })
-   }
-   updatePassword = (password) => {
+  }
+
+  updatePassword = (password) => {
       this.setState({ password: password })
-   }
-   componentDidMount(){
+  }
+
+  componentDidMount(){
     ServerConnection.places.getCompaniesList()
     ServerConnection.places.getCampusList()
-   }
+  }
    
   async onLogin () { 
     let t =  this
@@ -81,6 +86,7 @@ export default class LoginScreen extends React.Component {
                   }}
                   source={require('../images/logoCircle.png')}
                 />
+
               <TextInput
                 ref={'Email'}
                 style={styles.input}
@@ -91,6 +97,7 @@ export default class LoginScreen extends React.Component {
                 onChangeText={this.updateEmail}
                 value={this.state.email}
               />
+
               <TextInput
                 ref={'password'}
                 style={styles.input}
@@ -100,27 +107,28 @@ export default class LoginScreen extends React.Component {
                 secureTextEntry={true}
                 value={this.state.password}
               />
+
               <Text style={{
                 color : 'red',
                 fontWeight:'bold',
                 borderColor : 'red'
               }}>{this.state.message}</Text>
+              
               <Button
                 title='Login' 
                 onPress={this.onLogin.bind(this)}
                 color='#e74c3c'
                 style={styles.button}
               />
-                <Text 
-                  onPress={() => navigate('Signup')}
-                  style={{color:'#ecf0f1', fontWeight: 'bold', marginTop : 40,textDecorationLine:'underline'}}>
-                  Create a new Account
-                </Text>
+
+              <Text 
+                onPress={() => navigate('Signup')}
+                style={{color:'#ecf0f1', fontWeight: 'bold', marginTop : 40,textDecorationLine:'underline'}}>
+                Create a new Account
+              </Text>
+              
               <Image 
-                  style={{width : 150,
-                  height: 28,
-                  marginTop: 20
-                  }}
+                style={styles.backImage}
                   source={require('../images/logo_smartSDK.png')}
               />  
         </Image>
@@ -129,4 +137,4 @@ export default class LoginScreen extends React.Component {
   
 }
 
-const styles = StyleSheet.create(style.loginScreen);
+const styles = StyleSheet.create(style);

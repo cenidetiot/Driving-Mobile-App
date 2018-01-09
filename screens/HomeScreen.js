@@ -19,7 +19,7 @@ import Nav from '../components/Nav'
 import MyFloatButton from '../components/MyFloatButton'
 
 import Functions from '../functions/Functions'
-import style from '../styles/styles'
+import style from '../styles/Home'
 
 
 export default class HomeScreen extends Component {
@@ -133,7 +133,7 @@ export default class HomeScreen extends Component {
   
 }
 
-const styles = StyleSheet.create(style.homeScreen);
+const styles = StyleSheet.create(style);
 
 
 // if (Functions.PointOnCampus([18.879781, -99.221777],camp.location)){ // Apatzingan           

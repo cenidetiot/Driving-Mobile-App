@@ -19,7 +19,7 @@ import Nav from '../components/Nav.js'
 
 import ServerConnection from '../services/ServerConnection'
 
-import style from '../styles/styles'
+import style from '../styles/Profile'
 
 export default class ProfileScreen extends Component {
   
@@ -154,4 +154,4 @@ export default class ProfileScreen extends Component {
   
 }
 
-const styles = StyleSheet.create(style.profileScreen);
+const styles = StyleSheet.create(style);

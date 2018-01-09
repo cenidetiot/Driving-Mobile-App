@@ -18,7 +18,7 @@ import Toolbar from '../components/Toolbar.js'
 import Nav from '../components/Nav.js'
 
 import ServerConnection from '../services/ServerConnection'
-import style from '../styles/styles'
+import style from '../styles/UserContact'
 
 
 export default class UserContactScreen extends Component {
@@ -150,4 +150,4 @@ export default class UserContactScreen extends Component {
   
 }
 
-const styles = StyleSheet.create(style.userContactScreen);
+const styles = StyleSheet.create(style);

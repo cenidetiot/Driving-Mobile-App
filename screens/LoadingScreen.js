@@ -4,7 +4,7 @@ import { NavigationActions } from 'react-navigation'
 
 import ServerConnection from '../services/ServerConnection'
 import NgsiModule from '../NativeModules/NgsiModule';
-import style from '../styles/styles'
+import style from '../styles/Loading'
 
 export default class LoadingScreen extends Component {
   async componentDidMount() {
@@ -56,4 +56,4 @@ export default class LoadingScreen extends Component {
   }
 }
 
-const styles = StyleSheet.create(style.loadingScreen);
+const styles = StyleSheet.create(style);

@@ -18,7 +18,7 @@ import MyFloatButton from '../components/MyFloatButton'
 
 import ServerConnection from '../services/ServerConnection'
 
-import style from '../styles/styles'
+import style from '../styles/Map'
 
 import config from '../utils/config'
 Mapbox.setAccessToken(config.mapboxToken);
@@ -189,4 +189,4 @@ export default class MapScreen extends Component {
   
 }
 
-const styles = StyleSheet.create(style.mapScreen);
+const styles = StyleSheet.create(style);

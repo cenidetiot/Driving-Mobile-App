@@ -19,7 +19,7 @@ import MyFloatButton from '../components/MyFloatButton'
 
 import ServerConnection from '../services/ServerConnection'
 
-import style from '../styles/styles'
+import style from '../styles/Alerts'
   
 export default class AlertsScreen extends Component {
   
@@ -158,4 +158,4 @@ export default class AlertsScreen extends Component {
   
 }
 
-const styles = StyleSheet.create(style.alertsScreen);
+const styles = StyleSheet.create(style);
