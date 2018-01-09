@@ -51,6 +51,7 @@ export default class AlertsScreen extends Component {
       .catch((err) => {
         AsyncStorage.getItem('alerts').then((alerts) =>{
           AsyncStorage.getItem('campus').then((campus) =>{
+
             if (campus !== "{}" && campus !== null){
               if(alerts !== '{}' && alerts !== null){
                 t.setState({

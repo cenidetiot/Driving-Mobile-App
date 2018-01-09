@@ -17,6 +17,8 @@ import { Card,Icon,Avatar,TYPO,COLOR,Toolbar as MaterialToolbar  } from 'react-n
 
 import ServerConnection from '../services/ServerConnection'
 
+import style from '../styles/styles'
+
 export default class SignupScreen extends Component {
   
   constructor(props) {
@@ -125,24 +127,4 @@ export default class SignupScreen extends Component {
   
 }
 
-const styles = StyleSheet.create({
-	container: {
-	    
-	    marginTop:55,
-      margin:5
-	}, 
-	  icon: { 
-	    width: 30,
-	    height: 25,
-	},
-	header: {
-	    paddingTop: 16
-	},
-	text: {
-	    marginTop: 20,
-      fontWeight:'bold'
-	},
-  textinput : {
-    color: "#e74c3c"
-  }
-});
+const styles = StyleSheet.create(style.signUpScreen);

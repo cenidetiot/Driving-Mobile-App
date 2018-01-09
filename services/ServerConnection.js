@@ -28,6 +28,9 @@ class ServerConection {
 
 	}
 
+
+	
+
 }
 
 module.exports = new ServerConection()

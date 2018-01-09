@@ -170,6 +170,91 @@ export default {
 		    margin : 10
 		}
 
+	},
+	mapScreen :{
+		container: {
+		    flex: 1,
+		    alignItems: 'stretch',
+		    marginTop:50
+		},
+		mapContainer: {
+		    flex: 4,
+		    alignItems: 'center',
+		    justifyContent: 'center',
+		    backgroundColor: '#ecf0f1',
+		},
+		map: {
+		    flex: 1,
+		},
+		scrollView: {
+		    flex: 2
+		},
+		icon: {
+		    width: 30,
+		    height: 28,
+		}
+	},
+	profileScreen : {
+		container: {
+		    flex: 1,
+		    marginTop:55,
+		    margin:5
+		}, 
+		icon: { 
+		    width: 30,
+		    height: 25,
+		},
+		header: {
+		    paddingTop: 16
+		},
+		text: {
+		    marginTop: 20,
+		    fontWeight:'bold'
+		},
+		textinput : {
+		   color: "#e74c3c"
+		}
+	},
+	signUpScreen :{
+		container: {
+		    marginTop:55,
+	      	margin:5
+		}, 
+		icon: { 
+		    width: 30,
+		    height: 25,
+		},
+		header: {
+		    paddingTop: 16
+		},
+		text: {
+		    marginTop: 20,
+	        fontWeight:'bold'
+		},
+	  	textinput : {
+	    	color: "#e74c3c"
+	  	}
+	},
+	userContactScreen :{
+		container: {
+		    flex: 1,
+		    marginTop:55,
+		    margin:5
+	    }, 
+		icon: { 
+		    width: 30,
+		    height: 25,
+		},
+		header: {
+		    paddingTop: 16
+		  },
+		text: {
+		    marginTop: 20,
+		    fontWeight:'bold'
+		},
+		textinput : {
+		  color: "#e74c3c"
+		}
 	}
 
 

@@ -18,6 +18,8 @@ import Toolbar from '../components/Toolbar.js'
 import Nav from '../components/Nav.js'
 
 import ServerConnection from '../services/ServerConnection'
+import style from '../styles/styles'
+
 
 export default class UserContactScreen extends Component {
   
@@ -76,8 +78,10 @@ export default class UserContactScreen extends Component {
           address : this.state.address
         } 
         //ToastAndroid.show(  JSON.stringify(me), ToastAndroid.SHORT);
+
         //this.setState({message : JSON.stringify(me)}) 
         await ServerConnection.contact.updateUserContact(me,this.state.id )
+
         
     }else{
         let me = {
@@ -90,10 +94,12 @@ export default class UserContactScreen extends Component {
         } 
         //ToastAndroid.show(  JSON.stringify(me), ToastAndroid.SHORT);
         // this.setState({message : JSON.stringify(me)})
+
         await ServerConnection.contact.createUserContactApi(me)
 
     }
     ServerConnection.contact.getUserContact()
+
     let backAction = NavigationActions.back()
     this.props.navigation.dispatch(backAction)
     
@@ -144,24 +150,4 @@ export default class UserContactScreen extends Component {
   
 }
 
-const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      marginTop:55,
-      margin:5
-  }, 
-    icon: { 
-      width: 30,
-      height: 25,
-  },
-  header: {
-      paddingTop: 16
-  },
-  text: {
-      marginTop: 20,
-      fontWeight:'bold'
-  },
-  textinput : {
-    color: "#e74c3c"
-  }
-});
+const styles = StyleSheet.create(style.userContactScreen);

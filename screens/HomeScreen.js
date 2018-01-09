@@ -52,6 +52,7 @@ export default class HomeScreen extends Component {
             let isInside = null
             list.map((camp) => {
               if (Functions.PointOnCampus([18.879781, -99.221777],camp.location)){ // Apatzingan  
+
                 isInside = camp  
               }
             })
@@ -133,6 +134,7 @@ export default class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create(style.homeScreen);
+
 
 // if (Functions.PointOnCampus([18.879781, -99.221777],camp.location)){ // Apatzingan           
 //if (Functions.PointOnCampus([18.876438, -99.220000],camp.location)){ // PALMIRA

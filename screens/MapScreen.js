@@ -18,6 +18,8 @@ import MyFloatButton from '../components/MyFloatButton'
 
 import ServerConnection from '../services/ServerConnection'
 
+import style from '../styles/styles'
+
 import config from '../utils/config'
 Mapbox.setAccessToken(config.mapboxToken);
 
@@ -48,7 +50,6 @@ export default class MapScreen extends Component {
     await ServerConnection.alerts.getAlerts()
     AsyncStorage.getItem('campuslist').then((list) =>{
         AsyncStorage.getItem('alerts').then((alerts) =>{
-          
 
           let campuslist = JSON.parse(JSON.parse("[" + list + "]"))
 
@@ -75,8 +76,10 @@ export default class MapScreen extends Component {
             })
           }else{
             if (alerts !== null && alerts !== {}){
+
               let alertslist = JSON.parse(alerts)
               //t.setState({message : alerts})
+
 
               alertslist.map((alert) => {
                 annotations.push({
@@ -169,6 +172,8 @@ export default class MapScreen extends Component {
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => (<Nav navigate={navigate} screen={'Map'} onClose={this.onClose.bind(this)}/>)}>
         <Toolbar title={'My Campus'} navigation={this.props.navigation} conter={0} onPress={this.onPress.bind(this)}/>
+          
+
           <View style={styles.container}>
             
             {
@@ -184,26 +189,4 @@ export default class MapScreen extends Component {
   
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
-    marginTop:50
-  },
-  mapContainer: {
-    flex: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-  },
-  map: {
-    flex: 1,
-  },
-  scrollView: {
-    flex: 2
-  },
-  icon: {
-    width: 30,
-    height: 28,
-  }
-});
+const styles = StyleSheet.create(style.mapScreen);

@@ -19,6 +19,8 @@ import Nav from '../components/Nav.js'
 
 import ServerConnection from '../services/ServerConnection'
 
+import style from '../styles/styles'
+
 export default class ProfileScreen extends Component {
   
   constructor(props) {
@@ -152,24 +154,4 @@ export default class ProfileScreen extends Component {
   
 }
 
-const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      marginTop:55,
-      margin:5
-  }, 
-    icon: { 
-      width: 30,
-      height: 25,
-  },
-  header: {
-      paddingTop: 16
-  },
-  text: {
-      marginTop: 20,
-      fontWeight:'bold'
-  },
-  textinput : {
-    color: "#e74c3c"
-  }
-});
+const styles = StyleSheet.create(style.profileScreen);
