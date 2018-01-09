@@ -16,10 +16,12 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 
-import OCB from '../services/OCBConnection'
+import OCBConnection from '../services/OCBConnection'
 
 import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
+
+import style from '../styles/styles'
 
 export default class MakeAlertsScreen extends Component {
   
@@ -84,6 +86,7 @@ export default class MakeAlertsScreen extends Component {
     navigator.geolocation.getCurrentPosition((position) =>{
     
       AsyncStorage.getItem('device').then((device) =>{
+
         let alert = {
           id : `Alert:${device}:${Date.now()}`,
           type: "Alert",
@@ -91,8 +94,7 @@ export default class MakeAlertsScreen extends Component {
           subCategory : t.state.typeAlert,
           location :{
             type : "geo:point",  
-            value : `18.876420, -99.219536`
-            //value : `${position.coords.latitude} ,${position.coords.longitude}`
+            value : `${position.coords.latitude} ,${position.coords.longitude}`
           },
           dateObserved: new Date(),
           validFrom: new Date(),
@@ -101,10 +103,12 @@ export default class MakeAlertsScreen extends Component {
           alertSource: device,
           severity : t.state.severityText
         }
-        t.setState({message: JSON.stringify(alert)})
-        let newJson = OCB.sendAlert(alert)
+        let newJson = OCBConnection.sendAlert(alert)
+        
         let backAction = NavigationActions.back()
         this.props.navigation.dispatch(backAction)
+
+
       })
 
     },
@@ -182,45 +186,8 @@ export default class MakeAlertsScreen extends Component {
 
 
 
-const styles = StyleSheet.create({
-	container: {
-	    flex: 1,
-	    marginTop:55,
-      backgroundColor : 'white'
-      //alignItems: 'center'
-	}, 
-	  icon: { 
-	    width: 30,
-	    height: 25,
-	},
-	header: {
-	    paddingTop: 16
-	},
-	text: {
-	    marginTop: 20
-	},
-	imageLogo : {
-    width : 200,
-    height: 200,
-    marginBottom : 20,
-    
-  },
-  title : {
-    fontSize : 20,
-    marginBottom : 20,
-    marginTop : 20,
-    fontWeight :"bold",
-    color: "#2c3e50"
-  },
-  button: {
-  	flex: 1,
-    marginLeft : 20
-  },
-  form:{
-    backgroundColor : 'red'
-  },
-  input:{
-    margin : 10
-  }
+const styles = StyleSheet.create(style.makeAlertsScreen);
 
-});
+
+            //value : `18.879781, -99.221777` //Apatzingan
+            //value : `18.876438, -99.220000` //Palmira

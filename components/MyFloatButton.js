@@ -46,9 +46,10 @@ export default class MyFloatButton extends Component {
           id : `Alert:${device}:${Date.now()}`,
           type: "Alert",
           category: "Security",
+          subCategory:"Unknown",
           location :{
             type : "geo:point",  
-            value : `18.876420, -99.219536`
+            value : `18.876438, -99.220000` //Palmira
             //value : `${position.coords.latitude} ,${position.coords.longitude}`
           },
           dateObserved: new Date(),
@@ -56,7 +57,7 @@ export default class MyFloatButton extends Component {
           validTo: new Date(),
           description: "Unknown emergency Alert",
           alertSource: device,
-          severty : "high"
+          severity : "high"
         }
 
         let newJson = OCB.sendAlert(alert)
@@ -96,7 +97,7 @@ export default class MyFloatButton extends Component {
             actions={this.state.actions}
             onPressItem={this.onPressFloat}
             buttonColor={'#d50000'}
-            floatingIcon={<Icon style={{marginBottom:4}} name="error-outline" color={'#ecf0f1'} />}
+            floatingIcon={<Icon style={{marginBottom:0}} name="announcement" color={'#ecf0f1'} />}
             style={{zIndex :5}}
             onPress={() => console.log("OK")}
         />

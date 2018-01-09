@@ -13,12 +13,13 @@ class OCBConnection {
 			if (typeof value === 'string') {
 				AsyncStorage.getItem('userdata').then((userdata) =>{
 					let data  = JSON.parse(userdata)
-			        NgsiModule.InitDevice(data.idUser);
+			        //NgsiModule.InitDevice(data.id);
 			    })
 			}
 		   
 	    })
 	}
+	
 	sendAlert(alert) {
 	    ToastAndroid.showWithGravity( "Enviando Alerta ..." , ToastAndroid.SHORT, ToastAndroid.CENTER);
 	    let newJson = NGSI.parseEntity(alert)

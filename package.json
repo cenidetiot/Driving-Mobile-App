@@ -9,7 +9,7 @@
 		"watch": "npm-scripts-watcher"
 	},
 	"watch": {
-		"{.,components,screens,services}/*.js": [
+		"{.,components,screens,services}/*/*.js": [
 			"reload"
 		]
 	},

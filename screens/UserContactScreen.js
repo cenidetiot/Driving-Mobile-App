@@ -25,24 +25,27 @@ export default class UserContactScreen extends Component {
     super(props);
     this.onPress = this.onPress.bind(this)
     this.state = {
+      userid: "",
       id: "",
       phonenumber: "",
       name: "",
       lastName:"",
       address : "",
+      message : "",
       exist:false
     }
   } 
   
   componentDidMount(){ 
     let t = this
-    this.setState({id : this.props.navigation.state.params.id })
+    this.setState({userid : this.props.navigation.state.params.id })
+
     AsyncStorage.getItem('usercontact').then((usercontact) =>{
       usercontact = JSON.parse(usercontact)
 
       if(usercontact !== null){
          let newState = {
-          id : usercontact._id,
+          id : usercontact.id,
           name: usercontact.name,
           lastname: usercontact.lastName,
           phonenumber: usercontact.phoneNumber[0],
@@ -59,35 +62,40 @@ export default class UserContactScreen extends Component {
   onBackPress(){
     let backAction = NavigationActions.back()
     this.props.navigation.dispatch(backAction)
+
   }
 
   async onButtonPress(){
 
     if (this.state.exist){
         let me = {
-          idContact : `UserContact:${this.state.id}`,
+          id : `UserContact:${this.state.userid}`,
           phoneNumber: [this.state.phonenumber],
           name: this.state.name,
           lastName:this.state.lastname,
           address : this.state.address
         } 
-        ServerConnection.updateUserContactApi(me,this.state.id )
-        let backAction = NavigationActions.back()
-        this.props.navigation.dispatch(backAction)
+        //ToastAndroid.show(  JSON.stringify(me), ToastAndroid.SHORT);
+        //this.setState({message : JSON.stringify(me)}) 
+        await ServerConnection.contact.updateUserContact(me,this.state.id )
+        
     }else{
         let me = {
-          idContact : `UserContact:${this.state.id}`,
-          refUser : `${this.state.id}`,
+          id : `UserContact:${this.state.userid}`,
+          refUser : `${this.state.userid}`,
           phoneNumber: [this.state.phonenumber],
           name: this.state.name,
           lastName:this.state.lastname,
           address : this.state.address
         } 
-        ServerConnection.createUserContactApi(me)
-        let backAction = NavigationActions.back()
-        this.props.navigation.dispatch(backAction)
+        //ToastAndroid.show(  JSON.stringify(me), ToastAndroid.SHORT);
+        // this.setState({message : JSON.stringify(me)})
+        await ServerConnection.contact.createUserContactApi(me)
 
     }
+    ServerConnection.contact.getUserContact()
+    let backAction = NavigationActions.back()
+    this.props.navigation.dispatch(backAction)
     
   }
   onPress (){
@@ -107,7 +115,7 @@ export default class UserContactScreen extends Component {
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/> )}>
          <MaterialToolbar
-            style={{flex:1,backgroundColor:'#2980b9'}}
+            style={{flex:1,backgroundColor:'#2d5f73'}}
             title={'Contact user'}
             icon={'arrow-back'}
             onIconPress={this.onBackPress.bind(this)}

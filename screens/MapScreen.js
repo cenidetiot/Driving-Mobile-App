@@ -16,6 +16,8 @@ import Nav from '../components/Nav.js'
 import Toolbar from '../components/Toolbar.js'
 import MyFloatButton from '../components/MyFloatButton'
 
+import ServerConnection from '../services/ServerConnection'
+
 import config from '../utils/config'
 Mapbox.setAccessToken(config.mapboxToken);
 
@@ -41,15 +43,17 @@ export default class MapScreen extends Component {
     }
   }
   
-   componentDidMount() {
+   async componentDidMount() {
+    let t = this
+    await ServerConnection.alerts.getAlerts()
     AsyncStorage.getItem('campuslist').then((list) =>{
         AsyncStorage.getItem('alerts').then((alerts) =>{
+          
+
           let campuslist = JSON.parse(JSON.parse("[" + list + "]"))
 
-          let alertslist = JSON.parse(JSON.parse("[" + alerts + "]"))
-          //ToastAndroid.showWithGravity( alertslist.length.toString() , ToastAndroid.SHORT, ToastAndroid.CENTER);
           let annotations = []
-
+          t.setState({message : JSON.stringify(alerts)})
           campuslist.map((camp) => {
             annotations.push({
               coordinates : camp.location,
@@ -60,25 +64,42 @@ export default class MapScreen extends Component {
               id: camp._id
             })
           })
-
-          alertslist.map((alert) => {
+          if(this.props.navigation.state.params){
+            let tmpAlert = this.props.navigation.state.params
             annotations.push({
-              coordinates : JSON.parse("[" + alert.location + "]"),
+              coordinates : JSON.parse("[" + tmpAlert.location + "]"),
               type: 'point',
-              id: alert.id,
-              title:alert.subCategory,
-              subtitle: alert.description
+              id: tmpAlert.id,
+              title:tmpAlert.subCategory,
+              subtitle: tmpAlert.description
             })
-          })
+          }else{
+            if (alerts !== null && alerts !== {}){
+              let alertslist = JSON.parse(alerts)
+              //t.setState({message : alerts})
+
+              alertslist.map((alert) => {
+                annotations.push({
+                  coordinates : JSON.parse("[" + alert.location + "]"),
+                  type: 'point',
+                  id: alert.id,
+                  title:alert.subCategory,
+                  subtitle: alert.description
+                })
+              })
+            }
+          }
+
+          
+          
 
 
         navigator.geolocation.getCurrentPosition(
           (position) => {
             let temp = {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
-              //latitude: 18.87649,
-              //longitude: -99.21986
+              //latitude: position.coords.latitude, longitude: position.coords.longitude
+              //latitude: 18.876438, longitude : -99.220000 // PALMIRA
+              latitude: 18.87977439, longitude: -99.22162518 //APATZINGAN
             }
 
             
@@ -99,6 +120,7 @@ export default class MapScreen extends Component {
   showMap(){
     if (this.state.center !== null){
       return (
+      	
         <MapView
           ref={map => { this._map = map; }}
           style={styles.map}
@@ -109,13 +131,12 @@ export default class MapScreen extends Component {
           rotateEnabled={true}
           scrollEnabled={true}
           zoomEnabled={true}
-          styleURL={Mapbox.mapStyles.dark}
-          showsUserLocation={true}
+          styleURL={Mapbox.mapStyles.light}
         />
 
       )
       //userTrackingMode={Mapbox.userTrackingMode.followWithHeading}
-      ////showsUserLocation={true}styleURL={Mapbox.mapStyles.light}
+      //showsUserLocation={true}styleURL={Mapbox.mapStyles.light}
     }else {
 
       return (
@@ -153,6 +174,7 @@ export default class MapScreen extends Component {
             {
               this.showMap()
             }
+
           </View>
           <MyFloatButton navigate={navigate}/>
       </DrawerLayoutAndroid>
@@ -175,7 +197,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ecf0f1',
   },
   map: {
-    flex: 4,
+    flex: 1,
   },
   scrollView: {
     flex: 2

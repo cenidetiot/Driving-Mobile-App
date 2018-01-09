@@ -11,8 +11,9 @@ import {
   AsyncStorage,
   TouchableHighlight
 } from 'react-native';
-import ServerConnection from '../services/ServerConnection'
 
+import ServerConnection from '../services/ServerConnection'
+import style from '../styles/styles'
 
 
 export default class LoginScreen extends React.Component {
@@ -35,11 +36,11 @@ export default class LoginScreen extends React.Component {
       this.setState({ password: password })
    }
    componentDidMount(){
-    ServerConnection.getCompaniesList()
-    ServerConnection.updateCampusList()
+    ServerConnection.places.getCompaniesList()
+    ServerConnection.places.getCampusList()
    }
+   
   async onLogin () { 
-
     let t =  this
     let errParams =false
     if (this.state.email === ""){
@@ -51,12 +52,11 @@ export default class LoginScreen extends React.Component {
        t.setState({message : "The password you've entered is incorrect"})
     }
     if (!errParams){
-      ServerConnection.login(this.state.email,this.state.password)
+      ServerConnection.user.login(this.state.email,this.state.password)
       .then(async () => {
         
         AsyncStorage.getItem('fcmtoken').then((value) =>{
-          ServerConnection.sendFcmToken(value)
-          ServerConnection.sendFcmTokenHeroku(value)
+          ServerConnection.fire.sendFcmToken(value)
         })
         
         t.props.navigation.navigate('Loading')
@@ -66,6 +66,7 @@ export default class LoginScreen extends React.Component {
       }) 
     }
   } 
+
   render() { 
     let { navigate } = this.props.navigation;
     return (
@@ -128,33 +129,4 @@ export default class LoginScreen extends React.Component {
   
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-   backgroundColor: '#34495e',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width : null,
-    height: null
-
-  },
-  title : {
-    fontSize : 20,
-    fontWeight :"bold",
-    color: "white"
-  },
-  imageLogo : {
-    width : 100,
-    height: 100,
-    marginBottom : 1,
-    
-  },
-  input :{
-    marginBottom : 20,
-    width : '80%',
-    height: 60,
-    fontWeight :"bold",
-    color : 'white',
-    borderBottomColor : 'white'
-  }
-});
+const styles = StyleSheet.create(style.loginScreen);

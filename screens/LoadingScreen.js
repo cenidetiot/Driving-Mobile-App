@@ -4,6 +4,7 @@ import { NavigationActions } from 'react-navigation'
 
 import ServerConnection from '../services/ServerConnection'
 import NgsiModule from '../NativeModules/NgsiModule';
+import style from '../styles/styles'
 
 export default class LoadingScreen extends Component {
   async componentDidMount() {
@@ -17,9 +18,9 @@ export default class LoadingScreen extends Component {
           this.props.navigation.dispatch(resetAction);
         }else{
 
-        	ServerConnection.updateUserData()
-          ServerConnection.getUserContact()
-          ServerConnection.updateCampusList()
+        	ServerConnection.user.getUserData()
+          ServerConnection.contact.getUserContact()
+          ServerConnection.places.getCampusList()
           AsyncStorage.getItem('userdata').then((userdata) =>{
           let data  = JSON.parse(userdata)
             //NgsiModule.InitDevice(data.idUser);
@@ -55,10 +56,4 @@ export default class LoadingScreen extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-	container: {
-	    flex: 1,
-	    marginTop: '60%',
-	   	alignItems: 'center'
-	}
-});
+const styles = StyleSheet.create(style.loadingScreen);
