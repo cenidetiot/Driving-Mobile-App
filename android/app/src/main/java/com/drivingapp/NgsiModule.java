@@ -21,7 +21,6 @@ import www.fiware.org.ngsi.utilities.Constants;
 import www.fiware.org.ngsi.utilities.DevicePropertiesFunctions;
 import www.fiware.org.ngsi.utilities.Functions;
 
-
 public class NgsiModule extends ReactContextBaseJavaModule {
   private Context context = getReactApplicationContext();
   private  double latitude, logitude;
@@ -30,8 +29,8 @@ public class NgsiModule extends ReactContextBaseJavaModule {
   private float speedMS = 0, speedKmHr = 0;
   private DevicePropertiesFunctions deviceProperties;
   private Functions functions;
-
-
+  private float speedValue =0;
+  
   public NgsiModule(ReactApplicationContext reactContext) {
     super(reactContext);
     deviceProperties = new DevicePropertiesFunctions();
@@ -51,6 +50,8 @@ public class NgsiModule extends ReactContextBaseJavaModule {
   public String getName() {
     return "NgsiModule";
   }
+
+
 
   
   @ReactMethod
@@ -101,6 +102,20 @@ public class NgsiModule extends ReactContextBaseJavaModule {
     try {
       String  id = "DeviceModel_"+functions.getReplaceParent(deviceProperties.getBrand())+"_"+functions.getReplaceParent(deviceProperties.getModel());
       successCallback.invoke(id);
+    } catch (IllegalViewOperationException e) {
+      errorCallback.invoke(e.getMessage());
+    }
+  }
+
+  
+
+  @ReactMethod
+  public void deviceSpeed( // Nueva funcion que envia los datos de velocidad a la vista 
+      Callback successCallback,
+      Callback errorCallback
+      ) {
+    try {
+      successCallback.invoke(speedMS, speedKmHr); // Envio de parametros a la vista
     } catch (IllegalViewOperationException e) {
       errorCallback.invoke(e.getMessage());
     }

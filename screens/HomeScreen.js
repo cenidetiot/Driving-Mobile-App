@@ -17,6 +17,7 @@ import { Avatar, TYPO,COLOR,Button } from 'react-native-material-design';
 import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
 import MyFloatButton from '../components/MyFloatButton'
+import NgsiModule from '../NativeModules/NgsiModule'
 
 import Functions from '../functions/Functions'
 import style from '../styles/Home'
@@ -33,11 +34,21 @@ export default class HomeScreen extends Component {
       message : "No te encuentras en ningun campus",
       campus : null,
       modalVisible: false,
-      token : ""
+      token : "",
+
+      speedMs: 0, //Variable de velocidad en metros
+      speedKs : 0 // Variabñe de velocidad en Kilometros
+
     }
   } 
   
   componentDidMount(){
+
+    AsyncStorage.getItem('userdata').then((userdata) =>{
+      let data  = JSON.parse(userdata)
+      NgsiModule.InitDevice(data.id);
+    })
+
     let t = this
     AsyncStorage.getItem('fcmtoken').then((token) =>{
        t.setState({token : token})
@@ -46,13 +57,21 @@ export default class HomeScreen extends Component {
       if (token !== null){
         AsyncStorage.removeItem('campus');
 
-        navigator.geolocation.watchPosition((position) =>{
+        navigator.geolocation.watchPosition((position) =>{ // Funcion que se ejecuta cuando cambia ubicacion 
+
+
+          NgsiModule.deviceSpeed((speedMs,speedKs) => {  //Funcion nativa que recibe los parametros de velocidad
+            t.setState({speedMs: speedMs, speedKs:speedKs}) // alamacena en el state de la vista
+          },
+          (err) => {
+            ToastAndroid.show("Ocurrió un error", ToastAndroid.SHORT);
+          });  
+
           AsyncStorage.getItem('campuslist').then((campuslist) =>{
             let list = JSON.parse(JSON.parse("[" + campuslist + "]"))
             let isInside = null
             list.map((camp) => {
               if (Functions.PointOnCampus([18.879781, -99.221777],camp.location)){ // Apatzingan  
-
                 isInside = camp  
               }
             })
@@ -124,6 +143,10 @@ export default class HomeScreen extends Component {
 	      <View style={styles.container}>
           <View style={styles.cardContainer}>
             {this.state.campus ? this.isInside(): this.isOutside()}
+
+            {/* Muestra   la velocidad en un text */}
+            <Text>Your speed {this.state.speedKs} {this.state.speedMs}</Text>
+
           </View>
           <MyFloatButton navigate={navigate}/>
         </View>

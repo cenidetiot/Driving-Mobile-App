@@ -11,10 +11,7 @@ class OCBConnection {
 		OCB.config(`http://${config.ip}`,config.port,config.version)
 		AsyncStorage.getItem('token').then((value) =>{
 			if (typeof value === 'string') {
-				AsyncStorage.getItem('userdata').then((userdata) =>{
-					let data  = JSON.parse(userdata)
-			        //NgsiModule.InitDevice(data.id);
-			    })
+				
 			}
 		   
 	    })
