@@ -33,13 +33,9 @@ export default {
 	    height: 22,
 	    color: 'white',
 	},
-	cardContainer:{
+	circleContainer:{
 	    alignItems:'center', 
 	    justifyContent: 'center',
-	    marginTop: '35%',
-	    width: 250,
-        height: 250,
-        borderRadius: 250,
 	},
 	cardAvatar:{
 	    flex:1,
@@ -49,11 +45,12 @@ export default {
 		marginTop: '50%',
 	    fontSize : 40,
 	    fontWeight :"bold",
-	    color: "white"
+	    color: "#2c3e50"
 	},
 	speedm : {
 		marginBottom: '50%',
-	    color: "white"
+	    color: "#2c3e50"
 	},
+
 
 }

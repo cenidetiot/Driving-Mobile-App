@@ -41,7 +41,7 @@ export default class SpeedScreen extends Component {
         critical: '#c0392b' 
       },
       maximumAllowedSpeed :2,
-      minimumAllowedSpeed :0
+      minimumAllowedSpeed :.5
     }
   } 
   
@@ -61,7 +61,7 @@ export default class SpeedScreen extends Component {
       (err) => {
         ToastAndroid.show("Ocurrió un error", ToastAndroid.SHORT);
       });  
-    }, 1000);
+    }, 1500);
 
 
   
@@ -84,23 +84,15 @@ export default class SpeedScreen extends Component {
 		    renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/>)}>
         <Toolbar navigation={this.props.navigation} title={'Your Speed'} counter={this.state.conter} onPress={this.onPress.bind(this)}/>
 	      <View style={styles.container}>
-          <View style={{
-              alignItems:'center', 
-              justifyContent: 'center',
-              marginTop: '35%',
-              width: Dimensions.get('screen')['height'] / 2.5 ,
-              height: Dimensions.get('screen')['height'] / 2.5,
-              borderRadius: Dimensions.get('screen')['height'] / 2.5,
-              backgroundColor : this.state.circleColor
-          }}>
-            
-            {/* Muestra   la velocidad en un text */}
-            <Text style={styles.speedKm} >{this.state.speedKs.toPrecision(2)} Km/h</Text>
-            <Text style={styles.speedm} >{this.state.speedMs.toPrecision(2)} m/s</Text>
-
+          <View style={[complement.first, styles.circleContainer, { backgroundColor : this.state.circleColor }]}>
+            <View style={[styles.circleContainer, complement.second]}>
+              {/* Muestra   la velocidad en un text */}
+              <Text style={[styles.speedKm, {color: this.state.circleColor} ]} >{this.state.speedKs.toPrecision(2)} Km/h</Text>
+              <Text style={styles.speedm} >{this.state.speedMs.toPrecision(2)} m/s</Text>
+            </View>
           </View>
-          <Text>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
-          <Text>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
+              <Text>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
+              <Text>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
 
           <MyFloatButton navigate={navigate}/>
         </View>
@@ -112,6 +104,21 @@ export default class SpeedScreen extends Component {
 
 const styles = StyleSheet.create(style);
 
+const complement = StyleSheet.create({
+  first :{
+    marginTop: '35%',
+    width: Dimensions.get('screen')['height'] / 2.5 ,
+    height: Dimensions.get('screen')['height'] / 2.5,
+    borderRadius: Dimensions.get('screen')['height'] / 2.5,
+    
+  },
+  second :{
+    width: Dimensions.get('screen')['height'] / 2.7,
+    height: Dimensions.get('screen')['height'] / 2.7,
+    borderRadius: Dimensions.get('screen')['height'] / 2.7,
+    backgroundColor : 'white'
+  }
+})
 
 // if (Functions.PointOnCampus([18.879781, -99.221777],camp.location)){ // Apatzingan           
 //if (Functions.PointOnCampus([18.876438, -99.220000],camp.location)){ // PALMIRA
