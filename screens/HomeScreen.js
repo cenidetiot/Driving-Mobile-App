@@ -23,8 +23,6 @@ import NgsiModule from '../NativeModules/NgsiModule'
 import Functions from '../functions/Functions'
 import style from '../styles/Home'
 
-import * as Progress from 'react-native-progress';
-
 
 export default class HomeScreen extends Component {
   
