@@ -47,11 +47,11 @@ export default class Nav extends Component {
         <Drawer.Section
             items={[
             {
-                icon: 'account-balance',
-                value: 'Home',
-                active: this.props.screen === 'Home',
-                onPress: () => {this.props.navigate('Home')
-              this.props.onClose()},
+                icon: 'transfer-within-a-station',
+                value: 'Speed',
+                active: this.props.screen === 'Speed',
+                onPress: () => {this.props.navigate('Speed')
+                this.props.onClose()},
                 onLongPress: () => console.log("OK")
             },
             {

@@ -12,7 +12,8 @@ import {
   Picker,
   ToastAndroid,
   AsyncStorage,
-  TouchableHighlight
+  TouchableHighlight,
+  Linking
 } from 'react-native';
 
 
@@ -122,7 +123,10 @@ export default class LoginScreen extends React.Component {
               />
 
               <Text 
-                onPress={() => navigate('Signup')}
+                onPress={() =>{
+                  Linking.openURL("https://account.lab.fiware.org/sign_up/").catch(err => console.error('An error occurred', err));
+
+                }}
                 style={{color:'#ecf0f1', fontWeight: 'bold', marginTop : 40,textDecorationLine:'underline'}}>
                 Create a new Account
               </Text>

@@ -10,7 +10,8 @@ import {
   Alert,
   AsyncStorage,
   TouchableHighlight,
-  Modal
+  Modal,
+  ProgressBar 
 } from 'react-native';
 import { Avatar, TYPO,COLOR,Button } from 'react-native-material-design';
 
@@ -43,16 +44,13 @@ export default class HomeScreen extends Component {
   } 
   
   componentDidMount(){
+    let t = this
 
     AsyncStorage.getItem('userdata').then((userdata) =>{
       let data  = JSON.parse(userdata)
       NgsiModule.InitDevice(data.id);
     })
 
-    let t = this
-    AsyncStorage.getItem('fcmtoken').then((token) =>{
-       t.setState({token : token})
-    })
     AsyncStorage.getItem('token').then((token) =>{
       if (token !== null){
         AsyncStorage.removeItem('campus');
@@ -67,14 +65,18 @@ export default class HomeScreen extends Component {
             ToastAndroid.show("Ocurrió un error", ToastAndroid.SHORT);
           });  
 
+
           AsyncStorage.getItem('campuslist').then((campuslist) =>{
             let list = JSON.parse(JSON.parse("[" + campuslist + "]"))
+
             let isInside = null
+
             list.map((camp) => {
               if (Functions.PointOnCampus([18.879781, -99.221777],camp.location)){ // Apatzingan  
                 isInside = camp  
               }
             })
+
             if(isInside !== null){
               t.setState({campus: isInside})
               AsyncStorage.setItem('campus',JSON.stringify(isInside));
@@ -82,6 +84,7 @@ export default class HomeScreen extends Component {
               t.setState({campus: null})
               AsyncStorage.removeItem('campus');
             }
+
           })
         },
         (error) => {
@@ -92,7 +95,7 @@ export default class HomeScreen extends Component {
             { cancelable: true }
           )
           },
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000,distanceFilter:0.5 },
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.2 },
         );
 
       }else{
@@ -144,8 +147,11 @@ export default class HomeScreen extends Component {
           <View style={styles.cardContainer}>
             {this.state.campus ? this.isInside(): this.isOutside()}
 
+            
             {/* Muestra   la velocidad en un text */}
-            <Text>Your speed {this.state.speedKs} {this.state.speedMs}</Text>
+            <Text style={{fontWeight:'bold'}}>Your speed</Text>
+            <Text>{this.state.speedKs.toPrecision(2)} Km/h</Text>
+            <Text>{this.state.speedMs.toPrecision(2)} m/s</Text>
 
           </View>
           <MyFloatButton navigate={navigate}/>

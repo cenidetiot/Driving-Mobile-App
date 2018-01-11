@@ -11,6 +11,7 @@ import MakeAlertsScreen from './screens/MakeAlertsScreen'
 import LoadingScreen from './screens/LoadingScreen'
 import SignupScreen from './screens/SignupScreen'
 import UserContactScreen from './screens/UserContactScreen'
+import SpeedScreen from './screens/SpeedScreen'
 
 import Functions from './functions/Functions'
 
@@ -26,10 +27,11 @@ const StackApp = StackNavigator({
   MakeAlerts : {screen : MakeAlertsScreen},
   Signup :{screen : SignupScreen},
   UserContact :{screen : UserContactScreen},
+  Speed : {screen : SpeedScreen}
 },
 {
   headerMode : 'none',
-  initialRouteName : 'Loading'
+  initialRouteName : 'Home'
 })
 
 
