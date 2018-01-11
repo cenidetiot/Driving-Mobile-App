@@ -23,6 +23,8 @@ import NgsiModule from '../NativeModules/NgsiModule'
 import Functions from '../functions/Functions'
 import style from '../styles/Home'
 
+import * as Progress from 'react-native-progress';
+
 
 export default class HomeScreen extends Component {
   
@@ -38,13 +40,16 @@ export default class HomeScreen extends Component {
       token : "",
 
       speedMs: 0, //Variable de velocidad en metros
-      speedKs : 0 // Variabñe de velocidad en Kilometros
+      speedKs : 0, // Variabñe de velocidad en Kilometros,
+      progress :0
 
     }
   } 
   
   componentDidMount(){
     let t = this
+
+    
 
     AsyncStorage.getItem('userdata').then((userdata) =>{
       let data  = JSON.parse(userdata)
@@ -55,16 +60,7 @@ export default class HomeScreen extends Component {
       if (token !== null){
         AsyncStorage.removeItem('campus');
 
-        navigator.geolocation.watchPosition((position) =>{ // Funcion que se ejecuta cuando cambia ubicacion 
-
-
-          NgsiModule.deviceSpeed((speedMs,speedKs) => {  //Funcion nativa que recibe los parametros de velocidad
-            t.setState({speedMs: speedMs, speedKs:speedKs}) // alamacena en el state de la vista
-          },
-          (err) => {
-            ToastAndroid.show("Ocurrió un error", ToastAndroid.SHORT);
-          });  
-
+        navigator.geolocation.watchPosition((position) =>{ // Funcion que se ejecuta cuando cambia ubicacion  
 
           AsyncStorage.getItem('campuslist').then((campuslist) =>{
             let list = JSON.parse(JSON.parse("[" + campuslist + "]"))
@@ -95,7 +91,7 @@ export default class HomeScreen extends Component {
             { cancelable: true }
           )
           },
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.2 },
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.5 },
         );
 
       }else{
@@ -114,7 +110,7 @@ export default class HomeScreen extends Component {
 
   isInside () {
     return(
-      <View style={{flex:4, alignItems:'center', marginTop : '20%' }} >
+      <View style={{flex:4, alignItems:'center', marginTop : '20%' ,transform: [{'translate':[0,0,1]}] }} >
         <Image
           source={require('../images/inside.png')}
         />
@@ -125,7 +121,7 @@ export default class HomeScreen extends Component {
   }
   isOutside(){
     return (
-      <View style={{flex:4, alignItems:'center', marginTop : '40%'}} >
+      <View style={{flex:4, alignItems:'center', marginTop : '40%',transform: [{'translate':[0,0,1]}] }} >
         <Image
           style={{width : 200, height: 200}}
           source={require('../images/outside.png')}
@@ -146,13 +142,6 @@ export default class HomeScreen extends Component {
 	      <View style={styles.container}>
           <View style={styles.cardContainer}>
             {this.state.campus ? this.isInside(): this.isOutside()}
-
-            
-            {/* Muestra   la velocidad en un text */}
-            <Text style={{fontWeight:'bold'}}>Your speed</Text>
-            <Text>{this.state.speedKs.toPrecision(2)} Km/h</Text>
-            <Text>{this.state.speedMs.toPrecision(2)} m/s</Text>
-
           </View>
           <MyFloatButton navigate={navigate}/>
         </View>

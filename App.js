@@ -31,7 +31,7 @@ const StackApp = StackNavigator({
 },
 {
   headerMode : 'none',
-  initialRouteName : 'Home'
+  initialRouteName : 'Loading'
 })
 
 

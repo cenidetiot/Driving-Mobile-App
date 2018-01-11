@@ -41,27 +41,40 @@ export default class SpeedScreen extends Component {
         critical: '#c0392b' 
       },
       maximumAllowedSpeed :2,
-      minimumAllowedSpeed :.5
+      minimumAllowedSpeed :.5,
+      latitude : 0,
+      longitude:0
+
+
     }
   } 
   
   componentDidMount(){
     let t = this
-    setInterval(() =>{
+    navigator.geolocation.watchPosition((position) =>{
       NgsiModule.deviceSpeed((speedMs,speedKs) => {  //Funcion nativa que recibe los parametros de velocidad
-
         if (speedKs > t.state.maximumAllowedSpeed || t.state.speedKs < t.state.minimumAllowedSpeed ){
           t.setState({circleColor : t.state.circleColors.critical})
         }
         else {
           t.setState({circleColor : t.state.circleColors.low})
         }
-        t.setState({speedMs: speedMs, speedKs:speedKs}) // alamacena en el state de la vista
+        t.setState({speedMs: speedMs, speedKs:speedKs, latitude : position.coords.latitude,longitude :position.coords.longitude}) // alamacena en el state de la vista
       },
       (err) => {
         ToastAndroid.show("Ocurrió un error", ToastAndroid.SHORT);
       });  
-    }, 1500);
+    },
+        (error) => {
+          Alert.alert('Alert',error.message,
+            [
+              {text: 'ok', onPress: () => console.log('Ask me later pressed')}
+            ],
+            { cancelable: true }
+          )
+          },
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.1 },
+        );
 
 
   
@@ -83,7 +96,8 @@ export default class SpeedScreen extends Component {
 		    drawerPosition={DrawerLayoutAndroid.positions.Left}
 		    renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/>)}>
         <Toolbar navigation={this.props.navigation} title={'Your Speed'} counter={this.state.conter} onPress={this.onPress.bind(this)}/>
-	      <View style={styles.container}>
+	      
+        <View style={styles.container}>
           <View style={[complement.first, styles.circleContainer, { backgroundColor : this.state.circleColor }]}>
             <View style={[styles.circleContainer, complement.second]}>
               {/* Muestra   la velocidad en un text */}
@@ -91,11 +105,14 @@ export default class SpeedScreen extends Component {
               <Text style={styles.speedm} >{this.state.speedMs.toPrecision(2)} m/s</Text>
             </View>
           </View>
-              <Text>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
-              <Text>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
+
+          <Text>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
+          <Text>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
+          <Text>{this.state.latitude} {this.state.longitude}</Text>
 
           <MyFloatButton navigate={navigate}/>
         </View>
+
 	    </DrawerLayoutAndroid> 
     )
   }

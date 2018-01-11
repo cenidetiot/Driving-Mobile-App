@@ -142,7 +142,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
           speedMS = intent.getFloatExtra(Constants.DEVICE_GPS_RESULT_SPEED_MS, 0);
           speedKmHr = intent.getFloatExtra(Constants.DEVICE_GPS_RESULT_SPEED_KMHR, 0);
           if(speedMS != 0 && speedKmHr != 0)
-          Toast.makeText(getReactApplicationContext(), "Speed: "+speedMS+"m/s ---- Speed: "+speedKmHr+"km/h", Toast.LENGTH_SHORT).show();
+          //Toast.makeText(getReactApplicationContext(), "Speed: "+speedMS+"m/s ---- Speed: "+speedKmHr+"km/h", Toast.LENGTH_SHORT).show();
           Log.i("Speed: ", ""+speedMS+"m/s  "+speedKmHr+"km/h");
           break;
         case Constants.SERVICE_RUNNING_SENSORS:
