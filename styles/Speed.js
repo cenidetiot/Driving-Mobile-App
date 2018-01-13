@@ -33,10 +33,6 @@ export default {
 	    height: 22,
 	    color: 'white',
 	},
-	circleContainer:{
-	    alignItems:'center', 
-	    justifyContent: 'center',
-	},
 	cardAvatar:{
 	    flex:1,
 	    alignItems:'center', 
@@ -51,6 +47,12 @@ export default {
 		marginBottom: '50%',
 	    color: "#2c3e50"
 	},
+	message :{
+		color : 'white',
+		fontSize : 20,
+		marginTop: 50,
+		fontWeight : 'bold'
+	}
 
 
 }

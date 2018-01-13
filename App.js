@@ -12,6 +12,7 @@ import LoadingScreen from './screens/LoadingScreen'
 import SignupScreen from './screens/SignupScreen'
 import UserContactScreen from './screens/UserContactScreen'
 import SpeedScreen from './screens/SpeedScreen'
+import WebSignUpScreen from './screens/WebSignUpScreen'
 
 import Functions from './functions/Functions'
 
@@ -27,7 +28,8 @@ const StackApp = StackNavigator({
   MakeAlerts : {screen : MakeAlertsScreen},
   Signup :{screen : SignupScreen},
   UserContact :{screen : UserContactScreen},
-  Speed : {screen : SpeedScreen}
+  Speed : {screen : SpeedScreen},
+  WebSignup : {screen : WebSignUpScreen}
 },
 {
   headerMode : 'none',

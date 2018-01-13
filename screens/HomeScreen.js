@@ -8,10 +8,7 @@ import {
   Image,
   ToastAndroid,
   Alert,
-  AsyncStorage,
-  TouchableHighlight,
-  Modal,
-  ProgressBar 
+  AsyncStorage
 } from 'react-native';
 import { Avatar, TYPO,COLOR,Button } from 'react-native-material-design';
 
@@ -33,13 +30,7 @@ export default class HomeScreen extends Component {
     this.isOutside = this.isOutside.bind(this)
     this.state = {
       message : "No te encuentras en ningun campus",
-      campus : null,
-      modalVisible: false,
-      token : "",
-
-      speedMs: 0, //Variable de velocidad en metros
-      speedKs : 0, // Variabñe de velocidad en Kilometros,
-      progress :0
+      campus : null
 
     }
   } 

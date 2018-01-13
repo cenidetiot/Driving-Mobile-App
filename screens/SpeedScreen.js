@@ -4,13 +4,7 @@ import {
   Text,
   View,
   DrawerLayoutAndroid,
-  ScrollView, 
-  Image,
-  ToastAndroid,
   Alert,
-  AsyncStorage,
-  TouchableHighlight,
-  Modal,
   Dimensions
 } from 'react-native';
 import { Avatar, TYPO,COLOR,Button } from 'react-native-material-design';
@@ -23,11 +17,14 @@ import NgsiModule from '../NativeModules/NgsiModule'
 import Functions from '../functions/Functions'
 import style from '../styles/Speed'
 
+const dim = Dimensions.get('screen')['height'];
+
 
 export default class SpeedScreen extends Component {
   
   constructor(props) {
     super(props);
+    this.changeWidth = this.changeWidth.bind(this)
     this.state = {
 
       speedMs: 0, //Variable de velocidad en metros
@@ -41,23 +38,51 @@ export default class SpeedScreen extends Component {
         critical: '#c0392b' 
       },
       maximumAllowedSpeed :2,
-      minimumAllowedSpeed :.5,
+      minimumAllowedSpeed :1,
       latitude : 0,
-      longitude:0
-
-
+      longitude: 0,
+      message : "You're driving well",
+      width: dim / 2.7,
+      height: dim / 2.7,
+      top : '15%',
+      bottom : '10%',
+      exceeded : false
     }
   } 
+
+  changeWidth () {
+    if (this.state.exceeded === false){
+      this.setState({
+        width: dim / 2.3,
+        height: dim / 2.3,
+        top : '5%',
+        bottom : '5%'
+      })
+      let t = this
+      setTimeout(function(){
+        t.setState({
+          width: dim / 2.7,
+          height: dim / 2.7,
+          top : '15%',
+          bottom: '10%',
+          exceeded : true
+        })
+      }, 50); 
+
+    }
+
+  }
   
   componentDidMount(){
     let t = this
     navigator.geolocation.watchPosition((position) =>{
       NgsiModule.deviceSpeed((speedMs,speedKs) => {  //Funcion nativa que recibe los parametros de velocidad
         if (speedKs > t.state.maximumAllowedSpeed || t.state.speedKs < t.state.minimumAllowedSpeed ){
-          t.setState({circleColor : t.state.circleColors.critical})
+          t.setState({circleColor : t.state.circleColors.critical, message: 'You exceeded the limit.'})
+          t.changeWidth()
         }
         else {
-          t.setState({circleColor : t.state.circleColors.low})
+          t.setState({circleColor : t.state.circleColors.low, message: "You're driving well", exceeded : false })
         }
         t.setState({speedMs: speedMs, speedKs:speedKs, latitude : position.coords.latitude,longitude :position.coords.longitude}) // alamacena en el state de la vista
       },
@@ -65,18 +90,16 @@ export default class SpeedScreen extends Component {
         ToastAndroid.show("Ocurrió un error", ToastAndroid.SHORT);
       });  
     },
-        (error) => {
-          Alert.alert('Alert',error.message,
-            [
-              {text: 'ok', onPress: () => console.log('Ask me later pressed')}
-            ],
-            { cancelable: true }
-          )
-          },
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.1 },
-        );
-
-
+    (error) => {
+      Alert.alert('Alert',error.message,
+        [
+          {text: 'ok', onPress: () => console.log('Ask me later pressed')}
+        ],
+        { cancelable: true }
+      )
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.1 },
+    );
   
   }
 
@@ -96,18 +119,17 @@ export default class SpeedScreen extends Component {
 		    drawerPosition={DrawerLayoutAndroid.positions.Left}
 		    renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/>)}>
         <Toolbar navigation={this.props.navigation} title={'Your Speed'} counter={this.state.conter} onPress={this.onPress.bind(this)}/>
-	      
-        <View style={styles.container}>
-          <View style={[complement.first, styles.circleContainer, { backgroundColor : this.state.circleColor }]}>
-            <View style={[styles.circleContainer, complement.second]}>
-              {/* Muestra   la velocidad en un text */}
-              <Text style={[styles.speedKm, {color: this.state.circleColor} ]} >{this.state.speedKs.toPrecision(2)} Km/h</Text>
-              <Text style={styles.speedm} >{this.state.speedMs.toPrecision(2)} m/s</Text>
-            </View>
+	       
+        <View style={[styles.container, {backgroundColor : this.state.circleColor}]}>
+        <Text style={styles.message}>{this.state.message}</Text>
+        <View style={complement.circleContainer}>
+          <View style={[complement.circle, {width: this.state.width, height : this.state.height, marginTop: this.state.top, marginBottom :this.state.bottom,}]}>
+            <Text style={[styles.speedKm, {color: this.state.circleColor} ]} >{this.state.speedKs.toPrecision(2)} Km/h</Text>
+            <Text style={styles.speedm} >{this.state.speedMs.toPrecision(2)} m/s</Text>
           </View>
-
-          <Text>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
-          <Text>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
+        </View>
+          <Text style={{color: 'white'}}>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
+          <Text style={{color: 'white'}}>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
           <Text>{this.state.latitude} {this.state.longitude}</Text>
 
           <MyFloatButton navigate={navigate}/>
@@ -122,17 +144,16 @@ export default class SpeedScreen extends Component {
 const styles = StyleSheet.create(style);
 
 const complement = StyleSheet.create({
-  first :{
-    marginTop: '35%',
-    width: Dimensions.get('screen')['height'] / 2.5 ,
-    height: Dimensions.get('screen')['height'] / 2.5,
-    borderRadius: Dimensions.get('screen')['height'] / 2.5,
-    
+  circleContainer :{
+    height : dim / 2,
+    width : dim / 2,
+    alignItems: 'center',
+    justifyContent: 'center' 
   },
-  second :{
-    width: Dimensions.get('screen')['height'] / 2.7,
-    height: Dimensions.get('screen')['height'] / 2.7,
-    borderRadius: Dimensions.get('screen')['height'] / 2.7,
+  circle :{
+    alignItems:'center', 
+    justifyContent: 'center',
+    borderRadius: dim/ 2.7,
     backgroundColor : 'white'
   }
 })

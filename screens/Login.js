@@ -124,7 +124,7 @@ export default class LoginScreen extends React.Component {
 
               <Text 
                 onPress={() =>{
-                  Linking.openURL("https://account.lab.fiware.org/sign_up/").catch(err => console.error('An error occurred', err));
+                  navigate('WebSignup')
 
                 }}
                 style={{color:'#ecf0f1', fontWeight: 'bold', marginTop : 40,textDecorationLine:'underline'}}>
