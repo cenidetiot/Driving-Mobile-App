@@ -8,7 +8,9 @@ import {
   Image,
   ToastAndroid,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  TouchableHighlight,
+  DeviceEventEmitter
 } from 'react-native';
 import { Avatar, TYPO,COLOR,Button } from 'react-native-material-design';
 
@@ -19,6 +21,7 @@ import NgsiModule from '../NativeModules/NgsiModule'
 
 import Functions from '../functions/Functions'
 import style from '../styles/Home'
+import { SensorManager } from 'NativeModules';
 
 
 export default class HomeScreen extends Component {
@@ -30,14 +33,23 @@ export default class HomeScreen extends Component {
     this.isOutside = this.isOutside.bind(this)
     this.state = {
       message : "No te encuentras en ningun campus",
-      campus : null
+      campus : null,
+      speed: 0
 
     }
   } 
   
   componentDidMount(){
     let t = this
-
+   SensorManager.startAccelerometer(100); // To start the accelerometer with a minimum delay of 100ms between events.
+    DeviceEventEmitter.addListener('Accelerometer', function (data) {
+      /**
+      * data.x
+      * data.y
+      * data.z
+      **/
+      t.setState({speed: data.x + data.y + data.z})
+    });
     
 
     AsyncStorage.getItem('userdata').then((userdata) =>{
@@ -130,6 +142,7 @@ export default class HomeScreen extends Component {
         <Toolbar navigation={this.props.navigation} title={'      Driving App'} isHome={true} counter={this.state.conter} onPress={this.onPress.bind(this)}/>
 	      <View style={styles.container}>
           <View style={styles.cardContainer}>
+          <Text>{this.state.speed}</Text>
             {this.state.campus ? this.isInside(): this.isOutside()}
           </View>
           <MyFloatButton navigate={navigate}/>
