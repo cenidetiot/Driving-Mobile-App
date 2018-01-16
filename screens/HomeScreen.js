@@ -34,22 +34,22 @@ export default class HomeScreen extends Component {
     this.state = {
       message : "No te encuentras en ningun campus",
       campus : null,
-      speed: 0
+      speed: null,
+      aceleration : null
 
     }
   } 
   
   componentDidMount(){
     let t = this
-   SensorManager.startAccelerometer(100); // To start the accelerometer with a minimum delay of 100ms between events.
+    /*SensorManager.startAccelerometer(100); // To start the accelerometer with a minimum delay of 100ms between events.
     DeviceEventEmitter.addListener('Accelerometer', function (data) {
-      /**
-      * data.x
-      * data.y
-      * data.z
-      **/
-      t.setState({speed: data.x + data.y + data.z})
+      t.setState({aceleration: data.x + data.y + data.z})
     });
+
+    DeviceEventEmitter.addListener('speed', function(data) {
+      t.setState({speed: data})
+    });*/
     
 
     AsyncStorage.getItem('userdata').then((userdata) =>{
@@ -142,7 +142,7 @@ export default class HomeScreen extends Component {
         <Toolbar navigation={this.props.navigation} title={'      Driving App'} isHome={true} counter={this.state.conter} onPress={this.onPress.bind(this)}/>
 	      <View style={styles.container}>
           <View style={styles.cardContainer}>
-          <Text>{this.state.speed}</Text>
+          <Text>{this.state.aceleration}</Text>
             {this.state.campus ? this.isInside(): this.isOutside()}
           </View>
           <MyFloatButton navigate={navigate}/>

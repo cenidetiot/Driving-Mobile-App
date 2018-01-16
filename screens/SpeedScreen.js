@@ -25,6 +25,7 @@ export default class SpeedScreen extends Component {
   constructor(props) {
     super(props);
     this.changeWidth = this.changeWidth.bind(this)
+    this.getAceleration = this.getAceleration.bind(this)
     this.state = {
 
       speedMs: 0, //Variable de velocidad en metros
@@ -46,7 +47,9 @@ export default class SpeedScreen extends Component {
       height: dim / 2.7,
       top : '15%',
       bottom : '10%',
-      exceeded : false
+      exceeded : false,
+      vi : 0,
+      aceleration : 0
     }
   } 
 
@@ -73,33 +76,29 @@ export default class SpeedScreen extends Component {
 
   }
   
+  getAceleration(speed){
+    let aceleration = (speed - this.state.vi) / 1;
+    this.setState({vi : speed, aceleration : aceleration})
+  }
+
   componentDidMount(){
     let t = this
-    navigator.geolocation.watchPosition((position) =>{
+    setInterval(() =>{
       NgsiModule.deviceSpeed((speedMs,speedKs) => {  //Funcion nativa que recibe los parametros de velocidad
         if (speedKs > t.state.maximumAllowedSpeed || t.state.speedKs < t.state.minimumAllowedSpeed ){
           t.setState({circleColor : t.state.circleColors.critical, message: 'You exceeded the limit.'})
           t.changeWidth()
+          t.getAceleration(speedMs)
         }
         else {
           t.setState({circleColor : t.state.circleColors.low, message: "You're driving well", exceeded : false })
         }
-        t.setState({speedMs: speedMs, speedKs:speedKs, latitude : position.coords.latitude,longitude :position.coords.longitude}) // alamacena en el state de la vista
+        t.setState({speedMs: speedMs, speedKs:speedKs}) // alamacena en el state de la vista
       },
       (err) => {
         ToastAndroid.show("Ocurrió un error", ToastAndroid.SHORT);
       });  
-    },
-    (error) => {
-      Alert.alert('Alert',error.message,
-        [
-          {text: 'ok', onPress: () => console.log('Ask me later pressed')}
-        ],
-        { cancelable: true }
-      )
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.1 },
-    );
+    }, 1000);
   
   }
 
@@ -130,7 +129,7 @@ export default class SpeedScreen extends Component {
         </View>
           <Text style={{color: 'white'}}>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
           <Text style={{color: 'white'}}>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
-          <Text>{this.state.latitude} {this.state.longitude}</Text>
+          <Text>{this.state.aceleration}</Text>
 
           <MyFloatButton navigate={navigate}/>
         </View>
