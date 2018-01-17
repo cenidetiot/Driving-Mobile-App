@@ -2,10 +2,9 @@ package com.drivingapp;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
+import android.content.Intent; 
 import com.facebook.react.HeadlessJsTaskService;
 import com.facebook.react.ReactApplication;
-import com.sensormanager.SensorManagerPackage;
 //import io.realm.react.RealmReactPackage;
 import com.mapbox.reactnativemapboxgl.ReactNativeMapboxGLPackage;
 import com.facebook.react.ReactNativeHost;
@@ -33,8 +32,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new SensorManagerPackage(),
-            //new RealmReactPackage(),
             new ReactNativeMapboxGLPackage(),
             new NgsiPackage()
       );

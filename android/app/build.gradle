@@ -150,7 +150,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-sensor-manager')
 
     //compile project(':realm')
     compile project(':@mapbox/react-native-mapbox-gl')

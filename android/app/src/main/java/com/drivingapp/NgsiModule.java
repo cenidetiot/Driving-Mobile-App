@@ -56,9 +56,6 @@ public class NgsiModule extends ReactContextBaseJavaModule {
   public String getName() {
     return "NgsiModule";
   }
-
-
-
   
   @ReactMethod
   public void InitDeviceModel() {
