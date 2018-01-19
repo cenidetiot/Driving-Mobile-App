@@ -22,7 +22,7 @@ export default {
 	},
 	input :{
 	    marginBottom : 20,
-	    width : '80%',
+	    width : '100%',
 	    height: 60,
 	    fontWeight :"bold",
 	    color : 'white',

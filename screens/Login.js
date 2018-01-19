@@ -6,17 +6,16 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  Button,
   Image,
   ToolbarAndroid,
   Picker,
   ToastAndroid,
   AsyncStorage,
   TouchableHighlight,
-  Linking
+  View
 } from 'react-native';
 
-
+import { Button,Icon } from 'react-native-elements'
 import ServerConnection from '../services/ServerConnection'
 import style from '../styles/Login'
 
@@ -25,11 +24,13 @@ export default class LoginScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.showForm = this.showForm.bind(this)
     this.state = {
       code : "",
       email : "",
       password : "",
-      message:""
+      message:"",
+      form : false
     }
    }
 
@@ -44,6 +45,87 @@ export default class LoginScreen extends React.Component {
   componentDidMount(){
     ServerConnection.places.getCompaniesList()
     ServerConnection.places.getCampusList()
+  }
+
+  showForm() {
+    let { navigate } = this.props.navigation;
+    if (!this.state.form){
+      return (
+        <View style={{marginTop : 30, marginBottom : 30}}>
+          <Button
+            title=' I have an account ' 
+            onPress={() => this.setState({form : true})}
+            icon={{name: 'account-circle'}}
+            buttonStyle={{width: 200}}
+            backgroundColor='#c0392b'
+          />
+          <Button
+            small
+            icon={{name: 'accessibility'}}
+            onPress={() =>{
+              navigate('Signup')
+            }}
+            title='Create a new account' 
+            buttonStyle={{marginTop : 15,width: 200}}
+            backgroundColor='#2980b9'
+            />
+          <Button
+            small
+            icon={{name: 'verified-user'}}
+            onPress={() =>{
+              navigate('WebSignup')
+            }}
+            title='Smart Security Signup' 
+            buttonStyle={{marginTop : 15, width: 200}}
+            backgroundColor='#2c3e50'
+            />
+        </View>
+      )
+    }else {
+      return (
+      <View style={{alignItems: 'center',
+	    justifyContent: 'center', width: 250}} >
+        <Icon
+          reverse
+          onPress={() => this.setState({form : false})}
+          name='arrow-back'
+          color='#c0392b'
+        />
+        <TextInput
+          ref={'Email'}
+          style={styles.input}
+          keyboardType="email-address"
+          placeholder="Email"
+          placeholderTextColor="white"
+          selectionColor="#3498db"
+          onChangeText={this.updateEmail}
+          value={this.state.email}
+        />
+
+        <TextInput
+          ref={'password'}
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="white"
+          onChangeText={this.updatePassword}
+          secureTextEntry={true}
+          value={this.state.password}
+        />
+
+        <Text style={{
+          color : 'red',
+          fontWeight:'bold',
+          borderColor : 'red'
+        }}>{this.state.message}</Text>
+          <Button
+            small
+              title='Login' 
+              onPress={this.onLogin.bind(this)}
+              backgroundColor='#c0392b'
+          />
+      </View>
+      )
+    }
   }
    
   async onLogin () { 
@@ -88,47 +170,8 @@ export default class LoginScreen extends React.Component {
                   source={require('../images/logoCircle.png')}
                 />
 
-              <TextInput
-                ref={'Email'}
-                style={styles.input}
-                keyboardType="email-address"
-                placeholder="Email"
-                placeholderTextColor="white"
-                selectionColor="#3498db"
-                onChangeText={this.updateEmail}
-                value={this.state.email}
-              />
-
-              <TextInput
-                ref={'password'}
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor="white"
-                onChangeText={this.updatePassword}
-                secureTextEntry={true}
-                value={this.state.password}
-              />
-
-              <Text style={{
-                color : 'red',
-                fontWeight:'bold',
-                borderColor : 'red'
-              }}>{this.state.message}</Text>
-              
-              <Button
-                title='Login' 
-                onPress={this.onLogin.bind(this)}
-                color='#e74c3c'
-                style={styles.button}
-              />
-
-              <Text 
-                onPress={() =>{
-                  navigate('Signup')
-                }}
-                style={{color:'#ecf0f1', fontWeight: 'bold', marginTop : 40,textDecorationLine:'underline'}}>
-                Create a new Account
-              </Text>
+              {/**/}
+              {this.showForm()}
               
               <Image 
                 style={styles.backImage}
