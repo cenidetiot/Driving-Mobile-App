@@ -31,7 +31,7 @@ export default class SignupScreen extends Component {
       name:"",
       lastname:"",
       email:"",
-      username:"",
+      address:"",
       aliasuser:"",
       password:"",
       companies:[],
@@ -60,7 +60,7 @@ export default class SignupScreen extends Component {
       name: this.state.name,
       lastName:this.state.lastname,
       email:this.state.email,
-      userName:this.state.username,
+      address:this.state.address,
       aliasUser: this.state.aliasuser,
       password: this.state.password,
     } 
@@ -91,7 +91,7 @@ export default class SignupScreen extends Component {
           }}
         />
 		    <ScrollView style={styles.container}>
-           <Text style={styles.text}>Company</Text>
+           <Text style={styles.text}>Affiliation</Text>
             <Picker
               selectedValue={this.state.company}
               onValueChange={(itemValue, itemIndex) => this.setState({company: itemValue})}>
@@ -101,7 +101,7 @@ export default class SignupScreen extends Component {
             </Picker>
             <Text style={styles.text}>ID</Text>
            <TextInput value={this.state.id} onChangeText={(text) => this.setState({id:text})}/>  
-           <Text style={styles.text}>Name</Text>
+           <Text style={styles.text}>First Name</Text>
            <TextInput value={this.state.name} onChangeText={(text) => this.setState({name:text})}/> 
            <Text style={styles.text}>Last name</Text>
            <TextInput value={this.state.lastname} onChangeText={(text) => this.setState({lastname:text})}/>   
@@ -109,8 +109,8 @@ export default class SignupScreen extends Component {
            <TextInput value={this.state.email} keyboardType="email-address" onChangeText={(text) => this.setState({email:text})}/>  
            <Text style={styles.text}>Phone Number</Text>
            <TextInput value={this.state.phonenumber} keyboardType="numeric" onChangeText={(text) => this.setState({phonenumber:text})}/>   
-           <Text style={styles.text}>User Name</Text>
-           <TextInput value={this.state.username} onChangeText={(text) => this.setState({username:text})}/>
+           <Text style={styles.text}>Address</Text>
+           <TextInput value={this.state.address} onChangeText={(text) => this.setState({address:text})}/>
            <Text style={styles.text}>Alias User</Text>
            <TextInput value={this.state.aliasuser} onChangeText={(text) => this.setState({aliasuser:text})}/>
            <Text style={styles.text}>Password</Text>

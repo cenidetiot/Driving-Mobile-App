@@ -26,7 +26,7 @@ export default class User {
 		        if (response.status === 200){
 		        	
            		ToastAndroid.show("Se ha registrado correctamente" , ToastAndroid.SHORT);
-		          	resolve({response : 200}) 
+		        resolve({response : 200}) 
 				 
 		        }else {
 		           	reject({message : response["_bodyInit"]})

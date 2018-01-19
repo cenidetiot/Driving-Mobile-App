@@ -129,7 +129,7 @@ export default class SpeedScreen extends Component {
         </View>
           <Text style={{color: 'white'}}>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
           <Text style={{color: 'white'}}>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
-          <Text>{this.state.aceleration}</Text>
+          <Text style={{color: 'white', fontWeight:'bold'}} >{this.state.aceleration}</Text>
 
           <MyFloatButton navigate={navigate}/>
         </View>
