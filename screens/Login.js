@@ -124,8 +124,7 @@ export default class LoginScreen extends React.Component {
 
               <Text 
                 onPress={() =>{
-                  navigate('WebSignup')
-
+                  navigate('Signup')
                 }}
                 style={{color:'#ecf0f1', fontWeight: 'bold', marginTop : 40,textDecorationLine:'underline'}}>
                 Create a new Account

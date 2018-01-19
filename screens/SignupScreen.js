@@ -28,8 +28,8 @@ export default class SignupScreen extends Component {
       id:"",
     	company:"",
       phonenumber:"",
-      name:"",
-      lastname:"",
+      first_name:"",
+      last_name:"",
       email:"",
       address:"",
       aliasuser:"",
@@ -53,18 +53,31 @@ export default class SignupScreen extends Component {
   }
 
   onButtonPress(){
-    let me = {
-      id: `${this.state.id}`,
-      refCompany:this.state.company,
-      phoneNumber: [this.state.phonenumber],
-      name: this.state.name,
-      lastName:this.state.lastname,
-      email:this.state.email,
-      address:this.state.address,
-      aliasUser: this.state.aliasuser,
-      password: this.state.password,
-    } 
-    //this.setState({message : JSON.stringify(me)})
+    let me  = {
+      "first_name": this.state.first_name,
+      "last_name": this.state.last_name,
+      "email": this.state.email,
+      "password": this.state.password,
+      "registration_key": "",
+      "reset_password_key": "",
+      "registration_id": "",
+      "refaffiliation": this.state.company,
+      "refusercontact": "",
+      "aliasuser": this.state.aliasuser,
+      "refzone": "",
+      "phonenumber": this.state.phonenumber,
+      "refvehicles": "",
+      "refsubzone": "",
+      "status": "",
+      "departuretime": "",
+      "refdevices": "",
+      "address": this.state.address,
+      "datemodified": "",
+      "datecreated": "",
+      "checkintime": "",
+      "id": `${this.state.id}`
+  }
+    this.setState({message : JSON.stringify(me)})
     ServerConnection.user.signUp(me)
     let backAction = NavigationActions.back()
     this.props.navigation.dispatch(backAction)
@@ -102,9 +115,9 @@ export default class SignupScreen extends Component {
             <Text style={styles.text}>ID</Text>
            <TextInput value={this.state.id} onChangeText={(text) => this.setState({id:text})}/>  
            <Text style={styles.text}>First Name</Text>
-           <TextInput value={this.state.name} onChangeText={(text) => this.setState({name:text})}/> 
+           <TextInput value={this.state.first_name} onChangeText={(text) => this.setState({first_name:text})}/> 
            <Text style={styles.text}>Last name</Text>
-           <TextInput value={this.state.lastname} onChangeText={(text) => this.setState({lastname:text})}/>   
+           <TextInput value={this.state.last_name} onChangeText={(text) => this.setState({last_name:text})}/>   
            <Text style={styles.text}>Email</Text>
            <TextInput value={this.state.email} keyboardType="email-address" onChangeText={(text) => this.setState({email:text})}/>  
            <Text style={styles.text}>Phone Number</Text>
@@ -116,7 +129,7 @@ export default class SignupScreen extends Component {
            <Text style={styles.text}>Password</Text>
            <TextInput 
                 secureTextEntry={true} value={this.state.password} onChangeText={(text) => this.setState({password:text})}/>
-
+            
            <Button title="Sign Up" onPress={this.onButtonPress.bind(this)}/>
            <Text>{this.state.message}</Text>
         </ScrollView>
