@@ -74,10 +74,9 @@ export default class SignupScreen extends Component {
       "address": this.state.address,
       "datemodified": "",
       "datecreated": "",
-      "checkintime": "",
-      "id": `${this.state.id}`
+      "checkintime": ""
   }
-    this.setState({message : JSON.stringify(me)})
+    //this.setState({message : JSON.stringify(me)})
     ServerConnection.user.signUp(me)
     let backAction = NavigationActions.back()
     this.props.navigation.dispatch(backAction)
@@ -112,8 +111,7 @@ export default class SignupScreen extends Component {
                   <Picker.Item key={comp._id} label={comp.name} value={comp.name} />
                 ))}
             </Picker>
-            <Text style={styles.text}>ID</Text>
-           <TextInput value={this.state.id} onChangeText={(text) => this.setState({id:text})}/>  
+            
            <Text style={styles.text}>First Name</Text>
            <TextInput value={this.state.first_name} onChangeText={(text) => this.setState({first_name:text})}/> 
            <Text style={styles.text}>Last name</Text>

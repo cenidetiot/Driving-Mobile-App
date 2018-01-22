@@ -22,8 +22,8 @@ export default class Nav extends Component {
   componentDidMount() {
     let t  = this
     AsyncStorage.getItem('userdata').then((value) =>{
-      t.setState({user : `${JSON.parse(value).name} ${JSON.parse(value).lastName}`})
-      let user = JSON.parse(value).name
+      let data = JSON.parse(value)
+      t.setState({user : `${data.first_name} ${data.last_name}` })
     })
   }
   logOut () {

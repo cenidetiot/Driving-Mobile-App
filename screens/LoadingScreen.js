@@ -18,13 +18,9 @@ export default class LoadingScreen extends Component {
           this.props.navigation.dispatch(resetAction);
         }else{
 
-        	ServerConnection.user.getUserData()
-          ServerConnection.contact.getUserContact()
+        	
           ServerConnection.places.getCampusList()
-          AsyncStorage.getItem('userdata').then((userdata) =>{
-          let data  = JSON.parse(userdata)
-            //NgsiModule.InitDevice(data.idUser);
-          })	
+
           let resetAction = NavigationActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({ routeName: 'Home' })],

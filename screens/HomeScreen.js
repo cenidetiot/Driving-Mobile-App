@@ -35,26 +35,21 @@ export default class HomeScreen extends Component {
       message : "No te encuentras en ningun campus",
       campus : null,
       speed: null,
-      aceleration : null
+      aceleration : null,
+      id : ""
 
     }
   } 
   
   componentDidMount(){
     let t = this
-    /*SensorManager.startAccelerometer(100); // To start the accelerometer with a minimum delay of 100ms between events.
-    DeviceEventEmitter.addListener('Accelerometer', function (data) {
-      t.setState({aceleration: data.x + data.y + data.z})
-    });
 
-    DeviceEventEmitter.addListener('speed', function(data) {
-      t.setState({speed: data})
-    });*/
-    
+    /*AsyncStorage.getItem('userdata').then((userdata) =>{
+      t.setState({id : userdata})
+    })*/
 
-    AsyncStorage.getItem('userdata').then((userdata) =>{
-      let data  = JSON.parse(userdata)
-      NgsiModule.InitDevice(data.id);
+    AsyncStorage.getItem('userid').then((userid) =>{
+      NgsiModule.InitDevice(userid);
     })
 
     AsyncStorage.getItem('token').then((token) =>{
@@ -144,6 +139,7 @@ export default class HomeScreen extends Component {
           <View style={styles.cardContainer}>
           <Text>{this.state.aceleration}</Text>
             {this.state.campus ? this.isInside(): this.isOutside()}
+          <Text>  {this.state.id} </Text>
           </View>
           <MyFloatButton navigate={navigate}/>
         </View>

@@ -27,8 +27,8 @@ export default class LoginScreen extends React.Component {
     this.showForm = this.showForm.bind(this)
     this.state = {
       code : "",
-      email : "",
-      password : "",
+      email : "mkpalacio@gmail.com",
+      password : "Inaoe2017",
       message:"",
       form : false
     }
@@ -45,6 +45,7 @@ export default class LoginScreen extends React.Component {
   componentDidMount(){
     ServerConnection.places.getCompaniesList()
     ServerConnection.places.getCampusList()
+
   }
 
   showForm() {
@@ -142,11 +143,11 @@ export default class LoginScreen extends React.Component {
     if (!errParams){
       ServerConnection.user.login(this.state.email,this.state.password)
       .then(async () => {
-        
         AsyncStorage.getItem('fcmtoken').then((value) =>{
           ServerConnection.fire.sendFcmToken(value)
         })
-        
+        AsyncStorage.setItem('userid', t.state.email)
+        await ServerConnection.user.getUserData()
         t.props.navigation.navigate('Loading')
       })
       .catch((err) => {

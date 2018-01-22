@@ -1,6 +1,8 @@
 import {AsyncStorage ,ToastAndroid} from 'react-native'
 import routes from '../../utils/routes'
 import config from '../../utils/config'
+//var _ip = "http://10.0.0.7:4005"
+var _ip = "https://smartsdk-web-service.herokuapp.com/api"
 
 export default class User {
 
@@ -13,7 +15,7 @@ export default class User {
 		let route = routes.user
 
 		let promise = new Promise((resolve, reject) => {
-			fetch(`http://${ip}${route}`, {
+			fetch(`${_ip}/user`, {
 		        method: 'POST',
 		        headers: {
 		          'Accept': 'application/json',
@@ -45,7 +47,7 @@ export default class User {
 		let ip = config.ip
 		let route = routes.login
 		let promise = new Promise((resolve, reject) => {
-			fetch(`http://${ip}${route}`, {
+			fetch(`${_ip}/login`, {
 		        method: 'POST',
 		        headers: {
 		          'Accept': 'application/json',
@@ -58,8 +60,9 @@ export default class User {
 		    })
 		    .then((response) => {
 		        if (response.status === 200){
-		         	AsyncStorage.setItem('token', JSON.parse(response["_bodyInit"]).token)
-		          	AsyncStorage.setItem('userid', JSON.parse(response["_bodyInit"]).id)
+					 AsyncStorage.setItem('token', JSON.parse(response["_bodyInit"]).token)
+					 
+					 ToastAndroid.show(response["_bodyInit"] , ToastAndroid.SHORT);
 		          	resolve({response : 200}) 
 		        }else {
 		           	reject({message : response["_bodyInit"]})
@@ -78,9 +81,9 @@ export default class User {
 	   	let ip = config.ip
 		let route = routes.user
 		let promise = new Promise((resolve, reject) => {
-		    AsyncStorage.getItem('userid').then((value) =>{
+		    AsyncStorage.getItem('userid').then(async (value) =>{
 		    	if (value !== null) {
-		       	    fetch(`http://${ip}${route}${value}`, {
+		       	    await fetch(`${_ip}/user?email=${value}`, {
 		         	   method: 'GET',
 		            	headers: {
 		               		'Accept': 'application/json',
@@ -90,23 +93,28 @@ export default class User {
 		          	})
 		          	.then((response) => {
 		            	if (response.status === 200){
-		              		AsyncStorage.setItem('userdata', response["_bodyInit"] )
-		              		resolve({response : 200}) 
+							let data = JSON.parse(response["_bodyInit"])
+							AsyncStorage.setItem('userdata', response["_bodyInit"] )
+
+							ToastAndroid.show(response["_bodyInit"] , ToastAndroid.SHORT);
+							resolve({response : 200}) 
 		            	}else {
-		            		reject({message : response["_bodyInit"]})
+							reject({message : response["_bodyInit"]})
+							ToastAndroid.show(response["_bodyInit"] , ToastAndroid.SHORT);
+							
 		            	}
 		          	})
-		        }else {reject({message : "id no encontrado"})}
+		        }else {reject({message : "Email no encontrado"})}
 		    })
 		})
 		return promise
 	}
 
-	async updateUserData(body, id ){
+	async updateUserData(body, id){
 		let ip = config.ip
 		let route = routes.user
 		let promise = new Promise((resolve, reject) => {
-			fetch(`http://${ip}${route}${id}`, {
+			fetch(`${_ip}/user?id=${id}`, {
 		        method: 'PUT',
 		        headers: {
 		          'Accept': 'application/json',

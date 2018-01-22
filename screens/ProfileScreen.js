@@ -28,40 +28,40 @@ export default class ProfileScreen extends Component {
     this.onPress = this.onPress.bind(this)
     this.state = {
       id:"",
-      company:"",
+      refaffiliation:"",
       phonenumber:"",
-      name:"",
-      lastname:"",
+      first_name:"",
+      last_name:"",
       email:"",
-      username:"",
+      address:"",
       aliasuser:"",
       password:"",
       companies:[],
       message : ""
     }
-  } 
-  
+  }   
   componentDidMount(){ 
     let t = this
     AsyncStorage.getItem('companieslist').then((companies) =>{
       t.setState( { companies : JSON.parse(JSON.parse(companies))})
     })
-     AsyncStorage.getItem('userdata').then((userdata) =>{
+
+    AsyncStorage.getItem('userdata').then((userdata) =>{
       let data  = JSON.parse(userdata)
       let newState = {
-        id:data.id,
-        company:data.refCompany,
-        phonenumber:data.phoneNumber[0],
-        name:data.name,
-        lastname:data.lastName,
+        id : data.id,
+        refaffiliation : data.refaffiliation,
+        phonenumber:data.phonenumber,
+        first_name:data.first_name,
+        last_name:data.last_name,
         email:data.email,
-        username:data.userName,
-        aliasuser:data.aliasUser,
-        password:data.password
+        address:data.address,
+        aliasuser:data.aliasuser,
+        password: "*******"
       }
       t.setState( newState )
     })
-    ServerConnection.contact.getUserContact()
+    //ServerConnection.contact.getUserContact()
 
   }
 
@@ -72,14 +72,13 @@ export default class ProfileScreen extends Component {
 
   async onUpdateUserData(){
     let me = {
-      id: this.state.id,
-      refCompany:this.state.company,
-      phoneNumber: [this.state.phonenumber],
-      name: this.state.name,
-      lastName:this.state.lastname,
+      refaffiliation :this.state.refaffiliation ,
+      phonenumber: this.state.phonenumber,
+      first_name: this.state.first_name,
+      last_name:this.state.last_name,
       email:this.state.email,
-      userName:this.state.username,
-      aliasUser: this.state.aliasuser,
+      address:this.state.address,
+      aliasuser: this.state.aliasuser,
       password: this.state.password,
     } 
     //this.setState({message : JSON.stringify(me)})
@@ -122,28 +121,26 @@ export default class ProfileScreen extends Component {
               {this.state.companies.map((comp) => (
                   <Picker.Item key={comp._id} label={comp.name} value={comp.name} />
                 ))}
-            </Picker>
-            <Text style={styles.text}>ID</Text>
-           <TextInput value={this.state.id} onChangeText={(text) => this.setState({id:text})}/>  
-           <Text style={styles.text}>Name</Text>
-           <TextInput value={this.state.name} onChangeText={(text) => this.setState({name:text})}/> 
+            </Picker> 
+           <Text style={styles.text}>First Name</Text>
+           <TextInput value={this.state.first_name} onChangeText={(text) => this.setState({first_name:text})}/> 
            <Text style={styles.text}>Last name</Text>
-           <TextInput value={this.state.lastname} onChangeText={(text) => this.setState({lastname:text})}/>   
+           <TextInput value={this.state.last_name} onChangeText={(text) => this.setState({last_name:text})}/>   
            <Text style={styles.text}>Email</Text>
            <TextInput value={this.state.email} keyboardType="email-address" onChangeText={(text) => this.setState({email:text})}/>  
            <Text style={styles.text}>Phone Number</Text>
            <TextInput value={this.state.phonenumber} keyboardType="numeric" onChangeText={(text) => this.setState({phonenumber:text})}/>   
-           <Text style={styles.text}>User Name</Text>
-           <TextInput value={this.state.username} onChangeText={(text) => this.setState({username:text})}/>
+           <Text style={styles.text}>Address</Text>
+           <TextInput value={this.state.address} onChangeText={(text) => this.setState({address:text})}/>
            <Text style={styles.text}>Alias User</Text>
            <TextInput value={this.state.aliasuser} onChangeText={(text) => this.setState({aliasuser:text})}/>
            <Text style={styles.text}>Password</Text>
            <TextInput 
                 secureTextEntry={true} value={this.state.password} onChangeText={(text) => this.setState({password:text})}/>
 
-            <View style={{flex: 1, flexDirection: 'row',justifyContent: 'space-between',}}>
+            <View style={{flex: 1, flexDirection: 'row',justifyContent: 'center',}}>
               <Button title="Update Profile " style={{flex: 1}} onPress={this.onUpdateUserData.bind(this)}/>
-              <Button title="Update Contact" style={{flex: 1}} onPress={() => navigate('UserContact', {id : this.state.id})}/>
+              {/*<Button title="Update Contact" style={{flex: 1}} onPress={() => navigate('UserContact', {id : this.state.id})}/>*/}
             </View>
            <Text>{this.state.message}</Text>
         </ScrollView>
