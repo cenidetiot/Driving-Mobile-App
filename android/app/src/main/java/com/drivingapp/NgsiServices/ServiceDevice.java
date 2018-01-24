@@ -144,7 +144,7 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
 
     public Device createDevice(Double latitudeGPS, Double longitudeGPS){
         Device device = new Device();
-        device.setId("Device_"+deviceProperties.getAndroidId(context));
+        device.setId("Device_Smartphone_"+deviceProperties.getAndroidId(context));
         device.getCategory().setValue("smartphone");
         device.getOsVersion().setValue(deviceProperties.getOSVersion());
         device.getBatteryLevel().setValue(deviceProperties.getBatteryLevel(context));

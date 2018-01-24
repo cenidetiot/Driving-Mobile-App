@@ -49,6 +49,7 @@ export default class HomeScreen extends Component {
     })*/
 
     AsyncStorage.getItem('userid').then((userid) =>{
+      NgsiModule.InitDeviceModel();
       NgsiModule.InitDevice(userid);
     })
 
