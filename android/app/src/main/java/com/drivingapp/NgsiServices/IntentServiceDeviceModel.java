@@ -7,6 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import www.fiware.org.ngsi.controller.ControllerSQLite;
 import www.fiware.org.ngsi.controller.DeviceResources;
 import www.fiware.org.ngsi.datamodel.entity.DeviceModel;
@@ -47,6 +51,8 @@ public class IntentServiceDeviceModel extends IntentService implements DeviceRes
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        Date date = new Date();
+        DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         //Obteniendo los datos para cargarlo en el DeviceModel
         deviceModel = new DeviceModel();
         deviceModel.setId("DeviceModel_"+functions.getReplaceParent(deviceProperties.getBrand())+"_"+functions.getReplaceParent(deviceProperties.getModel()));
@@ -54,7 +60,7 @@ public class IntentServiceDeviceModel extends IntentService implements DeviceRes
         deviceModel.getBrandName().setValue(deviceProperties.getBrand());
         deviceModel.getModelName().setValue(functions.getReplaceParent(deviceProperties.getModel()));
         deviceModel.getManufacturerName().setValue(deviceProperties.getManufacturer());
-        deviceModel.getDateCreated().setValue(functions.getDataTime());
+        deviceModel.getDateCreated().setValue(""+formatDate.format(date));
 
         try {
             deviceResources.createEntity(context, deviceModel.getId(),deviceModel);

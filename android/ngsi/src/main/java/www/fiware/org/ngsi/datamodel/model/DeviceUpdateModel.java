@@ -2,6 +2,7 @@ package www.fiware.org.ngsi.datamodel.model;
 
 import java.io.Serializable;
 
+import www.fiware.org.ngsi.datamodel.datatypes.DateTimeObject;
 import www.fiware.org.ngsi.datamodel.datatypes.LocationPointObject;
 import www.fiware.org.ngsi.datamodel.datatypes.NumberObject;
 import www.fiware.org.ngsi.datamodel.datatypes.TextObject;
@@ -16,7 +17,7 @@ public class DeviceUpdateModel implements Serializable {
     private TextObject category;
     private TextObject osVersion;
     private NumberObject batteryLevel;
-    private TextObject dateModified;
+    private DateTimeObject dateModified;
     private TextObject ipAddress;
     private LocationPointObject location;
     private NumberObject latitude;
@@ -32,7 +33,7 @@ public class DeviceUpdateModel implements Serializable {
         category = new TextObject();
         osVersion = new TextObject();
         batteryLevel = new NumberObject();
-        dateModified = new TextObject();
+        dateModified = new DateTimeObject();
         ipAddress = new TextObject();
         location = new LocationPointObject();
         latitude = new NumberObject();
@@ -69,11 +70,11 @@ public class DeviceUpdateModel implements Serializable {
         this.batteryLevel = batteryLevel;
     }
 
-    public TextObject getDateModified() {
+    public DateTimeObject getDateModified() {
         return dateModified;
     }
 
-    public void setDateModified(TextObject dateModified) {
+    public void setDateModified(DateTimeObject dateModified) {
         this.dateModified = dateModified;
     }
 

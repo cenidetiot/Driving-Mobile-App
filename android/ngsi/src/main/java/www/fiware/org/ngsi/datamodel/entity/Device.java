@@ -2,6 +2,7 @@ package www.fiware.org.ngsi.datamodel.entity;
 
 import java.io.Serializable;
 
+import www.fiware.org.ngsi.datamodel.datatypes.DateTimeObject;
 import www.fiware.org.ngsi.datamodel.datatypes.LocationPointObject;
 import www.fiware.org.ngsi.datamodel.datatypes.NumberObject;
 import www.fiware.org.ngsi.datamodel.datatypes.TextObject;
@@ -17,8 +18,8 @@ public class Device implements Serializable {
     private TextObject category;
     private TextObject osVersion;
     private NumberObject batteryLevel;
-    private TextObject dateCreated;
-    private TextObject dateModified;
+    private DateTimeObject dateCreated;
+    private DateTimeObject dateModified;
     private TextObject ipAddress;
     private LocationPointObject location;
     private NumberObject latitude;
@@ -34,8 +35,8 @@ public class Device implements Serializable {
         category = new TextObject();
         osVersion = new TextObject();
         batteryLevel = new NumberObject();
-        dateCreated = new TextObject();
-        dateModified = new TextObject();
+        dateCreated = new DateTimeObject();
+        dateModified = new DateTimeObject();
         ipAddress = new TextObject();
         location = new LocationPointObject();
         latitude = new NumberObject();
@@ -48,7 +49,7 @@ public class Device implements Serializable {
         owner = new TextObject();
     }
 
-    public Device(String id, String type, TextObject category, TextObject osVersion, NumberObject batteryLevel, TextObject dateCreated, TextObject dateModified, TextObject ipAddress, LocationPointObject location, NumberObject latitude, NumberObject longitude, TextObject mnc, TextObject mcc, TextObject macAddress, TextObject refDeviceModel, TextObject serialNumber, TextObject owner) {
+    public Device(String id, String type, TextObject category, TextObject osVersion, NumberObject batteryLevel, DateTimeObject dateCreated, DateTimeObject dateModified, TextObject ipAddress, LocationPointObject location, NumberObject latitude, NumberObject longitude, TextObject mnc, TextObject mcc, TextObject macAddress, TextObject refDeviceModel, TextObject serialNumber, TextObject owner) {
         this.id = id;
         this.type = type;
         this.category = category;
@@ -108,19 +109,19 @@ public class Device implements Serializable {
         this.batteryLevel = batteryLevel;
     }
 
-    public TextObject getDateCreated() {
+    public DateTimeObject getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(TextObject dateCreated) {
+    public void setDateCreated(DateTimeObject dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public TextObject getDateModified() {
+    public DateTimeObject getDateModified() {
         return dateModified;
     }
 
-    public void setDateModified(TextObject dateModified) {
+    public void setDateModified(DateTimeObject dateModified) {
         this.dateModified = dateModified;
     }
 
