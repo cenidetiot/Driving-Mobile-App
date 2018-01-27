@@ -19,17 +19,18 @@ class OCBConnection {
 	}
 	
 	sendAlert(alert) {
-	    	ToastAndroid.showWithGravity( "Enviando Alerta ..." , ToastAndroid.SHORT, ToastAndroid.CENTER);
-	    	let newJson = NGSI.parseEntity(alert)
+	    ToastAndroid.showWithGravity( "Enviando Alerta ..." , ToastAndroid.SHORT, ToastAndroid.CENTER);
+	    let newJson = NGSI.parseEntity(alert)
 		OCB.createEntity(newJson)
 		.then((result) =>{
-		ToastAndroid.showWithGravity( "Alerta enviada correctamente" , ToastAndroid.SHORT, ToastAndroid.CENTER);
+		ToastAndroid.showWithGravity( result, ToastAndroid.SHORT, ToastAndroid.CENTER);
 		})
 		.catch((err) => {
 		ToastAndroid.showWithGravity( JSON.stringify(err) , ToastAndroid.SHORT, ToastAndroid.CENTER);
 		})
 		return newJson
 	}
+	
 }
 
 module.exports = new OCBConnection()

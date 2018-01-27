@@ -1,6 +1,7 @@
 import {AsyncStorage ,ToastAndroid} from 'react-native'
 import routes from '../../../config/routes'
 import config from '../../../config/config'
+import Requests from './HTTP/Requests';
 //var _ip = "http://10.0.0.7:4005/api"
 var _ip = "https://smartsdk-web-service.herokuapp.com/api"
 
@@ -13,64 +14,37 @@ export default class User {
 	async signUp(body){
 		let ip = config.ip
 		let route = routes.user
-
 		let promise = new Promise((resolve, reject) => {
-			fetch(`${_ip}/user`, {
-		        method: 'POST',
-		        headers: {
-		          'Accept': 'application/json',
-		          'Content-Type': 'application/json',
-		        },
-		        body: JSON.stringify(body)
-		    })
-		    .then((response) => {
-
-		        if (response.status === 200){
-		        	
-           		ToastAndroid.show("Se ha registrado correctamente" , ToastAndroid.SHORT);
-		        resolve({response : 200}) 
-				 
-		        }else {
-		           	reject({message : response["_bodyInit"]})
-		        }
-		       
-		    })
-		    .catch((err) => {         
-		        reject({message : err})
-		    })
+			Requests.doPost(`${_ip}/user`, body )
+			.then((data) => { 
+				ToastAndroid.show( "Registrado correctamente", ToastAndroid.SHORT);
+				resolve(true)
+			})
+			.catch((error)=>{
+				reject(false)
+				ToastAndroid.show( error, ToastAndroid.SHORT);
+			})
 		})
-
 		return promise
 	}
 
 	async login(user , pass){
 		let ip = config.ip
 		let route = routes.login
-		let promise = new Promise((resolve, reject) => {
-			fetch(`${_ip}/login`, {
-		        method: 'POST',
-		        headers: {
-		          'Accept': 'application/json',
-		          'Content-Type': 'application/json',
-		        },
-		        body: JSON.stringify({
-		          email: user,
-		          password: pass,
-		        })
-		    })
-		    .then((response) => {
-		        if (response.status === 200){
-					 AsyncStorage.setItem('token', JSON.parse(response["_bodyInit"]).token)
-					 
-					 ToastAndroid.show(response["_bodyInit"] , ToastAndroid.SHORT);
-		          	resolve({response : 200}) 
-		        }else {
-		           	reject({message : response["_bodyInit"]})
-		        }
-		    })
-		    .catch((err) => {         
-		        reject({message : err})
-		    })
+		let promise = new Promise( async (resolve, reject) => {
+			await Requests.doPost(`${_ip}/login`,{
+				email: user,
+				password: pass,
+			})
+			.then((data) => { 
+				AsyncStorage.setItem('token', JSON.parse(data).token)
+				ToastAndroid.show(JSON.parse(data).token , ToastAndroid.SHORT);
+				resolve({response : 200}) 
+			})
+			.catch((error)=>{
+				reject({message : error.message})
+				ToastAndroid.show( error.message, ToastAndroid.SHORT);
+			})
 		})
 		return promise
 	}
@@ -83,28 +57,17 @@ export default class User {
 		let promise = new Promise((resolve, reject) => {
 		    AsyncStorage.getItem('userid').then(async (value) =>{
 		    	if (value !== null) {
-		       	    await fetch(`${_ip}/user?email=${value}`, {
-		         	   method: 'GET',
-		            	headers: {
-		               		'Accept': 'application/json',
-		               		'Content-Type': 'application/json',
-		            	   'x-access-token': this.token
-		            	}
-		          	})
-		          	.then((response) => {
-		            	if (response.status === 200){
-							let data = JSON.parse(response["_bodyInit"])
-							AsyncStorage.setItem('userdata', response["_bodyInit"] )
-
-							ToastAndroid.show(response["_bodyInit"] , ToastAndroid.SHORT);
-							resolve({response : 200}) 
-		            	}else {
-							reject({message : response["_bodyInit"]})
-							ToastAndroid.show(response["_bodyInit"] , ToastAndroid.SHORT);
-							
-		            	}
-		          	})
-		        }else {reject({message : "Email no encontrado"})}
+					Requests.doGet(`${_ip}/user?email=${value}`)
+					.then((data) => {
+						AsyncStorage.setItem('userdata', data)
+						ToastAndroid.show(data , ToastAndroid.SHORT);
+						resolve({response : 200}) 
+					})
+					.catch((error)=>{
+						reject({message : error})
+						ToastAndroid.show(error , ToastAndroid.SHORT);
+					})
+				}
 		    })
 		})
 		return promise
@@ -114,21 +77,10 @@ export default class User {
 		let ip = config.ip
 		let route = routes.user
 		let promise = new Promise((resolve, reject) => {
-			fetch(`${_ip}/user?id=${id}`, {
-		        method: 'PUT',
-		        headers: {
-		          'Accept': 'application/json',
-		          'Content-Type': 'application/json',
-		        },
-		        body: JSON.stringify(body)
-		    })
+			Requests.doPut(`${_ip}/user?id=${id}`, body)
 		    .then((response) => {
-		        if (response.status === 200){
-           			ToastAndroid.show("Se ha actualizado correctamente" , ToastAndroid.SHORT);
-		          	resolve({response : 200}) 
-		        }else {
-		           	reject({message : response["_bodyInit"]})
-		        }
+				ToastAndroid.show("Se ha actualizado correctamente" , ToastAndroid.SHORT);
+				resolve({response : 200}) 
 		    })
 		    .catch((err) => {         
 		        reject({message : err})

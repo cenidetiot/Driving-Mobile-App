@@ -5,13 +5,6 @@ import Requests from './HTTP/Requests';
 
 export default class Places {
 
-	constructor () {
-		let t = this
-		AsyncStorage.getItem('token').then((token) =>{
-			t.token = token
-		})
-	}
-
 	getCompaniesList() {
 		let ip = config.ip
 		let route = routes.company

@@ -20,6 +20,7 @@ export default class LoadingScreen extends Component {
         }else{
           ServerConnection.places.getCampusList()
           ServerConnection.places.getSegmentsList()
+          
           let resetAction = NavigationActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({ routeName: 'Home' })],

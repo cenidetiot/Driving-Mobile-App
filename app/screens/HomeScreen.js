@@ -36,19 +36,19 @@ export default class HomeScreen extends Component {
       message : "No te encuentras en ningun campus",
       campus : null,
       speed: null,
-      aceleration : null
+      aceleration : null,
+      data : ""
     }
   } 
   
   componentDidMount(){
     let t = this
 
-    AsyncStorage.getItem('userid').then((userid) =>{
+    AsyncStorage.getItem('userdata').then((data) =>{
+      let user = JSON.parse(data)
       NgsiModule.InitDeviceModel();
-      NgsiModule.InitDevice(userid);
+      NgsiModule.InitDevice(user.id.toString());
     })
-
-    
 
     AsyncStorage.getItem('token').then((token) =>{
       if (token !== null){
@@ -137,8 +137,9 @@ export default class HomeScreen extends Component {
           <View style={styles.cardContainer}>
           <Text>{this.state.aceleration}</Text>
             {this.state.campus ? this.isInside(): this.isOutside()}
-        
+            <Text>{this.state.data}</Text>
           </View>
+          
           <MyFloatButton navigate={navigate}/>
         </View>
 	    </DrawerLayoutAndroid> 

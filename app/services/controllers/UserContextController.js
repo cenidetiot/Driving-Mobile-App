@@ -1,45 +1,23 @@
 import {AsyncStorage ,ToastAndroid} from 'react-native'
 import routes from '../../../config/routes'
 import config from '../../../config/config'
+import Requests from './HTTP/Requests';
 
 export default class UserContext {
 
-	constructor () {
-		let t = this
-		AsyncStorage.getItem('token').then((token) =>{
-			t.token = token
-		})
-	}
-
-	async createUserContext(body ){
+	async createUserContext( body ){
 		let ip = config.ip
 		let route = routes.userContext
-
 		let promise = new Promise((resolve, reject) => {
-			fetch(`http://${ip}${route}`, {
-		        method: 'POST',
-		        headers: {
-		          'Accept': 'application/json',
-		          'Content-Type': 'application/json',
-		        },
-		        body: JSON.stringify(body)
-		    })
-		    .then((response) => {
-
-		        if (response.status === 200){
-
-		          	resolve({response : 200}) 
-				 
-		        }else {
-		           	reject({message : response["_bodyInit"]})
-		        }
-		       
-		    })
-		    .catch((err) => {         
-		        reject({message : err})
-		    })
+			Requests.doPost(`http://${ip}${route}`, body)
+			.then((data) => {
+				resolve(true)
+			})
+			.catch((error)=>{
+				ToastAndroid.show( error, ToastAndroid.SHORT);
+				reject(false)
+			})
 		})
-
 		return promise
 	}
 

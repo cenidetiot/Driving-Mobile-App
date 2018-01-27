@@ -35,6 +35,7 @@ class Requests {
     doPost( url , body ){
         let t = this
         let promise = new Promise((resolve, reject) => {
+
             fetch(url, {
                 method: 'POST',
                 headers: t.headers,
@@ -42,7 +43,7 @@ class Requests {
             })
             .then((response) => {
                 if (response.status === 200){
-                    resolve({response : response["_bodyInit"]}) 
+                    resolve(response["_bodyInit"]) 
                 }else {
                     reject({message : response["_bodyInit"]})
                 }
