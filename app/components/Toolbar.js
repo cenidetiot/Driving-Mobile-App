@@ -4,7 +4,6 @@ import { Toolbar as MaterialToolbar } from 'react-native-material-design';
 import SocketIOClient from 'socket.io-client'
 import { NavigationActions } from 'react-navigation'
 
-import config from '../utils/config'
 
 export default class Toolbar extends Component {
 

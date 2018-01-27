@@ -110,7 +110,6 @@ public class NgsiModule extends ReactContextBaseJavaModule {
     }
   }
 
-  
 
   @ReactMethod
   public void deviceSpeed( // Nueva funcion que envia los datos de velocidad a la vista 
@@ -131,6 +130,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
         .emit(eventName, params);
   }
+
   // Broadcast receiver que recibe las emisiones desde los servicios
   private class ResponseReceiver extends BroadcastReceiver {
     private ResponseReceiver() {

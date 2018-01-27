@@ -20,7 +20,7 @@ import ServerConnection from '../services/ServerConnection'
 
 import style from '../styles/Map'
 
-import config from '../utils/config'
+import config from '../../config/config'
 Mapbox.setAccessToken(config.mapboxToken);
 
 export default class MapScreen extends Component {

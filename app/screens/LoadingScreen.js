@@ -3,13 +3,14 @@ import { View, ActivityIndicator, Text, ToastAndroid, AsyncStorage,StyleSheet} f
 import { NavigationActions } from 'react-navigation'
 
 import ServerConnection from '../services/ServerConnection'
-import NgsiModule from '../NativeModules/NgsiModule';
+import NgsiModule from '../../NativeModules/NgsiModule';
 import style from '../styles/Loading'
 
 export default class LoadingScreen extends Component {
   async componentDidMount() {
       let t = this
        AsyncStorage.getItem('token').then((value) =>{
+
         if (value === null) {
             let resetAction = NavigationActions.reset({
               index: 0,
@@ -17,10 +18,8 @@ export default class LoadingScreen extends Component {
             });
           this.props.navigation.dispatch(resetAction);
         }else{
-
-        	
           ServerConnection.places.getCampusList()
-
+          ServerConnection.places.getSegmentsList()
           let resetAction = NavigationActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({ routeName: 'Home' })],

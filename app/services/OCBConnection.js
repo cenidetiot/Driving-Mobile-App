@@ -2,9 +2,9 @@
 import {AsyncStorage,ToastAndroid} from 'react-native'
 import OCB from 'ocb-sender';
 import NGSI from 'ngsi-parser'
-import NgsiModule from '../NativeModules/NgsiModule';
-import routes from '../utils/routes'
-import config from '../utils/OCBconfig'
+import NgsiModule from '../../NativeModules/NgsiModule';
+import routes from '../../config/routes'
+import config from '../../config/OCBconfig'
 
 class OCBConnection {
 

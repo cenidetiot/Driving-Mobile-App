@@ -5,14 +5,16 @@ import {
   View,
   DrawerLayoutAndroid,
   Alert,
-  Dimensions
+  Dimensions,
+  ToastAndroid,
+  AsyncStorage
 } from 'react-native';
 import { Avatar, TYPO,COLOR,Button } from 'react-native-material-design';
 
 import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
 import MyFloatButton from '../components/MyFloatButton'
-import NgsiModule from '../NativeModules/NgsiModule'
+import NgsiModule from '../../NativeModules/NgsiModule'
 
 import Functions from '../functions/Functions'
 import style from '../styles/Speed'
@@ -38,8 +40,8 @@ export default class SpeedScreen extends Component {
         high: '#e67e22',
         critical: '#c0392b' 
       },
-      maximumAllowedSpeed :2,
-      minimumAllowedSpeed :1,
+      maximumAllowedSpeed :0,
+      minimumAllowedSpeed :0,
       latitude : 0,
       longitude: 0,
       message : "You're driving well",
@@ -49,7 +51,8 @@ export default class SpeedScreen extends Component {
       bottom : '10%',
       exceeded : false,
       vi : 0,
-      aceleration : 0
+      aceleration : 0,
+      id :""
     }
   } 
 
@@ -83,7 +86,20 @@ export default class SpeedScreen extends Component {
 
   componentDidMount(){
     let t = this
+
+    // Obtiene los datos de velocidad maxima y minima
+    AsyncStorage.getItem('segmentslist').then((value) =>{
+      if (value !== null) {
+        list = JSON.parse(JSON.parse(value))
+        road = list[0]
+        t.setState({maximumAllowedSpeed: road.maximumAllowedSpeed,
+           minimumAllowedSpeed: road.minimumAllowedSpeed})
+      }
+    })
+
+    
     setInterval(() =>{
+      //this.setState({id : flow.getLocation()})
       NgsiModule.deviceSpeed((speedMs,speedKs) => {  //Funcion nativa que recibe los parametros de velocidad
         if (speedKs > t.state.maximumAllowedSpeed || t.state.speedKs < t.state.minimumAllowedSpeed ){
           t.setState({circleColor : t.state.circleColors.critical, message: 'You exceeded the limit.'})
@@ -130,6 +146,7 @@ export default class SpeedScreen extends Component {
           <Text style={{color: 'white'}}>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
           <Text style={{color: 'white'}}>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
           <Text style={{color: 'white', fontWeight:'bold'}} >{this.state.aceleration}</Text>
+          <Text>  {this.state.id} </Text>
 
           <MyFloatButton navigate={navigate}/>
         </View>

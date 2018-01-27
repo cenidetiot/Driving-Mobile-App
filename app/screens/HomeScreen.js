@@ -14,10 +14,11 @@ import {
 } from 'react-native';
 import { Avatar, TYPO,COLOR,Button } from 'react-native-material-design';
 
+
 import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
 import MyFloatButton from '../components/MyFloatButton'
-import NgsiModule from '../NativeModules/NgsiModule'
+import NgsiModule from '../../NativeModules/NgsiModule'
 
 import Functions from '../functions/Functions'
 import style from '../styles/Home'
@@ -35,23 +36,19 @@ export default class HomeScreen extends Component {
       message : "No te encuentras en ningun campus",
       campus : null,
       speed: null,
-      aceleration : null,
-      id : ""
-
+      aceleration : null
     }
   } 
   
   componentDidMount(){
     let t = this
 
-    /*AsyncStorage.getItem('userdata').then((userdata) =>{
-      t.setState({id : userdata})
-    })*/
-
     AsyncStorage.getItem('userid').then((userid) =>{
       NgsiModule.InitDeviceModel();
       NgsiModule.InitDevice(userid);
     })
+
+    
 
     AsyncStorage.getItem('token').then((token) =>{
       if (token !== null){
@@ -140,7 +137,7 @@ export default class HomeScreen extends Component {
           <View style={styles.cardContainer}>
           <Text>{this.state.aceleration}</Text>
             {this.state.campus ? this.isInside(): this.isOutside()}
-          <Text>  {this.state.id} </Text>
+        
           </View>
           <MyFloatButton navigate={navigate}/>
         </View>

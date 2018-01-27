@@ -1,0 +1,70 @@
+import {AsyncStorage ,ToastAndroid} from 'react-native'
+import routes from '../../../config/routes'
+import config from '../../../config/config'
+import Requests from './HTTP/Requests';
+
+export default class Places {
+
+	constructor () {
+		let t = this
+		AsyncStorage.getItem('token').then((token) =>{
+			t.token = token
+		})
+	}
+
+	getCompaniesList() {
+		let ip = config.ip
+		let route = routes.company
+
+		Requests.doGet(`http://${ip}${route}`)
+		.then((data) => {
+			AsyncStorage.setItem('companieslist', JSON.stringify(data))
+		})
+		.catch((error)=>{
+			ToastAndroid.show( error, ToastAndroid.SHORT);
+		})
+	}
+
+	getCampusList () {
+		let ip = config.ip
+		let route = routes.campus
+		Requests.doGet(`http://${ip}${route}`)
+		.then((data) => {
+			AsyncStorage.setItem('campuslist', JSON.stringify(data))
+		})
+		.catch((error)=>{
+			ToastAndroid.show( error, ToastAndroid.SHORT);
+		})
+	}
+
+	getZonesList () {
+		let ip = config.ip
+		let route = routes.zones
+
+		Requests.doGet(`http://${ip}${route}`)
+		.then((data) => {
+			AsyncStorage.setItem('zoneslist', JSON.stringify(data));
+		})
+		.catch((error)=>{
+			ToastAndroid.show( error, ToastAndroid.SHORT);
+		})
+	}
+
+	getSegmentsList () {
+		let ip = config.ip
+		let route = routes.zones
+
+		Requests.doGet(`https://smartsdk-web-service.herokuapp.com/api/roadSegment`)
+		.then((data) => {			
+			AsyncStorage.setItem('segmentslist', JSON.stringify(data));
+		})
+		.catch((error)=>{
+			ToastAndroid.show( "Ocurrió un error", ToastAndroid.SHORT); 
+		})
+	}
+
+
+
+}
+
+

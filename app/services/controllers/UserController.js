@@ -1,6 +1,6 @@
 import {AsyncStorage ,ToastAndroid} from 'react-native'
-import routes from '../../utils/routes'
-import config from '../../utils/config'
+import routes from '../../../config/routes'
+import config from '../../../config/config'
 //var _ip = "http://10.0.0.7:4005/api"
 var _ip = "https://smartsdk-web-service.herokuapp.com/api"
 
@@ -47,7 +47,7 @@ export default class User {
 		let ip = config.ip
 		let route = routes.login
 		let promise = new Promise((resolve, reject) => {
-			fetch(`${_ip}/keylogin`, {
+			fetch(`${_ip}/login`, {
 		        method: 'POST',
 		        headers: {
 		          'Accept': 'application/json',

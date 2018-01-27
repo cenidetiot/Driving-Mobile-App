@@ -1,6 +1,6 @@
 import {AsyncStorage ,ToastAndroid} from 'react-native'
-import routes from '../../utils/routes'
-import config from '../../utils/config'
+import routes from '../../../config/routes'
+import config from '../../../config/config'
 
 export default class UserContext {
 

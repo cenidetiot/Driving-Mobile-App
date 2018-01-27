@@ -1,7 +1,6 @@
 
 import {AsyncStorage ,ToastAndroid} from 'react-native'
-import routes from '../utils/routes'
-import config from '../utils/config'
+
 
 import User from './controllers/UserController'
 import Places from './controllers/PlacesController' 
