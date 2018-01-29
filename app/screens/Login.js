@@ -44,12 +44,6 @@ export default class LoginScreen extends React.Component {
       this.setState({ password: password })
   }
 
-  componentDidMount(){
-    ServerConnection.places.getCompaniesList()
-    ServerConnection.places.getCampusList()
-
-  }
-
   showForm() {
     let { navigate } = this.props.navigation;
     if (!this.state.form){
@@ -143,6 +137,7 @@ export default class LoginScreen extends React.Component {
        t.setState({message : "The password you've entered is incorrect"})
     }
     if (!errParams){
+
       ServerConnection.user.login(this.state.email,this.state.password)
       .then(async () => {
         AsyncStorage.getItem('fcmtoken').then((value) =>{
@@ -155,6 +150,7 @@ export default class LoginScreen extends React.Component {
       .catch((err) => {
         t.setState({message : err.message})
       }) 
+
     }
   } 
 

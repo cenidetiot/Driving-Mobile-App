@@ -1,6 +1,5 @@
-import React, {Component} from 'react'
+import React ,{ Component } from 'react'
 import { StackNavigator, NavigationActions } from 'react-navigation'
-import {AsyncStorage,ToastAndroid,Alert} from 'react-native';
 
 import LoginScreen from './screens/Login'
 import MapScreen from './screens/MapScreen'
@@ -14,9 +13,12 @@ import UserContactScreen from './screens/UserContactScreen'
 import SpeedScreen from './screens/SpeedScreen'
 import WebSignUpScreen from './screens/WebSignUpScreen'
 
-import Functions from './functions/Functions'
 
-import ServerConnection from './services/ServerConnection'
+import store from './redux/reducers/index'
+
+store.dispatch({
+  type : 'LOAD_PLACES'
+})
 
 const StackApp = StackNavigator({
   Map: { screen: MapScreen },

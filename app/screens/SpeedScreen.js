@@ -105,9 +105,8 @@ export default class SpeedScreen extends Component {
           t.setState({circleColor : t.state.circleColors.critical, message: 'You exceeded the limit.'})
           t.changeWidth()
           t.getAceleration(speedMs)
-          t.setState({ timeNotAllowed : t.state.timeNotAllowed+=1 })
+          t.setState({ timeNotAllowed : t.state.timeNotAllowed += 1 })
           if (t.state.timeNotAllowed > 5 && !t.state.alertSended ) {
-            //t.sendAlert()
             t.setState({alertSended : true})
           }
         }

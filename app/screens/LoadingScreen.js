@@ -7,6 +7,7 @@ import NgsiModule from '../../NativeModules/NgsiModule';
 import style from '../styles/Loading'
 
 export default class LoadingScreen extends Component {
+  
   async componentDidMount() {
       let t = this
        AsyncStorage.getItem('token').then((value) =>{

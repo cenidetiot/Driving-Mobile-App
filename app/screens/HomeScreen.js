@@ -8,21 +8,23 @@ import {
   Image,
   ToastAndroid,
   Alert,
-  AsyncStorage,
-  TouchableHighlight,
-  DeviceEventEmitter
+  AsyncStorage
 } from 'react-native';
-import { Avatar, TYPO,COLOR,Button } from 'react-native-material-design';
+import { Avatar, TYPO, COLOR, Button } from 'react-native-material-design';
 
+import UserContext from '../UserContext'
 
 import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
 import MyFloatButton from '../components/MyFloatButton'
 import NgsiModule from '../../NativeModules/NgsiModule'
 
+import store from '../redux/reducers/index'
+
 import Functions from '../functions/Functions'
 import style from '../styles/Home'
-import { SensorManager } from 'NativeModules';
+
+//import { SensorManager } from 'NativeModules';
 
 
 export default class HomeScreen extends Component {
@@ -50,47 +52,8 @@ export default class HomeScreen extends Component {
       NgsiModule.InitDevice(user.id.toString());
     })
 
-    AsyncStorage.getItem('token').then((token) =>{
-      if (token !== null){
-        AsyncStorage.removeItem('campus');
-
-        navigator.geolocation.watchPosition((position) =>{ // Funcion que se ejecuta cuando cambia ubicacion  
-
-          AsyncStorage.getItem('campuslist').then((campuslist) =>{
-            let list = JSON.parse(JSON.parse("[" + campuslist + "]"))
-
-            let isInside = null
-
-            list.map((camp) => {
-              if (Functions.PointOnCampus([18.879781, -99.221777],camp.location)){ // Apatzingan  
-                isInside = camp  
-              }
-            })
-
-            if(isInside !== null){
-              t.setState({campus: isInside})
-              AsyncStorage.setItem('campus',JSON.stringify(isInside));
-            }else{
-              t.setState({campus: null})
-              AsyncStorage.removeItem('campus');
-            }
-
-          })
-        },
-        (error) => {
-          Alert.alert('Alert',error.message,
-            [
-              {text: 'ok', onPress: () => console.log('Ask me later pressed')}
-            ],
-            { cancelable: true }
-          )
-          },
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.5 },
-        );
-
-      }else{
-        
-      }
+    store.subscribe(() => {
+      t.setState({campus : store.getState().campus})
     })
   
   }
