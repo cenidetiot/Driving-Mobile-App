@@ -77,10 +77,7 @@ export default class MapScreen extends Component {
           }else{
             if (alerts !== null && alerts !== {}){
 
-              let alertslist = JSON.parse(alerts)
-              //t.setState({message : alerts})
-
-
+              let alertslist = JSON.parse(JSON.parse(alerts))
               alertslist.map((alert) => {
                 annotations.push({
                   coordinates : JSON.parse("[" + alert.location + "]"),

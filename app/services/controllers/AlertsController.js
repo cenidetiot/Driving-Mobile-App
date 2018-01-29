@@ -2,14 +2,9 @@ import {AsyncStorage ,ToastAndroid} from 'react-native'
 import routes from '../../../config/routes'
 import config from '../../../config/config'
 
-export default class Alerts {
+import Requests from './HTTP/Requests';
 
-	constructor () {
-		let t = this
-		AsyncStorage.getItem('token').then((token) =>{
-			t.token = token
-		})
-	}
+export default class Alerts {
 
 	async getAlerts() {
 		let t = this
@@ -18,23 +13,16 @@ export default class Alerts {
 		let promise = new Promise((resolve, reject) => {
 	   		AsyncStorage.getItem('campus').then((campus) =>{
 		        if (campus !== "{}" && campus !== null){
-		        	let camp = JSON.parse(campus)._id
-		        	fetch(`http://${ip}${route}${camp}`, {
-			     	   method: 'GET',
-			        	headers: {
-			           		'Accept': 'application/json',
-			           		'Content-Type': 'application/json',
-			        	   'x-access-token': t.token
-			        	}
-			      	})
-			      	.then((response) => {
-			        	if (response.status === 200){
-			        		AsyncStorage.setItem('alerts',response["_bodyInit"])
-	              			resolve(response["_bodyInit"]) 
-			        	}else {
-			           		reject({message : "Error "+ response.status })
-			        	}
-			      	})
+					let camp = JSON.parse(campus)._id
+					Requests.doGet(`http://${ip}${route}${camp}`)
+					.then((data) => {
+						AsyncStorage.setItem('alerts', JSON.stringify(data))
+						resolve(data) 
+					})
+					.catch((error)=>{
+						reject({message : "Error "+ response.status })
+						ToastAndroid.show( error, ToastAndroid.SHORT);
+					})
 		        }else{
 		        	reject({message : "No se ecuentra en un campus"})
 		        }      

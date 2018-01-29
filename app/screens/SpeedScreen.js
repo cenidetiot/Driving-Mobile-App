@@ -15,7 +15,7 @@ import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
 import MyFloatButton from '../components/MyFloatButton'
 import NgsiModule from '../../NativeModules/NgsiModule'
-
+import OCBConnection from '../services/OCBConnection'
 import Functions from '../functions/Functions'
 import style from '../styles/Speed'
 
@@ -52,6 +52,8 @@ export default class SpeedScreen extends Component {
       exceeded : false,
       vi : 0,
       aceleration : 0,
+      timeNotAllowed : 0,
+      alertSended : false,
       id :""
     }
   } 
@@ -97,16 +99,19 @@ export default class SpeedScreen extends Component {
       }
     })
 
-    
     setInterval(() =>{
-      //this.setState({id : flow.getLocation()})
       NgsiModule.deviceSpeed((speedMs,speedKs) => {  //Funcion nativa que recibe los parametros de velocidad
         if (speedKs > t.state.maximumAllowedSpeed || t.state.speedKs < t.state.minimumAllowedSpeed ){
           t.setState({circleColor : t.state.circleColors.critical, message: 'You exceeded the limit.'})
           t.changeWidth()
           t.getAceleration(speedMs)
+          t.setState({ timeNotAllowed : t.state.timeNotAllowed += 1 })
+          if (t.state.timeNotAllowed > 5 && !t.state.alertSended ) {
+            t.setState({alertSended : true})
+          }
         }
         else {
+          t.setState({ timeNotAllowed : 0, alertSended : false})
           t.setState({circleColor : t.state.circleColors.low, message: "You're driving well", exceeded : false })
         }
         t.setState({speedMs: speedMs, speedKs:speedKs}) // alamacena en el state de la vista
@@ -116,6 +121,40 @@ export default class SpeedScreen extends Component {
       });  
     }, 1000);
   
+  }
+
+  sendAlert(){
+
+    let t = this
+    navigator.geolocation.getCurrentPosition((position) =>{
+    
+      AsyncStorage.getItem('device').then((device) =>{
+
+        let alert = {
+          id : `Alert:${device}:${Date.now()}`,
+          type: "Alert",
+          category: "Traffic",
+          subCategory : "SpeedNotAllowed",
+          location :{
+            type : "geo:point",  
+            value : `${position.coords.latitude} ,${position.coords.longitude}`
+          },
+          dateObserved: new Date(),
+          validFrom: new Date(),
+          validTo: new Date(),
+          description: "Alertas de prueba de velocidad",
+          alertSource: device,
+          severity : 'high'
+        }
+        let newJson = OCBConnection.sendAlert(alert)
+      })
+
+    },
+    (error) => {
+        ToastAndroid.showWithGravity( error.message , ToastAndroid.SHORT, ToastAndroid.CENTER);
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
   }
 
   onPress (){
@@ -146,7 +185,7 @@ export default class SpeedScreen extends Component {
           <Text style={{color: 'white'}}>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
           <Text style={{color: 'white'}}>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
           <Text style={{color: 'white', fontWeight:'bold'}} >{this.state.aceleration}</Text>
-          <Text>  {this.state.id} </Text>
+          <Text>  {this.state.timeNotAllowed} {this.state.alertSended} </Text>
 
           <MyFloatButton navigate={navigate}/>
         </View>
