@@ -22,12 +22,18 @@ public class DeviceUpdateModel implements Serializable {
     private LocationPointObject location;
     private NumberObject latitude;
     private NumberObject longitude;
-    private TextObject mnc;
+    /*private TextObject mnc;
     private TextObject mcc;
-    private TextObject macAddress;
+    private TextObject macAddress;*/
     private TextObject refDeviceModel;
     private TextObject serialNumber;
     private TextObject owner;
+    //Añadieron estas propiedades al dispositivo
+    private NumberObject accuracy;
+    private  NumberObject speedAccuracyms;
+    private NumberObject time;
+    private NumberObject verticalAccuracy;
+
 
     public DeviceUpdateModel(){
         category = new TextObject();
@@ -38,12 +44,16 @@ public class DeviceUpdateModel implements Serializable {
         location = new LocationPointObject();
         latitude = new NumberObject();
         longitude = new NumberObject();
-        mnc = new TextObject();
+        /*mnc = new TextObject();
         mcc = new TextObject();
-        macAddress = new TextObject();
+        macAddress = new TextObject();*/
         refDeviceModel = new TextObject();
         serialNumber = new TextObject();
         owner = new TextObject();
+        accuracy = new NumberObject();
+        speedAccuracyms = new NumberObject();
+        time = new NumberObject();
+        verticalAccuracy = new NumberObject();
     }
 
     public TextObject getCategory() {
@@ -110,7 +120,7 @@ public class DeviceUpdateModel implements Serializable {
         this.longitude = longitude;
     }
 
-    public TextObject getMnc() {
+  /*  public TextObject getMnc() {
         return mnc;
     }
 
@@ -132,7 +142,7 @@ public class DeviceUpdateModel implements Serializable {
 
     public void setMacAddress(TextObject macAddress) {
         this.macAddress = macAddress;
-    }
+    }*/
 
     public TextObject getRefDeviceModel() {
         return refDeviceModel;
@@ -156,5 +166,37 @@ public class DeviceUpdateModel implements Serializable {
 
     public void setOwner(TextObject owner) {
         this.owner = owner;
+    }
+
+    public NumberObject getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(NumberObject accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    public NumberObject getSpeedAccuracyms() {
+        return speedAccuracyms;
+    }
+
+    public void setSpeedAccuracyms(NumberObject speedAccuracyms) {
+        this.speedAccuracyms = speedAccuracyms;
+    }
+
+    public NumberObject getTime() {
+        return time;
+    }
+
+    public void setTime(NumberObject time) {
+        this.time = time;
+    }
+
+    public NumberObject getVerticalAccuracy() {
+        return verticalAccuracy;
+    }
+
+    public void setVerticalAccuracy(NumberObject verticalAccuracy) {
+        this.verticalAccuracy = verticalAccuracy;
     }
 }
