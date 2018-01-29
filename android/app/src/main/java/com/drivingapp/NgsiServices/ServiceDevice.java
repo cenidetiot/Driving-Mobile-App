@@ -55,11 +55,11 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
     Tbl_Data_Temp deviceValidateExists;
     private String owner = "";
     //Obtenga la precisión de velocidad estimada de esta ubicación, en metros por segundo.
-    private float speedAccuracyms;
+    //private float speedAccuracyms;
     //Devuelve la hora UTC de esta solución, en milisegundos desde el 1 de enero de 1970.
     private long time;
     //Obtenga la precisión vertical estimada de esta ubicación, en metros.
-    private float verticalAccuracy;
+    //private float verticalAccuracy;
     //Obtenga la precisión horizontal estimada de esta ubicación, radial, en metros.
     private float accuracy;
 
@@ -109,16 +109,16 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
             speedKmHr = (float)(location.getSpeed() * 3.6);
 
             accuracy = (float)location.getAccuracy();
-            speedAccuracyms = (float)location.getSpeedAccuracyMetersPerSecond();
+            //speedAccuracyms = (float)location.getSpeedAccuracyMetersPerSecond();
             time = (long) location.getTime();
-            verticalAccuracy = (float) location.getVerticalAccuracyMeters();
+            //verticalAccuracy = (float) location.getVerticalAccuracyMeters();
 
             hasSpeed = (boolean) location.hasSpeed();
             if (location != null) {
                 Intent localIntent = new Intent(Constants.SERVICE_CHANGE_LOCATION_DEVICE).putExtra(Constants.DEVICE_GPS_RESULT_SPEED_MS, speedMS)
                         .putExtra(Constants.DEVICE_GPS_RESULT_SPEED_KMHR, speedKmHr);
                 LocalBroadcastManager.getInstance(ServiceDevice.this).sendBroadcast(localIntent);
-                device = createDevice(latitudeGPS, longitudeGPS, time, accuracy, speedAccuracyms, verticalAccuracy);
+                device = createDevice(latitudeGPS, longitudeGPS, time, accuracy);
                 tblTemp.setKeyword(device.getId());
                 //tvLatitud.setText(""+latitudeGPS);
                 //tvLongitud.setText(""+longitudeGPS);
@@ -136,7 +136,7 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
                         //Toast.makeText(getBaseContext(), "Exception Device...!", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    deviceUpdateModel = updateDevice(latitudeGPS, longitudeGPS, time, accuracy, speedAccuracyms, verticalAccuracy);
+                    deviceUpdateModel = updateDevice(latitudeGPS, longitudeGPS, time, accuracy);
                     try {
                         deviceResources.updateEntity(context, device.getId(), deviceUpdateModel);
                     } catch (Exception e) {
@@ -167,7 +167,7 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
     };
 
 
-    public Device createDevice(Double latitudeGPS, Double longitudeGPS, long time, float accuracy, float speedAccuracyms, float verticalAccuracy){
+    public Device createDevice(Double latitudeGPS, Double longitudeGPS, long time, float accuracy){
         Date date = new Date();
         DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         Device device = new Device();
@@ -193,12 +193,12 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
         device.getLongitude().setValue(longitudeGPS);
         device.getTime().setValue(time);
         device.getAccuracy().setValue(accuracy);
-        device.getSpeedAccuracyms().setValue(speedAccuracyms);
-        device.getVerticalAccuracy().setValue(verticalAccuracy);
+        //device.getSpeedAccuracyms().setValue(speedAccuracyms);
+        //device.getVerticalAccuracy().setValue(verticalAccuracy);
         return device;
     }
 
-    public DeviceUpdateModel updateDevice(Double latitudeGPS, Double longitudeGPS, long time, float accuracy, float speedAccuracyms, float verticalAccuracy){
+    public DeviceUpdateModel updateDevice(Double latitudeGPS, Double longitudeGPS, long time, float accuracy){
         Date date = new Date();
         DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         DeviceUpdateModel deviceUpdateModel = new DeviceUpdateModel();
@@ -222,8 +222,8 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
         deviceUpdateModel.getLongitude().setValue(longitudeGPS);
         deviceUpdateModel.getTime().setValue(time);
         deviceUpdateModel.getAccuracy().setValue(accuracy);
-        deviceUpdateModel.getSpeedAccuracyms().setValue(speedAccuracyms);
-        deviceUpdateModel.getVerticalAccuracy().setValue(verticalAccuracy);
+        //deviceUpdateModel.getSpeedAccuracyms().setValue(speedAccuracyms);
+        //deviceUpdateModel.getVerticalAccuracy().setValue(verticalAccuracy);
         return  deviceUpdateModel;
     }
 

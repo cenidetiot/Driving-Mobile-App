@@ -36,7 +36,7 @@ export default class LoadingScreen extends Component {
           AsyncStorage.setItem('device', id)
         },
         (err) => {
-          ToastAndroid.show("Ocurrió un error", ToastAndroid.SHORT);
+          ToastAndroid.show("Ocurrió un error"+id, ToastAndroid.SHORT);
         });
        
   }

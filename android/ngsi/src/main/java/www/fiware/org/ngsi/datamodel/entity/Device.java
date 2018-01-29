@@ -34,9 +34,9 @@ public class Device implements Serializable {
 
     //Añadieron estas propiedades al dispositivo
     private NumberObject accuracy;
-    private  NumberObject speedAccuracyms;
+   // private  NumberObject speedAccuracyms;
     private NumberObject time;
-    private NumberObject verticalAccuracy;
+    //private NumberObject verticalAccuracy;
 
     public Device(){
         category = new TextObject();
@@ -56,16 +56,16 @@ public class Device implements Serializable {
         owner = new TextObject();
 
         accuracy = new NumberObject();
-        speedAccuracyms = new NumberObject();
+        //speedAccuracyms = new NumberObject();
         time = new NumberObject();
-        verticalAccuracy = new NumberObject();
+        //verticalAccuracy = new NumberObject();
 
     }
 
     public Device(String id, String type, TextObject category, TextObject osVersion, NumberObject batteryLevel,
                   DateTimeObject dateCreated, DateTimeObject dateModified, TextObject ipAddress, LocationPointObject location,
                   NumberObject latitude, NumberObject longitude, TextObject refDeviceModel, TextObject serialNumber, TextObject owner,
-                  NumberObject accuracy, NumberObject speedAccuracyms, NumberObject time, NumberObject verticalAccuracy) {
+                  NumberObject accuracy, NumberObject time) {
         this.id = id;
         this.type = type;
         this.category = category;
@@ -84,9 +84,9 @@ public class Device implements Serializable {
         this.serialNumber = serialNumber;
         this.owner = owner;
         this.accuracy = accuracy;
-        this.speedAccuracyms = speedAccuracyms;
+        //this.speedAccuracyms = speedAccuracyms;
         this.time = time;
-        this.verticalAccuracy = verticalAccuracy;
+        //this.verticalAccuracy = verticalAccuracy;
     }
 
     public String getId() {
@@ -233,13 +233,13 @@ public class Device implements Serializable {
         this.accuracy = accuracy;
     }
 
-    public NumberObject getSpeedAccuracyms() {
+   /* public NumberObject getSpeedAccuracyms() {
         return speedAccuracyms;
     }
 
     public void setSpeedAccuracyms(NumberObject speedAccuracyms) {
         this.speedAccuracyms = speedAccuracyms;
-    }
+    }*/
 
     public NumberObject getTime() {
         return time;
@@ -249,11 +249,11 @@ public class Device implements Serializable {
         this.time = time;
     }
 
-    public NumberObject getVerticalAccuracy() {
+    /*public NumberObject getVerticalAccuracy() {
         return verticalAccuracy;
     }
 
     public void setVerticalAccuracy(NumberObject verticalAccuracy) {
         this.verticalAccuracy = verticalAccuracy;
-    }
+    }*/
 }

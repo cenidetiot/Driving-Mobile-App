@@ -30,9 +30,9 @@ public class DeviceUpdateModel implements Serializable {
     private TextObject owner;
     //Añadieron estas propiedades al dispositivo
     private NumberObject accuracy;
-    private  NumberObject speedAccuracyms;
+    //private  NumberObject speedAccuracyms;
     private NumberObject time;
-    private NumberObject verticalAccuracy;
+    //private NumberObject verticalAccuracy;
 
 
     public DeviceUpdateModel(){
@@ -51,9 +51,9 @@ public class DeviceUpdateModel implements Serializable {
         serialNumber = new TextObject();
         owner = new TextObject();
         accuracy = new NumberObject();
-        speedAccuracyms = new NumberObject();
+        //speedAccuracyms = new NumberObject();
         time = new NumberObject();
-        verticalAccuracy = new NumberObject();
+        //verticalAccuracy = new NumberObject();
     }
 
     public TextObject getCategory() {
@@ -176,13 +176,13 @@ public class DeviceUpdateModel implements Serializable {
         this.accuracy = accuracy;
     }
 
-    public NumberObject getSpeedAccuracyms() {
+    /*public NumberObject getSpeedAccuracyms() {
         return speedAccuracyms;
     }
 
     public void setSpeedAccuracyms(NumberObject speedAccuracyms) {
         this.speedAccuracyms = speedAccuracyms;
-    }
+    }*/
 
     public NumberObject getTime() {
         return time;
@@ -192,11 +192,11 @@ public class DeviceUpdateModel implements Serializable {
         this.time = time;
     }
 
-    public NumberObject getVerticalAccuracy() {
+    /*public NumberObject getVerticalAccuracy() {
         return verticalAccuracy;
     }
 
     public void setVerticalAccuracy(NumberObject verticalAccuracy) {
         this.verticalAccuracy = verticalAccuracy;
-    }
+    }*/
 }
