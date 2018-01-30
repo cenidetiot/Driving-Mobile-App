@@ -18,6 +18,34 @@ class Actions {
         })
         return 
     }
+    // LOAD PLACES LISTS 
+    loadCampusList (campuslist) {
+        store.dispatch({
+            type : 'LOAD_CAMPUSLIST',
+            campuslist
+        })
+    }
+
+    loadSubzones (subzones) {
+        store.dispatch({
+            type : 'LOAD_SUBZONES',
+            subzones
+        })
+    }
+
+    loadRoads (roads) {
+        store.dispatch({
+            type : 'LOAD_ROADS',
+            subzones
+        })
+    }
+
+    loadRoadSegments (roadSegments) {
+        store.dispatch({
+            type : 'LOAD_ROADSEGMENTS',
+            roadSegments
+        })
+    }
 }
 
 module.exports = new Actions();

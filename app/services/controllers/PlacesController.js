@@ -2,6 +2,7 @@ import {AsyncStorage ,ToastAndroid} from 'react-native'
 import routes from '../../../config/routes'
 import config from '../../../config/config'
 import Requests from './HTTP/Requests';
+import DBase from '../../functions/DBase'
 
 export default class Places {
 
@@ -23,6 +24,7 @@ export default class Places {
 		let route = routes.campus
 		Requests.doGet(`http://${ip}${route}`)
 		.then((data) => {
+			DBase.save('campuslist', JSON.stringify(data))
 			AsyncStorage.setItem('campuslist', JSON.stringify(data))
 		})
 		.catch((error)=>{
