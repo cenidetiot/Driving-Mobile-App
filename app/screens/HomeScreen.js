@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Avatar, TYPO, COLOR, Button } from 'react-native-material-design';
 
-import UserContext from '../UserContext'
+import UserContext  from '../UserContext'
 
 import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
@@ -45,6 +45,8 @@ export default class HomeScreen extends Component {
   
   componentDidMount(){
     let t = this
+    
+    UserContext.watchContext()
 
     AsyncStorage.getItem('userdata').then((data) =>{
       let user = JSON.parse(data)
@@ -53,7 +55,7 @@ export default class HomeScreen extends Component {
     })
 
     store.subscribe(() => {
-      t.setState({campus : store.getState().campus})
+      t.setState({campus : store.getState().campus, data : store.getState().location})
     })
   
   }

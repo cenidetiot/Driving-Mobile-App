@@ -3,6 +3,31 @@ import store from '../reducers/index'
 
 class Actions {
 
+
+    loadID (id) {
+        store.dispatch({
+            type : 'ASIGN_ID',
+            id
+        })
+        return 
+    }
+
+    loadRefDevice (refDevice) {
+        store.dispatch({
+            type : 'LOAD_REFDEVICE',
+            refDevice
+        })
+        return 
+    }
+
+    changeLocation (location) {
+        store.dispatch({
+            type : 'CHANGE_LOCATION',
+            location
+        })
+        return 
+    }
+
     inCampus (campus) {
         store.dispatch({
             type : 'IN_CAMPUS',

@@ -2,6 +2,8 @@ import {AsyncStorage ,ToastAndroid} from 'react-native'
 import routes from '../../../config/routes'
 import config from '../../../config/config'
 import Requests from './HTTP/Requests';
+
+import Actions from '../../redux/actions/Actions'
 //var _ip = "http://10.0.0.7:4005/api"
 var _ip = "https://smartsdk-web-service.herokuapp.com/api"
 

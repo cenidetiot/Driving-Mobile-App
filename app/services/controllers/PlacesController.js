@@ -4,6 +4,7 @@ import config from '../../../config/config'
 import Requests from './HTTP/Requests';
 import DBase from '../../functions/DBase'
 
+
 export default class Places {
 
 	getCompaniesList() {
@@ -22,9 +23,9 @@ export default class Places {
 	getCampusList () {
 		let ip = config.ip
 		let route = routes.campus
+		ToastAndroid.show( "Obteniendo campus", ToastAndroid.SHORT);
 		Requests.doGet(`http://${ip}${route}`)
 		.then((data) => {
-			DBase.save('campuslist', JSON.stringify(data))
 			AsyncStorage.setItem('campuslist', JSON.stringify(data))
 		})
 		.catch((error)=>{
