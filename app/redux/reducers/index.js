@@ -8,14 +8,19 @@ var initialState = {
   road : {},
   roadSegment : {},
   userContext : {},
-  alerts : []
+  alerts : [],
+  //PLACES LISTS
+  campuslist : [],
+  subzones: [],
+  roads : [],
+  roadSegments : []
 }
 
 var reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'LOAD_PLACES' : 
-      ServerConnection.places.getCompaniesList();
-      ServerConnection.places.getCampusList();
+      //ServerConnection.places.getCompaniesList();
+      //ServerConnection.places.getCampusList();
       return
     case 'IN_CAMPUS':
       AsyncStorage.setItem('campus',JSON.stringify(action.campus));
@@ -55,6 +60,23 @@ var reducer = (state = initialState, action) => {
       return {
         alerts : action.alerts,
       };
+    //LOAD PLACES
+    case 'LOAD_CAMPUSLIST': 
+      return {
+        campuslist : action.campuslist
+      }
+    case 'LOAD_SUBZONES': 
+      return {
+        subzones : action.subzones
+      }
+    case 'LOAD_ROADS': 
+      return {
+        roads : action.roads
+      }
+      case 'LOAD_ROADSEGMENTS': 
+      return {
+        roadSegments : action.roadSegments
+      }
   }
 
 }

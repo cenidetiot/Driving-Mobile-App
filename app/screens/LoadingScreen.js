@@ -19,6 +19,7 @@ export default class LoadingScreen extends Component {
             });
           this.props.navigation.dispatch(resetAction);
         }else{
+          
           ServerConnection.places.getCampusList()
           ServerConnection.places.getSegmentsList()
           
