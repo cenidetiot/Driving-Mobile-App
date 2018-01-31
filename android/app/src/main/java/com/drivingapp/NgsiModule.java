@@ -22,6 +22,8 @@ import www.fiware.org.ngsi.utilities.ApplicationPreferences;
 import www.fiware.org.ngsi.utilities.Constants;
 import www.fiware.org.ngsi.utilities.DevicePropertiesFunctions;
 import www.fiware.org.ngsi.utilities.Functions;
+import android.support.v7.app.AlertDialog;
+import android.content.DialogInterface;
 
 import com.facebook.react.bridge.WritableMap;
 import android.support.annotation.Nullable;
@@ -141,6 +143,39 @@ public class NgsiModule extends ReactContextBaseJavaModule {
     } catch (IllegalViewOperationException e) {
       errorCallback.invoke(e.getMessage());
     }
+  }
+
+  @ReactMethod
+  public void saveValuePreferenceMobilData(boolean value){
+    preferences.saveValuePreferenceBoolean(context, value, Constants.PREFERENCE_MOBILE_DATA_KEY, Constants.PREFERENCE_STATUS_MOBILE_DATA);
+    //Toast.makeText(getReactApplicationContext(), "Save-Value-Offline: "+value, Toast.LENGTH_SHORT).show();
+  }
+
+  @ReactMethod
+  public void getValuePreferenceMobilData(Callback successCallback, Callback errorCallback){
+    boolean status = false;
+    try{
+      status = preferences.getValuePreferenceBoolean(context, Constants.PREFERENCE_MOBILE_DATA_KEY, Constants.PREFERENCE_STATUS_MOBILE_DATA);
+      //Toast.makeText(getReactApplicationContext(), "Get-Value-Offline: "+status, Toast.LENGTH_SHORT).show();
+      successCallback.invoke(status);
+    } catch (IllegalViewOperationException e) {
+      errorCallback.invoke(e.getMessage());
+    }
+  }
+  @ReactMethod
+  private void showGPSDisabledAlert(){
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+    alertDialogBuilder.setMessage("GPS is disabled on the device. Do you want to enable?")
+            .setCancelable(false)
+            .setPositiveButton("Enable GPS",
+                    new DialogInterface.OnClickListener(){
+                      public void onClick(DialogInterface dialog, int id){
+                        Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        context.startActivity(callGPSSettingIntent);
+                      }
+                    });
+    AlertDialog alert = alertDialogBuilder.create();
+    alert.show();
   }
 
 

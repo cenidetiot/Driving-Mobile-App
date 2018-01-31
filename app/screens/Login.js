@@ -20,12 +20,11 @@ import ServerConnection from '../services/ServerConnection'
 import UserContext from '../UserContext'
 import style from '../styles/Login'
 
-
 export default class LoginScreen extends React.Component {
-
   constructor(props) {
     super(props);
     this.showForm = this.showForm.bind(this)
+
     this.state = {
       code : "",
       //email : "mkpalacio@gmail.com",
