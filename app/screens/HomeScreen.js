@@ -55,8 +55,9 @@ export default class HomeScreen extends Component {
     })
 
     store.subscribe(() => {
-      t.setState({campus : store.getState().campus, data : store.getState().location})
+      t.setState({campus : store.getState().campus, data : UserContext.location + UserContext.context})
     })
+
   
   }
 
