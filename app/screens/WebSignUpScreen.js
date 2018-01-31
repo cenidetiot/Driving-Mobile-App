@@ -9,7 +9,7 @@ export default class WebSignupScreen extends Component {
      
     return (
     	<WebView
-              source={{uri: 'https://account.lab.fiware.org/sign_up/'}}
+              source={{uri: 'https://smartsdksecurity.com.mx/user/register?_next=%2Fmulti'}}
             />
       
     )
