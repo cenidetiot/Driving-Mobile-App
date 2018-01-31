@@ -24,8 +24,12 @@ class OCBConnection {
 		return newJson
 	}
 
-	update() {
-
+	update(entity, attr) {
+		var attribute = NGSI.parseAttrs(attr)
+		// Send to ContextBroker 
+		OCB.updateEntityAttrs(entity, attribute)
+		.then((result) => console.log(result))
+		.catch((err) => console.log(err))
 	}
 
 	

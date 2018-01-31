@@ -1,14 +1,16 @@
 import { createStore } from 'redux';
-import {AsyncStorage} from 'react-native';
-import ServerConnection from '../../services/ServerConnection'
+import {AsyncStorage,ToastAndroid} from 'react-native';
 
 var initialState = {
+  id : "",
+  refDevice : "",
+  location : "",
+  alerts : [],
+  //Places
   campus : null,
   subzone : {},
   road : {},
   roadSegment : {},
-  userContext : {},
-  alerts : [],
   //PLACES LISTS
   campuslist : [],
   subzones: [],
@@ -18,14 +20,23 @@ var initialState = {
 
 var reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOAD_PLACES' : 
-      //ServerConnection.places.getCompaniesList();
-      //ServerConnection.places.getCampusList();
-      return
+    case 'ASIGN_ID':
+      return {
+        user : action.id
+      };
+    case 'CHANGE_LOCATION':
+      return {
+        location : action.location
+      };
+    case 'LOAD_REFDEVICE':
+      return {
+        refDevice : action.refDevice
+      };
     case 'IN_CAMPUS':
+      
       AsyncStorage.setItem('campus',JSON.stringify(action.campus));
       return {
-        campus: action.campus,
+        campus: action.campus
       };
     case 'OUT_CAMPUS':
       AsyncStorage.removeItem('campus');
@@ -77,9 +88,13 @@ var reducer = (state = initialState, action) => {
       return {
         roadSegments : action.roadSegments
       }
+    default : 
+      return state
   }
 
 }
+
+
 
 export default createStore(reducer);
 

@@ -15,9 +15,10 @@ import {
   View
 } from 'react-native';
 
-import { Button,Icon } from 'react-native-elements';
-import ServerConnection from '../services/ServerConnection';
-import style from '../styles/Login';
+import { Button,Icon } from 'react-native-elements'
+import ServerConnection from '../services/ServerConnection'
+import UserContext from '../UserContext'
+import style from '../styles/Login'
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -139,11 +140,19 @@ export default class LoginScreen extends React.Component {
 
       ServerConnection.user.login(this.state.email,this.state.password)
       .then(async () => {
-        AsyncStorage.getItem('fcmtoken').then((value) =>{
-          ServerConnection.fire.sendFcmToken(value)
-        })
+
         AsyncStorage.setItem('userid', t.state.email)
         await ServerConnection.user.getUserData()
+        try{
+          AsyncStorage.getItem('fcmtoken').then((value) =>{
+            ServerConnection.fire.sendFcmToken(value)
+            .catch((err)=> console.error(err))
+          })
+          await UserContext.createUserContext()
+        }catch (err) {
+          
+        }
+        
         t.props.navigation.navigate('Loading')
       })
       .catch((err) => {

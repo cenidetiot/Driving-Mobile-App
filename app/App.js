@@ -15,12 +15,6 @@ import WebSignUpScreen from './screens/WebSignUpScreen'
 import SettingScreen from './screens/SettingScreen'
 
 
-import store from './redux/reducers/index'
-
-store.dispatch({
-  type : 'LOAD_PLACES'
-})
-
 const StackApp = StackNavigator({
   Map: { screen: MapScreen },
   Home: { screen: HomeScreen },

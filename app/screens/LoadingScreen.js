@@ -19,20 +19,15 @@ export default class LoadingScreen extends Component {
             });
           this.props.navigation.dispatch(resetAction);
         }else{
-          
-          ServerConnection.places.getCampusList()
-          ServerConnection.places.getSegmentsList()
-          
           let resetAction = NavigationActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({ routeName: 'Home' })],
           });
-
           this.props.navigation.dispatch(resetAction);
         }
-        
       })
-       
+      ServerConnection.places.getCompaniesList();
+      ServerConnection.places.getCampusList();
        NgsiModule.deviceId((id) => {
           AsyncStorage.setItem('device', id)
         },
