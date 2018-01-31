@@ -17,6 +17,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.uimanager.IllegalViewOperationException;
+
+import www.fiware.org.ngsi.utilities.ApplicationPreferences;
 import www.fiware.org.ngsi.utilities.Constants;
 import www.fiware.org.ngsi.utilities.DevicePropertiesFunctions;
 import www.fiware.org.ngsi.utilities.Functions;
@@ -36,11 +38,13 @@ public class NgsiModule extends ReactContextBaseJavaModule {
   private DevicePropertiesFunctions deviceProperties;
   private Functions functions;
   private float speedValue =0;
+  private ApplicationPreferences preferences;
   
   public NgsiModule(ReactApplicationContext reactContext) {
     super(reactContext);
     deviceProperties = new DevicePropertiesFunctions();
     functions = new Functions();
+    preferences = new ApplicationPreferences();
     // Filtro de acciones que serán alertadas
     filter = new IntentFilter(Constants.SERVICE_RUNNING_DEVICE);
     filter.addAction(Constants.SERVICE_RUNNING_DEVICEMODEL);
@@ -120,6 +124,25 @@ public class NgsiModule extends ReactContextBaseJavaModule {
       errorCallback.invoke(e.getMessage());
     }
   }
+
+  @ReactMethod
+  public void saveValuePreferenceOffline(boolean value){
+    preferences.saveValuePreferenceBoolean(context, value, Constants.PREFERENCE_OFFLINE_MODE_KEY, Constants.PREFERENCE_STATUS_OFFLINE_MODE);
+    //Toast.makeText(getReactApplicationContext(), "Save-Value-Offline: "+value, Toast.LENGTH_SHORT).show();
+  }
+
+  @ReactMethod
+  public void getValuePreferenceOffline(Callback successCallback, Callback errorCallback){
+    boolean status = false;
+    try{
+      status = preferences.getValuePreferenceBoolean(context, Constants.PREFERENCE_OFFLINE_MODE_KEY, Constants.PREFERENCE_STATUS_OFFLINE_MODE);
+      //Toast.makeText(getReactApplicationContext(), "Get-Value-Offline: "+status, Toast.LENGTH_SHORT).show();
+      successCallback.invoke(status);
+    } catch (IllegalViewOperationException e) {
+      errorCallback.invoke(e.getMessage());
+    }
+  }
+
 
   private void sendEvent(ReactContext reactContext,
                          String eventName,

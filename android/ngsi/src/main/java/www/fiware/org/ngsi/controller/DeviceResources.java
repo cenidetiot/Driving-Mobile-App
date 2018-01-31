@@ -224,7 +224,7 @@ public class DeviceResources implements HttpPostCreateAsync.ExecRequestPost, Htt
                 }
                 Log.d("Status", "MODE OFFLINE1!");
             } else {
-                if (appPreferences.getValuePreferenceBoolean(context, PREFERENCE_MOBILE_DATA_KEY, PREFERENCE_STATUS_MOBILE_DATA) == false) {
+                if (appPreferences.getValuePreferenceBoolean(context, PREFERENCE_MOBILE_DATA_KEY, PREFERENCE_STATUS_MOBILE_DATA) == true) {
                     if (functions.isNetworkType(context) == "WIFI" || functions.isNetworkType(context) == "MOBILE") {
                         Log.d("Status", "WIFI or MOBILE...!");
                         if (sqlHelper.getByKeywordTempCreate(tblTemp) == null) {
@@ -277,7 +277,7 @@ public class DeviceResources implements HttpPostCreateAsync.ExecRequestPost, Htt
             //Se valida que el vio de los datos almacenados en la DB se envien con datos moviles,
             // si valor es true al enviar los datos se utilizan tanto los datos moviles como la red wifi,
             // por default esta en false eso significa que solo envía los datos cuando se conecta a una red wifi.
-            if (appPreferences.getValuePreferenceBoolean(context, PREFERENCE_MOBILE_DATA_KEY, PREFERENCE_STATUS_MOBILE_DATA) == false) {
+            if (appPreferences.getValuePreferenceBoolean(context, PREFERENCE_MOBILE_DATA_KEY, PREFERENCE_STATUS_MOBILE_DATA) == true) {
                 if (functions.isNetworkType(context) == "WIFI" || functions.isNetworkType(context) == "MOBILE") {
                     Log.d("Status deviceModel", "WIFI or MOBILE...!");
                     cPOSTUPDATEAsync = new HttpPostUpdateAsync(this);

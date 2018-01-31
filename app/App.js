@@ -12,6 +12,7 @@ import SignupScreen from './screens/SignupScreen'
 import UserContactScreen from './screens/UserContactScreen'
 import SpeedScreen from './screens/SpeedScreen'
 import WebSignUpScreen from './screens/WebSignUpScreen'
+import SettingScreen from './screens/SettingScreen'
 
 
 const StackApp = StackNavigator({
@@ -25,7 +26,8 @@ const StackApp = StackNavigator({
   Signup :{screen : SignupScreen},
   UserContact :{screen : UserContactScreen},
   Speed : {screen : SpeedScreen},
-  WebSignup : {screen : WebSignUpScreen}
+  WebSignup : {screen : WebSignUpScreen},
+  Setting: {screen: SettingScreen}
 },
 {
   headerMode : 'none',
