@@ -7,7 +7,8 @@ import {
   Alert,
   Dimensions,
   ToastAndroid,
-  AsyncStorage
+  AsyncStorage,
+  Animated
 } from 'react-native';
 import { Avatar, TYPO,COLOR,Button } from 'react-native-material-design';
 
@@ -26,8 +27,8 @@ export default class SpeedScreen extends Component {
   
   constructor(props) {
     super(props);
-    this.changeWidth = this.changeWidth.bind(this)
     this.getAceleration = this.getAceleration.bind(this)
+    this.spring = this.spring.bind(this)
     this.state = {
 
       speedMs: 0, //Variable de velocidad en metros
@@ -45,41 +46,27 @@ export default class SpeedScreen extends Component {
       latitude : 0,
       longitude: 0,
       message : "You're driving well",
-      width: dim / 2.7,
-      height: dim / 2.7,
-      top : '15%',
-      bottom : '10%',
       exceeded : false,
       vi : 0,
       aceleration : 0,
       timeNotAllowed : 0,
-      alertSended : false,
+      alertSended : "",
       id :""
     }
+    this.springValue = new Animated.Value(.8)
   } 
 
-  changeWidth () {
-    if (this.state.exceeded === false){
-      this.setState({
-        width: dim / 2.3,
-        height: dim / 2.3,
-        top : '5%',
-        bottom : '5%'
-      })
-      let t = this
-      setTimeout(function(){
-        t.setState({
-          width: dim / 2.7,
-          height: dim / 2.7,
-          top : '15%',
-          bottom: '10%',
-          exceeded : true
-        })
-      }, 50); 
-
-    }
-
+  spring () {
+    this.springValue.setValue(1)
+    Animated.spring(
+      this.springValue,
+      {
+        toValue: .8,
+        friction: 1
+      }
+    ).start()
   }
+
   
   getAceleration(speed){
     let aceleration = (speed - this.state.vi) / 1;
@@ -88,7 +75,6 @@ export default class SpeedScreen extends Component {
 
   componentDidMount(){
     let t = this
-
     // Obtiene los datos de velocidad maxima y minima
     AsyncStorage.getItem('segmentslist').then((value) =>{
       if (value !== null) {
@@ -99,42 +85,84 @@ export default class SpeedScreen extends Component {
       }
     })
 
+
     setInterval(() =>{
       NgsiModule.deviceSpeed((speedMs,speedKs) => {  //Funcion nativa que recibe los parametros de velocidad
-        if (speedKs > t.state.maximumAllowedSpeed || t.state.speedKs < t.state.minimumAllowedSpeed ){
-          t.setState({circleColor : t.state.circleColors.critical, message: 'You exceeded the limit.'})
-          t.changeWidth()
-          t.getAceleration(speedMs)
-          t.setState({ timeNotAllowed : t.state.timeNotAllowed += 1 })
-          if (t.state.timeNotAllowed > 5 && !t.state.alertSended ) {
-            t.setState({alertSended : true})
+
+        if ((speedKs > t.state.maximumAllowedSpeed || t.state.speedKs < t.state.minimumAllowedSpeed )){
+          let timeNotAllowed = t.state.timeNotAllowed + 1;
+          if (!t.state.exceeded){
+            t.spring()
           }
+
+          if (timeNotAllowed === 5){
+            t.createAlert()
+          }
+
+          if (timeNotAllowed % 5 === 0 && timeNotAllowed > 5){
+            t.updateAlert()
+          }
+
+          t.setState({ 
+            circleColor : t.state.circleColors.critical,
+            message: 'You exceeded the limit.',
+            exceeded : true,
+            timeNotAllowed : timeNotAllowed
+          })
+          t.getAceleration(speedMs)
+          
         }
         else {
-          t.setState({ timeNotAllowed : 0, alertSended : false})
-          t.setState({circleColor : t.state.circleColors.low, message: "You're driving well", exceeded : false })
+          t.setState({
+            circleColor : t.state.circleColors.low,
+            message: "You're driving well",
+            exceeded : false
+          })
         }
         t.setState({speedMs: speedMs, speedKs:speedKs}) // alamacena en el state de la vista
       },
       (err) => {
-        ToastAndroid.show("Ocurrió un error", ToastAndroid.SHORT);
+        ToastAndroid.show("Ocurrió un error speed", ToastAndroid.SHORT);
       });  
     }, 1000);
   
   }
-
-  sendAlert(){
-
+  updateAlert(){
+    ToastAndroid.show("actualizando", ToastAndroid.SHORT);
     let t = this
     navigator.geolocation.getCurrentPosition((position) =>{
-    
-      AsyncStorage.getItem('device').then((device) =>{
-
+      
         let alert = {
-          id : `Alert:${device}:${Date.now()}`,
+          location :{
+            type : "geo:point",  
+            value : `${position.coords.latitude} ,${position.coords.longitude}`
+          },
+          validTo: new Date()
+        }
+        let newJson = OCBConnection.update(t.state.alertSended,alert)
+      
+    },
+    (error) => {
+        ToastAndroid.showWithGravity( error.message , ToastAndroid.SHORT, ToastAndroid.CENTER);
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+  }
+
+  createAlert(){
+    ToastAndroid.show("creada", ToastAndroid.SHORT);
+    let t = this
+    
+    
+    navigator.geolocation.getCurrentPosition((position) =>{
+      AsyncStorage.getItem('device').then((device) =>{
+        let alertSended = `Alert:${device}:${Date.now()}`;
+        t.setState({alertSended : alertSended})
+        let alert = {
+          id : alertSended,
           type: "Alert",
-          category: "Traffic",
-          subCategory : "SpeedNotAllowed",
+          category: "traffic",
+          subCategory : "UnauthorizedSpeedDetection",
           location :{
             type : "geo:point",  
             value : `${position.coords.latitude} ,${position.coords.longitude}`
@@ -146,9 +174,8 @@ export default class SpeedScreen extends Component {
           alertSource: device,
           severity : 'high'
         }
-        let newJson = OCBConnection.sendAlert(alert)
+        let newJson = OCBConnection.create(alert)
       })
-
     },
     (error) => {
         ToastAndroid.showWithGravity( error.message , ToastAndroid.SHORT, ToastAndroid.CENTER);
@@ -176,16 +203,19 @@ export default class SpeedScreen extends Component {
 	       
         <View style={[styles.container, {backgroundColor : this.state.circleColor}]}>
         <Text style={styles.message}>{this.state.message}</Text>
-        <View style={complement.circleContainer}>
-          <View style={[complement.circle, {width: this.state.width, height : this.state.height, marginTop: this.state.top, marginBottom :this.state.bottom,}]}>
+
+        
+          <Animated.View style={[complement.circle, {transform: [{scale: this.springValue}]}]}>
             <Text style={[styles.speedKm, {color: this.state.circleColor} ]} >{this.state.speedKs.toPrecision(2)} Km/h</Text>
             <Text style={styles.speedm} >{this.state.speedMs.toPrecision(2)} m/s</Text>
-          </View>
-        </View>
+          </Animated.View>
+
           <Text style={{color: 'white'}}>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
           <Text style={{color: 'white'}}>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
           <Text style={{color: 'white', fontWeight:'bold'}} >{this.state.aceleration}</Text>
-          <Text>  {this.state.timeNotAllowed} {this.state.alertSended} </Text>
+      
+          <Text>  {this.state.alertSended} </Text>
+          <Text>  {this.state.timeNotAllowed} </Text>
 
           <MyFloatButton navigate={navigate}/>
         </View>
@@ -206,6 +236,8 @@ const complement = StyleSheet.create({
     justifyContent: 'center' 
   },
   circle :{
+    height : dim / 2,
+    width : dim / 2,
     alignItems:'center', 
     justifyContent: 'center',
     borderRadius: dim/ 2.7,

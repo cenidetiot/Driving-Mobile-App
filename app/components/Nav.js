@@ -51,7 +51,7 @@ export default class Nav extends Component {
             items={[
             {
                 icon: 'transfer-within-a-station',
-                value: 'Speed',
+                value: 'Your Speed',
                 active: this.props.screen === 'Speed',
                 onPress: () => {this.props.navigate('Speed')
                 this.props.onClose()},
@@ -59,7 +59,7 @@ export default class Nav extends Component {
             },
             {
                 icon: 'map',
-                value: 'Campus',
+                value: 'Campus Map',
                 active: this.props.screen === 'Map',
                 onPress: () => {this.props.navigate('Map')
               this.props.onClose()},
@@ -67,7 +67,7 @@ export default class Nav extends Component {
             },
             {
                 icon: 'face',
-                value: 'Profile Settings',
+                value: 'Your Profile',
                 active: this.props.screen === 'Settings',
                 onPress: () => {
                   this.props.navigate('Settings') 

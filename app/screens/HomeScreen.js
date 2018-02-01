@@ -54,11 +54,11 @@ export default class HomeScreen extends Component {
       NgsiModule.InitDevice(user.id.toString());
     })
 
-    store.subscribe(() => {
-      t.setState({campus : store.getState().campus, data : UserContext.location + UserContext.context})
-    })
+    
 
-  
+    store.subscribe(() => {
+      t.setState({campus : store.getState().campus})
+    })
   }
 
   onPress (){
@@ -103,7 +103,7 @@ export default class HomeScreen extends Component {
           <View style={styles.cardContainer}>
           <Text>{this.state.aceleration}</Text>
             {this.state.campus ? this.isInside(): this.isOutside()}
-            <Text>{this.state.data}</Text>
+          <Text>{this.state.data}</Text>
           </View>
           
           <MyFloatButton navigate={navigate}/>

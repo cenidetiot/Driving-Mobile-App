@@ -94,7 +94,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void deviceId(Callback successCallback, Callback errorCallback) {
     try {
-      String  id = "Device__Smartphone_"+deviceProperties.getAndroidId(context);
+      String  id = "Device_Smartphone_"+deviceProperties.getAndroidId(context);
       successCallback.invoke(id);
     } catch (IllegalViewOperationException e) {
       errorCallback.invoke(e.getMessage());

@@ -28,6 +28,7 @@ export default class LoadingScreen extends Component {
       })
       ServerConnection.places.getCompaniesList();
       ServerConnection.places.getCampusList();
+      ServerConnection.places.getSegmentsList();
        NgsiModule.deviceId((id) => {
           AsyncStorage.setItem('device', id)
         },

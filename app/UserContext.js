@@ -33,7 +33,6 @@ class UserContext {
                     })
                 })
             })
-            
 
 
         },(error) => {
@@ -75,7 +74,6 @@ class UserContext {
                 }
                 
             })
-            //OCBConnection.update(t.context,)
             let location = `${position.coords.latitude} ,${position.coords.longitude}`
             t.location = location
             OCBConnection.update(t.context, {
@@ -85,7 +83,6 @@ class UserContext {
                 },
                 dateModified : new Date()
             })
-            //Actions.changeLocation(location)
             
         },
         (error) => {
