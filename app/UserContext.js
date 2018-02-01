@@ -10,34 +10,6 @@ import DBase from './functions/DBase'
 
 class UserContext {
 
-    /*constructor () {
-        
-        this.context = {
-            id : "",
-            type : "UserContext",
-            refUser : "",
-            isActive : true,
-
-
-            refZone : "",
-            refDevice : "",
-            refVehicle : "",
-            
-            dateTimeContext : new Date(),
-            location : {
-                type : "geo:point",  
-                value : ""
-            }
-        };
-        this.watchContext();
-        
-        
-        
-    }*/
-
-
-
-
     createUserContext(){
         let t = this
 
@@ -51,9 +23,7 @@ class UserContext {
                         id : `UserContext:User_${userdata.id}`,
                         type : "UserContext",
                         refUser : `User_${userdata.id}`,
-                        refDevice : device,
-                        refVehicle : "",
-                        isActive : true,
+                        refUserDevice : device,
                         dateCreated : new Date(),
                         dateModified : new Date(),
                         location : {
@@ -63,6 +33,7 @@ class UserContext {
                     })
                 })
             })
+
 
         },(error) => {
             ToastAndroid.showWithGravity( error.message , ToastAndroid.SHORT, ToastAndroid.CENTER);
@@ -78,6 +49,10 @@ class UserContext {
         this.location= ""
         t.campus = null
         Actions.outCampus();
+        AsyncStorage.getItem('userdata').then((user) =>{
+            let userdata = JSON.parse(user);
+            t.context = `UserContext:User_${userdata.id}`;
+        })
 
         navigator.geolocation.watchPosition((position) =>{ // Funcion que se ejecuta cuando cambia ubicacion  
         
@@ -99,9 +74,8 @@ class UserContext {
                 }
                 
             })
-            //OCBConnection.update(t.context,)
             let location = `${position.coords.latitude} ,${position.coords.longitude}`
-
+            t.location = location
             OCBConnection.update(t.context, {
                 location : {
                     type : "geo:point",  
@@ -109,7 +83,6 @@ class UserContext {
                 },
                 dateModified : new Date()
             })
-            //Actions.changeLocation(location)
             
         },
         (error) => {

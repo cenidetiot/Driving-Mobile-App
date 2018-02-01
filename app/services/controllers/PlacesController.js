@@ -23,7 +23,6 @@ export default class Places {
 	getCampusList () {
 		let ip = config.ip
 		let route = routes.campus
-		ToastAndroid.show( "Obteniendo campus", ToastAndroid.SHORT);
 		Requests.doGet(`http://${ip}${route}`)
 		.then((data) => {
 			AsyncStorage.setItem('campuslist', JSON.stringify(data))
@@ -51,7 +50,8 @@ export default class Places {
 		let route = routes.zones
 
 		Requests.doGet(`https://smartsdk-web-service.herokuapp.com/api/roadSegment`)
-		.then((data) => {			
+		.then((data) => {		
+				
 			AsyncStorage.setItem('segmentslist', JSON.stringify(data));
 		})
 		.catch((error)=>{
