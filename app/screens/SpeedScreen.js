@@ -116,7 +116,8 @@ export default class SpeedScreen extends Component {
           t.setState({
             circleColor : t.state.circleColors.low,
             message: "You're driving well",
-            exceeded : false
+            exceeded : false,
+            alertSended : ""
           })
         }
         t.setState({speedMs: speedMs, speedKs:speedKs}) // alamacena en el state de la vista
