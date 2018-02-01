@@ -115,6 +115,7 @@ export default class SpeedScreen extends Component {
         else {
           t.setState({
             circleColor : t.state.circleColors.low,
+            timeNotAllowed : 0, 
             message: "You're driving well",
             exceeded : false,
             alertSended : ""
