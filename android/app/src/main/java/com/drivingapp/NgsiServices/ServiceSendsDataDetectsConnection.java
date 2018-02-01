@@ -1,9 +1,11 @@
 package com.drivingapp.NgsiServices;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -39,6 +41,7 @@ public class ServiceSendsDataDetectsConnection extends Service implements Device
     private ArrayList<Tbl_Data_Temp> getListInactive, getListInactiveTempCreate;
     private DeviceResources deviceResources;
     private String auxId = "", auxKeyword = "";
+    private int count = 1;
 
     public ServiceSendsDataDetectsConnection(){
         appPreferences = new ApplicationPreferences();
@@ -62,6 +65,16 @@ public class ServiceSendsDataDetectsConnection extends Service implements Device
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(STATUS, "Service started...!");
+        NotificationManager notificationManager =(NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+        // Se construye la notificación
+        //Deprecate a partir de la API 26
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(android.R.drawable.stat_sys_upload_done)
+                .setContentTitle("Backing information")
+                .setColor(200)
+                .setAutoCancel(true)
+                .setContentText("Processing...");
+
         if (appPreferences.getValuePreferenceBoolean(context, PREFERENCE_OFFLINE_MODE_KEY, PREFERENCE_STATUS_OFFLINE_MODE) == true) {
             Log.d("Status deviceModel", "MODE OFFLINE!");
             Intent localIntent = new Intent(Constants.SERVICE_RUNNING_MODE_OFFLINE).putExtra(Constants.SERVICE_RESULT_MODE_OFFLINE, "ACTIVE MODE OFFLINE...!");
@@ -83,11 +96,16 @@ public class ServiceSendsDataDetectsConnection extends Service implements Device
                         }
 
                     }
-
+                    //Envía los datos al CB para actualizarlos
                     getListInactive = controllerSQLite.getAllStatusInactiveTempUpdate();
                     if(!getListInactive.isEmpty()) {
                         for (int i = 0; i < getListInactive.size(); i++) {
                             try {
+                                //mostrar la notificación del Backing
+                                builder.setSubText("Id: "+getListInactive.get(i).getId());
+                                builder.setProgress(getListInactive.size(), count, false);
+                                notificationManager.notify(1, builder.build());
+                                count ++;
                                 auxId = getListInactive.get(i).getId().toString();
                                 deviceResources.updateEntitySaveOffline(auxId, getListInactive.get(i).getKeyword(), getListInactive.get(i).getJson());
                             } catch (Exception e) {
@@ -117,11 +135,16 @@ public class ServiceSendsDataDetectsConnection extends Service implements Device
                             }
                         }
                     }
-
+                    //Envía los datos al CB para actualizarlos
                     getListInactive = controllerSQLite.getAllStatusInactiveTempUpdate();
                     if(!getListInactive.isEmpty()) {
                         for (int i = 0; i < getListInactive.size(); i++) {
                             try {
+                                //mostrar la notificación del Backing
+                                builder.setSubText("Id: "+getListInactive.get(i).getId());
+                                builder.setProgress(getListInactive.size(), count, false);
+                                notificationManager.notify(1, builder.build());
+                                count ++;
                                 auxId = getListInactive.get(i).getId().toString();
                                 deviceResources.updateEntitySaveOffline(auxId, getListInactive.get(i).getKeyword(), getListInactive.get(i).getJson());
                             } catch (Exception e) {
