@@ -31,6 +31,24 @@ export default class Alerts {
 		return promise
 	}
 
+	addNewAlert(alert){
+		let alertslist = [];
+		alert.location = alert.location.value
+		AsyncStorage.getItem('myalerts').then((alerts) =>{
+			ToastAndroid.show( JSON.stringify(alerts), ToastAndroid.SHORT);
+            if(alerts !== '[]' && alerts !== null && alerts !== "" ){
+				alertslist = JSON.parse(alerts)
+				alertslist.push(alert)
+				AsyncStorage.setItem('myalerts', JSON.stringify(alertslist))
+            }else {
+				alertslist.push(alert)
+                AsyncStorage.setItem('myalerts', JSON.stringify(alertslist))
+			}        
+    	})
+	}
+
+
+
 
 
 

@@ -17,6 +17,7 @@ import {
 import { NavigationActions } from 'react-navigation'
 
 import OCBConnection from '../services/OCBConnection'
+import ServerConnection from '../services/ServerConnection'
 
 import Toolbar from '../components/Toolbar'
 import Nav from '../components/Nav'
@@ -94,7 +95,7 @@ export default class MakeAlertsScreen extends Component {
           subCategory : t.state.typeAlert,
           location :{
             type : "geo:point",  
-            value : `${position.coords.latitude} ,${position.coords.longitude}`
+            value : `18.879781, -99.221777` //`${position.coords.latitude} ,${position.coords.longitude}`
           },
           dateObserved: new Date(),
           validFrom: new Date(),
@@ -103,9 +104,10 @@ export default class MakeAlertsScreen extends Component {
           alertSource: device,
           severity : t.state.severityText
         }
-        ToastAndroid.showWithGravity( "Enviando Alerta ..." , ToastAndroid.SHORT, ToastAndroid.CENTER);
+        ToastAndroid.showWithGravity( "Sending Alert..." , ToastAndroid.SHORT, ToastAndroid.CENTER);
+        ServerConnection.alerts.addNewAlert(alert);
         let newJson = OCBConnection.create(alert, "Enviada exitosamente")
-        
+
         let backAction = NavigationActions.back()
         this.props.navigation.dispatch(backAction)
 

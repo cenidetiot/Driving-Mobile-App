@@ -15,9 +15,6 @@ export default class Places {
 		.then((data) => {
 			AsyncStorage.setItem('companieslist', JSON.stringify(data))
 		})
-		.catch((error)=>{
-			ToastAndroid.show( error, ToastAndroid.SHORT);
-		})
 	}
 
 	getCampusList () {
@@ -26,9 +23,6 @@ export default class Places {
 		Requests.doGet(`http://${ip}${route}`)
 		.then((data) => {
 			AsyncStorage.setItem('campuslist', JSON.stringify(data))
-		})
-		.catch((error)=>{
-			ToastAndroid.show( error, ToastAndroid.SHORT);
 		})
 	}
 
@@ -40,9 +34,6 @@ export default class Places {
 		.then((data) => {
 			AsyncStorage.setItem('zoneslist', JSON.stringify(data));
 		})
-		.catch((error)=>{
-			ToastAndroid.show( error, ToastAndroid.SHORT);
-		})
 	}
 
 	getSegmentsList () {
@@ -53,9 +44,6 @@ export default class Places {
 		.then((data) => {		
 				
 			AsyncStorage.setItem('segmentslist', JSON.stringify(data));
-		})
-		.catch((error)=>{
-			ToastAndroid.show( "Ocurrió un error", ToastAndroid.SHORT); 
 		})
 	}
 

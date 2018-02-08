@@ -20,11 +20,6 @@ export default class UserContext {
 		})
 		return promise
 	}
-
-
-
-
-
 }
 
 

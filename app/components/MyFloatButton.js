@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { Icon } from 'react-native-material-design';
 import { FloatingAction } from 'react-native-floating-action';
 import { Alert, AsyncStorage } from 'react-native';
-import OCB from '../services/OCBConnection'
+import OCBConnection from '../services/OCBConnection'
+import ServerConnection from '../services/ServerConnection'
 
 export default class MyFloatButton extends Component {
 
@@ -59,8 +60,8 @@ export default class MyFloatButton extends Component {
           alertSource: device,
           severity : "high"
         }
-
-        let newJson = OCB.sendAlert(alert)
+        ServerConnection.alerts.addNewAlert(alert);
+        let newJson = OCBConnection.create(alert, "Enviada exitosamente")
       })
 
     },

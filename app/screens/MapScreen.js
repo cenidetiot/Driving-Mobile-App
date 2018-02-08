@@ -47,7 +47,7 @@ export default class MapScreen extends Component {
   
    async componentDidMount() {
     let t = this
-    await ServerConnection.alerts.getAlerts()
+    //await ServerConnection.alerts.getAlerts()
     AsyncStorage.getItem('campuslist').then((list) =>{
         AsyncStorage.getItem('alerts').then((alerts) =>{
 
@@ -76,7 +76,6 @@ export default class MapScreen extends Component {
             })
           }else{
             if (alerts !== null && alerts !== {}){
-
               let alertslist = JSON.parse(JSON.parse(alerts))
               alertslist.map((alert) => {
                 annotations.push({

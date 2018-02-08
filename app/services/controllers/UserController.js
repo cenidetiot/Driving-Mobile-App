@@ -67,7 +67,7 @@ export default class User {
 					})
 					.catch((error)=>{
 						reject({message : error})
-						ToastAndroid.show(error , ToastAndroid.SHORT);
+						//ToastAndroid.show(error , ToastAndroid.SHORT);
 					})
 				}
 		    })

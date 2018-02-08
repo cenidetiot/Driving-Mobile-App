@@ -66,6 +66,14 @@ export default class Nav extends Component {
                 onLongPress: () => console.log("OK")
             },
             {
+              icon: 'warning',
+              value: 'My Alerts',
+              active: this.props.screen === 'MyAlerts',
+              onPress: () => {this.props.navigate('MyAlerts')
+              this.props.onClose()},
+                onLongPress: () => console.log("OK")
+            },
+            {
                 icon: 'face',
                 value: 'My Profile',
                 active: this.props.screen === 'Settings',
