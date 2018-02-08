@@ -22,6 +22,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
+import java.util.Locale;
 
 import www.fiware.org.ngsi.controller.ControllerSQLite;
 import www.fiware.org.ngsi.controller.DeviceResources;
@@ -167,16 +169,27 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
     };
 
 
-    public Device createDevice(Double latitudeGPS, Double longitudeGPS, long time, float accuracy){
+    public String getActualDate(){
+
         Date date = new Date();
-        DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        String strUTCDate = isoFormat.format(date);
+
+        return strUTCDate;
+    }
+
+
+    public Device createDevice(Double latitudeGPS, Double longitudeGPS, long time, float accuracy){
+        
+        String actualDate = getActualDate();
+
         Device device = new Device();
         device.setId("Device_Smartphone_"+deviceProperties.getAndroidId(context));
         device.getCategory().setValue("smartphone");
         device.getOsVersion().setValue(deviceProperties.getOSVersion());
         device.getBatteryLevel().setValue(deviceProperties.getBatteryLevel(context));
-        device.getDateCreated().setValue(""+formatDate.format(date));
-        device.getDateModified().setValue(""+formatDate.format(date));
+        device.getDateCreated().setValue(""+actualDate);
+        device.getDateModified().setValue(""+actualDate);
         device.getIpAddress().setValue(deviceProperties.getIPAddress(true));
         /*device.getMnc().setValue(deviceProperties.getmnc(context));
         device.getMcc().setValue(deviceProperties.getmcc(context));
@@ -199,13 +212,13 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
     }
 
     public DeviceUpdateModel updateDevice(Double latitudeGPS, Double longitudeGPS, long time, float accuracy){
-        Date date = new Date();
-        DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        String actualDate = getActualDate();
+        
         DeviceUpdateModel deviceUpdateModel = new DeviceUpdateModel();
         deviceUpdateModel.getCategory().setValue("smartphone");
         deviceUpdateModel.getOsVersion().setValue(deviceProperties.getOSVersion());
         deviceUpdateModel.getBatteryLevel().setValue(deviceProperties.getBatteryLevel(context));
-        deviceUpdateModel.getDateModified().setValue(""+formatDate.format(date));
+        deviceUpdateModel.getDateModified().setValue(""+actualDate);
         deviceUpdateModel.getIpAddress().setValue(deviceProperties.getIPAddress(true));
         /*deviceUpdateModel.getMnc().setValue(deviceProperties.getmnc(context));
         deviceUpdateModel.getMcc().setValue(deviceProperties.getmcc(context));

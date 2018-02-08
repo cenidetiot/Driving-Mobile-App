@@ -40,7 +40,7 @@ export default class User {
 			})
 			.then((data) => { 
 				AsyncStorage.setItem('token', JSON.parse(data).token)
-				ToastAndroid.show(JSON.parse(data).token , ToastAndroid.SHORT);
+				//ToastAndroid.show(JSON.parse(data).token , ToastAndroid.SHORT);
 				resolve({response : 200}) 
 			})
 			.catch((error)=>{
@@ -62,7 +62,7 @@ export default class User {
 					Requests.doGet(`${_ip}/user?email=${value}`)
 					.then((data) => {
 						AsyncStorage.setItem('userdata', data)
-						ToastAndroid.show(data , ToastAndroid.SHORT);
+						//ToastAndroid.show(data , ToastAndroid.SHORT);
 						resolve({response : 200}) 
 					})
 					.catch((error)=>{

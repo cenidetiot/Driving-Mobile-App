@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
+import java.util.TimeZone;
 
 import static android.R.attr.path;
 /**
@@ -48,8 +49,13 @@ public class Functions {
      * @return retorna la hora y fecha del sistema en un String.
      */
     public String getDataTime(){
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        return  currentDateTimeString;
+
+        Date date = new Date();
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        isoFormat.setTimeZone(TimeZone.getTimeZone("CST"));
+        String strUTCDate = isoFormat.format(date);
+
+        return  strUTCDate;
     }
 
     /**

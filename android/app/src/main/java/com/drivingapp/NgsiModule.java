@@ -68,7 +68,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
     //Context context = getReactApplicationContext();
     Intent serviceIntent = new Intent(context, IntentServiceDeviceModel.class);
     context.startService(serviceIntent);
-    Toast.makeText(getReactApplicationContext(), "DeviceModelService is Running...!", Toast.LENGTH_SHORT).show();
+    //Toast.makeText(getReactApplicationContext(), "DeviceModelService is Running...!", Toast.LENGTH_SHORT).show();
     
   }
 
@@ -81,7 +81,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
     ResponseReceiver receiver = new ResponseReceiver();
     // Registrar el receiver y su filtro
     LocalBroadcastManager.getInstance(getReactApplicationContext()).registerReceiver(receiver, filter);
-    Toast.makeText(getReactApplicationContext(), "DeviceService is Running...!", Toast.LENGTH_SHORT).show();
+    //Toast.makeText(getReactApplicationContext(), "DeviceService is Running...!", Toast.LENGTH_SHORT).show();
   }
 
   @ReactMethod

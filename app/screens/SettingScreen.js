@@ -39,22 +39,22 @@ export default class SettingScreen extends Component {
    /*async componentDidMount() {
 
 	}	*/
-   	toggleSwitchOffline = (value) => {
-	   	NgsiModule.saveValuePreferenceOffline(value);
+	toggleSwitchOffline = (value) => {
+		NgsiModule.saveValuePreferenceOffline(value);
 		this.setState({switchOfflineValue: value});
 		ToastAndroid.show("Switch 1 is: "+value, ToastAndroid.SHORT);
-   	}
+	}
 
 	onBackPress(){
-	    let backAction = NavigationActions.back()
-	    this.props.navigation.dispatch(backAction)
-	  }
+	  let backAction = NavigationActions.back()
+	  this.props.navigation.dispatch(backAction)
+	}
 	onPress (){
-	    this.refs['DRAWER'].openDrawer()
-	  }
-	  onClose(){
-	    this.refs['DRAWER'].closeDrawer()
-	  }
+	  this.refs['DRAWER'].openDrawer()
+	}
+	onClose(){
+	  this.refs['DRAWER'].closeDrawer()
+	}
 
 	render() { 
 		const { navigate } = this.props.navigation;

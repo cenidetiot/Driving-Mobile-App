@@ -170,7 +170,7 @@ export default class SpeedScreen extends Component {
             value : `${position.coords.latitude} ,${position.coords.longitude}`
           },
           dateObserved: new Date(),
-          validFrom: new Date(),
+          validFrom: new Date(),//http://207.249.127.149:1026/v2/entities?georel=intersects&geometry=line&coords=18.87691485540318,%20-99.22036170959474;%2018.87674735071663,%20-99.22032952308656;%2018.876610301303092,-99.2202597856521;18.87648340359802,%20-99.2202115058899;%2018.87636158171074,%20-99.2202115058899;18.876163620955037,%20-99.22020077705383;18.87599103959257,%20-99.2202115058899;18.875828609912606,%20-99.22016859054565;18.875661104140256,%20-99.21994864940643;18.875625572591265,%20-99.21978235244751
           validTo: new Date(),
           description: "Alertas de prueba de velocidad",
           alertSource: device,
