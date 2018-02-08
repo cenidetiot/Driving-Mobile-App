@@ -41,7 +41,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
   private Functions functions;
   private float speedValue =0;
   private ApplicationPreferences preferences;
-  
+
   public NgsiModule(ReactApplicationContext reactContext) {
     super(reactContext);
     deviceProperties = new DevicePropertiesFunctions();
@@ -62,17 +62,22 @@ public class NgsiModule extends ReactContextBaseJavaModule {
   public String getName() {
     return "NgsiModule";
   }
-  
+
+  @ReactMethod
+  public void InitBackingService(){
+      Intent serviceIntent = new Intent(context, ServiceSendsDataDetectsConnection.class);
+      context.startService(serviceIntent);
+  }
+
   @ReactMethod
   public void InitDeviceModel() {
     //Context context = getReactApplicationContext();
     Intent serviceIntent = new Intent(context, IntentServiceDeviceModel.class);
     context.startService(serviceIntent);
-    //Toast.makeText(getReactApplicationContext(), "DeviceModelService is Running...!", Toast.LENGTH_SHORT).show();
-    
+    Toast.makeText(getReactApplicationContext(), "DeviceModelService is Running...!", Toast.LENGTH_SHORT).show();
   }
 
-  @ReactMethod 
+  @ReactMethod
   public void InitDevice(String owner) {
     serviceDevice = new Intent(context, ServiceDevice.class);
     serviceDevice.putExtra(Constants.OWNER, owner);
@@ -116,7 +121,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
 
 
   @ReactMethod
-  public void deviceSpeed( // Nueva funcion que envia los datos de velocidad a la vista 
+  public void deviceSpeed( // Nueva funcion que envia los datos de velocidad a la vista
       Callback successCallback,
       Callback errorCallback
       ) {
@@ -207,11 +212,11 @@ public class NgsiModule extends ReactContextBaseJavaModule {
 
           speedMS = intent.getFloatExtra(Constants.DEVICE_GPS_RESULT_SPEED_MS, 0);
           speedKmHr = intent.getFloatExtra(Constants.DEVICE_GPS_RESULT_SPEED_KMHR, 0);
-          
+
           params.putDouble("speedKm", speedKmHr);
           params.putDouble("speedMs", speedMS);
           sendEvent(getReactApplicationContext(), "speed", params);
-          
+
           //Toast.makeText(getReactApplicationContext(), "Speed: "+speedMS+"m/s ---- Speed: "+speedKmHr+"km/h", Toast.LENGTH_SHORT).show();
           Log.i("Speed: ", ""+speedMS+"m/s  "+speedKmHr+"km/h");
           break;

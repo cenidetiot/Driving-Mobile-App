@@ -31,6 +31,8 @@ export default class HomeScreen extends Component {
   
   constructor(props) {
     super(props);
+    //Servicio para realizar el Backing...
+    NgsiModule.InitBackingService();
     this.onPress = this.onPress.bind(this)
     this.isInside = this.isInside.bind(this)
     this.isOutside = this.isOutside.bind(this)
