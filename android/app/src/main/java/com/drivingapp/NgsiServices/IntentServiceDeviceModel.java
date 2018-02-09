@@ -51,8 +51,7 @@ public class IntentServiceDeviceModel extends IntentService implements DeviceRes
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Date date = new Date();
-        DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        String actualDate = functions.getActualDate();
         //Obteniendo los datos para cargarlo en el DeviceModel
         deviceModel = new DeviceModel();
         deviceModel.setId("DeviceModel_"+functions.getReplaceParent(deviceProperties.getBrand())+"_"+functions.getReplaceParent(deviceProperties.getModel()));
@@ -60,7 +59,7 @@ public class IntentServiceDeviceModel extends IntentService implements DeviceRes
         deviceModel.getBrandName().setValue(deviceProperties.getBrand());
         deviceModel.getModelName().setValue(functions.getReplaceParent(deviceProperties.getModel()));
         deviceModel.getManufacturerName().setValue(deviceProperties.getManufacturer());
-        deviceModel.getDateCreated().setValue(""+formatDate.format(date));
+        deviceModel.getDateCreated().setValue(actualDate);
 
         try {
             deviceResources.createEntity(context, deviceModel.getId(),deviceModel);
