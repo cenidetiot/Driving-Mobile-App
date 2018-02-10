@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
@@ -44,6 +45,15 @@ import static android.R.attr.path;
  * Clase donde se agregan funciones comunes que se utilizan en una aplicación.
  */
 public class Functions {
+
+    public String getActualDate(){
+
+        Date date = new Date();
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        String strUTCDate = isoFormat.format(date);
+
+        return strUTCDate;
+    }
 
     /**
      * @return retorna la hora y fecha del sistema en un String.

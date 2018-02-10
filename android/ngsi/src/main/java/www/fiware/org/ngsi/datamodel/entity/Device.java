@@ -1,6 +1,5 @@
 package www.fiware.org.ngsi.datamodel.entity;
 
-import java.awt.font.NumericShaper;
 import java.io.Serializable;
 
 import www.fiware.org.ngsi.datamodel.datatypes.DateTimeObject;
@@ -23,11 +22,6 @@ public class Device implements Serializable {
     private DateTimeObject dateModified;
     private TextObject ipAddress;
     private LocationPointObject location;
-    private NumberObject latitude;
-    private NumberObject longitude;
-    //private TextObject mnc;
-    //private TextObject mcc;
-    //private TextObject macAddress;
     private TextObject refDeviceModel;
     private TextObject serialNumber;
     private TextObject owner;
@@ -46,11 +40,6 @@ public class Device implements Serializable {
         dateModified = new DateTimeObject();
         ipAddress = new TextObject();
         location = new LocationPointObject();
-        latitude = new NumberObject();
-        longitude = new NumberObject();
-        //mnc = new TextObject();
-        //mcc = new TextObject();
-        //macAddress = new TextObject();
         refDeviceModel = new TextObject();
         serialNumber = new TextObject();
         owner = new TextObject();
@@ -64,7 +53,7 @@ public class Device implements Serializable {
 
     public Device(String id, String type, TextObject category, TextObject osVersion, NumberObject batteryLevel,
                   DateTimeObject dateCreated, DateTimeObject dateModified, TextObject ipAddress, LocationPointObject location,
-                  NumberObject latitude, NumberObject longitude, TextObject refDeviceModel, TextObject serialNumber, TextObject owner,
+                  TextObject refDeviceModel, TextObject serialNumber, TextObject owner,
                   NumberObject accuracy, NumberObject time) {
         this.id = id;
         this.type = type;
@@ -75,11 +64,6 @@ public class Device implements Serializable {
         this.dateModified = dateModified;
         this.ipAddress = ipAddress;
         this.location = location;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        //this.mnc = mnc;
-        //this.mcc = mcc;
-        //this.macAddress = macAddress;
         this.refDeviceModel = refDeviceModel;
         this.serialNumber = serialNumber;
         this.owner = owner;
@@ -161,45 +145,6 @@ public class Device implements Serializable {
         this.location = location;
     }
 
-    public NumberObject getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(NumberObject latitude) {
-        this.latitude = latitude;
-    }
-
-    public NumberObject getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(NumberObject longitude) {
-        this.longitude = longitude;
-    }
-
-    /*public TextObject getMnc() {
-        return mnc;
-    }
-
-    public void setMnc(TextObject mnc) {
-        this.mnc = mnc;
-    }
-
-    public TextObject getMcc() {
-        return mcc;
-    }
-
-    public void setMcc(TextObject mcc) {
-        this.mcc = mcc;
-    }
-
-    public TextObject getMacAddress() {
-        return macAddress;
-    }
-
-    public void setMacAddress(TextObject macAddress) {
-        this.macAddress = macAddress;
-    }*/
 
     public TextObject getRefDeviceModel() {
         return refDeviceModel;

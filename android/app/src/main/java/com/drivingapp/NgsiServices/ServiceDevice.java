@@ -168,42 +168,22 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
         }
     };
 
-
-    public String getActualDate(){
-
-        Date date = new Date();
-        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-        String strUTCDate = isoFormat.format(date);
-
-        return strUTCDate;
-    }
-
-
     public Device createDevice(Double latitudeGPS, Double longitudeGPS, long time, float accuracy){
         
-        String actualDate = getActualDate();
+        String actualDate = functions.getActualDate();
 
         Device device = new Device();
         device.setId("Device_Smartphone_"+deviceProperties.getAndroidId(context));
         device.getCategory().setValue("smartphone");
         device.getOsVersion().setValue(deviceProperties.getOSVersion());
         device.getBatteryLevel().setValue(deviceProperties.getBatteryLevel(context));
-        device.getDateCreated().setValue(""+actualDate);
-        device.getDateModified().setValue(""+actualDate);
+        device.getDateCreated().setValue(actualDate);
+        device.getDateModified().setValue(actualDate);
         device.getIpAddress().setValue(deviceProperties.getIPAddress(true));
-        /*device.getMnc().setValue(deviceProperties.getmnc(context));
-        device.getMcc().setValue(deviceProperties.getmcc(context));
-        if (deviceProperties.getMACAddress("wlan0").length() == 0 || deviceProperties.getMACAddress("wlan0").isEmpty()) {
-            device.getMacAddress().setValue(deviceProperties.getMACAddress("wlan0"));
-        } else {
-            device.getMacAddress().setValue("wlan0");
-        }*/
         device.getRefDeviceModel().setValue("DeviceModel_"+functions.getReplaceParent(deviceProperties.getBrand())+"_"+functions.getReplaceParent(deviceProperties.getModel()));
         device.getSerialNumber().setValue(deviceProperties.getSerialNumber());
         device.getOwner().setValue(owner);
         device.getLocation().setValue(latitudeGPS + ", " + longitudeGPS);
-        device.getLatitude().setValue(latitudeGPS);
-        device.getLongitude().setValue(longitudeGPS);
         device.getTime().setValue(time);
         device.getAccuracy().setValue(accuracy);
         //device.getSpeedAccuracyms().setValue(speedAccuracyms);
@@ -212,7 +192,7 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
     }
 
     public DeviceUpdateModel updateDevice(Double latitudeGPS, Double longitudeGPS, long time, float accuracy){
-        String actualDate = getActualDate();
+        String actualDate = functions.getActualDate();
         
         DeviceUpdateModel deviceUpdateModel = new DeviceUpdateModel();
         deviceUpdateModel.getCategory().setValue("smartphone");
@@ -220,19 +200,10 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
         deviceUpdateModel.getBatteryLevel().setValue(deviceProperties.getBatteryLevel(context));
         deviceUpdateModel.getDateModified().setValue(""+actualDate);
         deviceUpdateModel.getIpAddress().setValue(deviceProperties.getIPAddress(true));
-        /*deviceUpdateModel.getMnc().setValue(deviceProperties.getmnc(context));
-        deviceUpdateModel.getMcc().setValue(deviceProperties.getmcc(context));
-        if (deviceProperties.getMACAddress("wlan0").length() == 0 || deviceProperties.getMACAddress("wlan0").isEmpty()) {
-            deviceUpdateModel.getMacAddress().setValue(deviceProperties.getMACAddress("wlan0"));
-        } else {
-            deviceUpdateModel.getMacAddress().setValue("wlan0");
-        }*/
         deviceUpdateModel.getRefDeviceModel().setValue("DeviceModel_"+functions.getReplaceParent(deviceProperties.getBrand())+"_"+functions.getReplaceParent(deviceProperties.getModel()));
         deviceUpdateModel.getSerialNumber().setValue(deviceProperties.getSerialNumber());
         deviceUpdateModel.getOwner().setValue(owner);
         deviceUpdateModel.getLocation().setValue(latitudeGPS + ", " + longitudeGPS);
-        deviceUpdateModel.getLatitude().setValue(latitudeGPS);
-        deviceUpdateModel.getLongitude().setValue(longitudeGPS);
         deviceUpdateModel.getTime().setValue(time);
         deviceUpdateModel.getAccuracy().setValue(accuracy);
         //deviceUpdateModel.getSpeedAccuracyms().setValue(speedAccuracyms);
