@@ -2,7 +2,7 @@ export default {
 	
 	container: {
 	    flex: 1,
-	backgroundColor: '#34495e',
+		backgroundColor: '#34495e',
 	    alignItems: 'center',
 	    justifyContent: 'center',
 	    width : null,
@@ -10,13 +10,19 @@ export default {
 
 	},
 	title : {
-	    fontSize : 20,
+	    fontSize : 22,
 	    fontWeight :"bold",
 	    color: "white"
 	},
+	subtitle : {
+	    fontSize : 18,
+	    fontWeight :"bold",
+		color: "white",
+		marginBottom : 20 
+	},
 	imageLogo : {
-	    width : 100,
-	    height: 100,
+	    width : 150,
+	    height: 150,
 	    marginBottom : 1,
 	    
 	},

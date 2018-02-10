@@ -117,7 +117,7 @@ export default class AlertsScreen extends Component {
             <View style={styles.cardContainer}>
               <View style={{flex:4}} >
                 <Text style={{flex:1}} style={{fontWeight:'bold', textAlign:'center'}}>
-                  Sin alertas que mostrar
+                  No alerts to show
                 </Text>
               </View>
             </View>

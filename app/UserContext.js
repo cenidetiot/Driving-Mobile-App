@@ -36,7 +36,7 @@ class UserContext {
 
 
         },(error) => {
-            ToastAndroid.showWithGravity( error.message , ToastAndroid.SHORT, ToastAndroid.CENTER);
+            //ToastAndroid.showWithGravity( error.message , ToastAndroid.SHORT, ToastAndroid.CENTER);
             },
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );

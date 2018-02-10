@@ -16,10 +16,10 @@ class OCBConnection {
 	    let newJson = NGSI.parseEntity(entity)
 		OCB.createEntity(newJson)
 		.then((result) =>{
-			ToastAndroid.showWithGravity( message, ToastAndroid.SHORT, ToastAndroid.CENTER);
+			//ToastAndroid.showWithGravity( message, ToastAndroid.SHORT, ToastAndroid.CENTER);
 		})
 		.catch((err) => {
-			ToastAndroid.showWithGravity( JSON.stringify(err) , ToastAndroid.SHORT, ToastAndroid.CENTER);
+			//ToastAndroid.showWithGravity( JSON.stringify(err) , ToastAndroid.SHORT, ToastAndroid.CENTER);
 		})
 		return newJson
 	}

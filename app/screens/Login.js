@@ -15,7 +15,7 @@ import {
   View
 } from 'react-native';
 
-import { Button,Icon } from 'react-native-elements'
+import { Button, Icon } from 'react-native-elements'
 import ServerConnection from '../services/ServerConnection'
 import UserContext from '../UserContext'
 import style from '../styles/Login'
@@ -56,7 +56,7 @@ export default class LoginScreen extends React.Component {
             buttonStyle={{width: 200}}
             backgroundColor='#c0392b'
           />
-          <Button
+          {/*<Button
             small
             icon={{name: 'accessibility'}}
             onPress={() =>{
@@ -65,7 +65,7 @@ export default class LoginScreen extends React.Component {
             title='Create a new account' 
             buttonStyle={{marginTop : 15,width: 200}}
             backgroundColor='#2980b9'
-            />
+          />*/}
           <Button
             small
             icon={{name: 'verified-user'}}
@@ -166,24 +166,25 @@ export default class LoginScreen extends React.Component {
     let { navigate } = this.props.navigation;
     return (
       <Image source={require('../images/drive1.jpg')} style={styles.container}>
-              <Text style={styles.title}>Driving App</Text>
-              <Image 
-                  style={{width : 80,
-                  height: 80,
-                  marginTop: 10,
-                  marginBottom : 25
-
-                  }}
-                  source={require('../images/logoCircle.png')}
-                />
-
-              {/**/}
-              {this.showForm()}
               
-              <Image 
-                style={styles.backImage}
-                  source={require('../images/logo_smartSDK.png')}
-              />  
+              
+        <Image 
+            style={{width : 100,
+            height: 100,
+            marginTop: 10,
+            marginBottom : 10
+
+            }}
+            source={require('../images/logo.png')}
+          />
+          <Text style={styles.subtitle}>Driving App</Text>
+
+        {this.showForm()}
+        
+        <Image 
+          style={styles.backImage}
+            source={require('../images/logo_smartSDK.png')}
+        />  
         </Image>
     )
   }
