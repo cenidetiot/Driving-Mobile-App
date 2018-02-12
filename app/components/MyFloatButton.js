@@ -61,7 +61,7 @@ export default class MyFloatButton extends Component {
           severity : "high"
         }
         ServerConnection.alerts.addNewAlert(alert);
-        let newJson = OCBConnection.create(alert, "Enviada exitosamente")
+        let newJson = OCBConnection.create(alert, "The Alert has been sent")
       })
 
     },

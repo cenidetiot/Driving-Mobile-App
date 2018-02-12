@@ -130,7 +130,7 @@ export default class SpeedScreen extends Component {
   
   }
   updateAlert(){
-    ToastAndroid.show("actualizando", ToastAndroid.SHORT);
+    ToastAndroid.show("Speed alert has been updated", ToastAndroid.SHORT);
     let t = this
     navigator.geolocation.getCurrentPosition((position) =>{
       
@@ -141,7 +141,7 @@ export default class SpeedScreen extends Component {
           },
           validTo: new Date()
         }
-        let newJson = OCBConnection.update(t.state.alertSended,alert)
+        let newJson = OCBConnection.update(t.state.alertSended, alert) 
       
     },
     (error) => {
@@ -152,7 +152,7 @@ export default class SpeedScreen extends Component {
   }
 
   createAlert(){
-    ToastAndroid.show("creada", ToastAndroid.SHORT);
+    ToastAndroid.show("Speed Alert has been sent", ToastAndroid.SHORT);
     let t = this
     
     
@@ -176,7 +176,7 @@ export default class SpeedScreen extends Component {
           alertSource: device,
           severity : 'high'
         }
-        let newJson = OCBConnection.create(alert)
+        let newJson = OCBConnection.create(alert, "Sent alert")
       })
     },
     (error) => {
@@ -201,7 +201,7 @@ export default class SpeedScreen extends Component {
 		    drawerWidth={250}
 		    drawerPosition={DrawerLayoutAndroid.positions.Left}
 		    renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/>)}>
-        <Toolbar navigation={this.props.navigation} title={'Your Speed'} counter={this.state.conter} onPress={this.onPress.bind(this)}/>
+        <Toolbar navigation={this.props.navigation} title={'My Speed'} counter={this.state.conter} onPress={this.onPress.bind(this)}/>
 	       
         <View style={[styles.container, {backgroundColor : this.state.circleColor}]}>
         <Text style={styles.message}>{this.state.message}</Text>
@@ -214,10 +214,6 @@ export default class SpeedScreen extends Component {
 
           <Text style={{color: 'white'}}>Minimum Allowed Speed {this.state.minimumAllowedSpeed}</Text>
           <Text style={{color: 'white'}}>Maximum Allowed Speed {this.state.maximumAllowedSpeed}</Text>
-          <Text style={{color: 'white', fontWeight:'bold'}} >{this.state.aceleration}</Text>
-      
-          <Text>  {this.state.alertSended} </Text>
-          <Text>  {this.state.timeNotAllowed} </Text>
 
           <MyFloatButton navigate={navigate}/>
         </View>

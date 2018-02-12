@@ -21,7 +21,7 @@ export default class Alerts {
 					})
 					.catch((error)=>{
 						reject({message : "Error "+ response.status })
-						ToastAndroid.show( error, ToastAndroid.SHORT);
+						//ToastAndroid.show( error, ToastAndroid.SHORT);
 					})
 		        }else{
 		        	reject({message : "No se ecuentra en un campus"})
@@ -35,7 +35,7 @@ export default class Alerts {
 		let alertslist = [];
 		alert.location = alert.location.value
 		AsyncStorage.getItem('myalerts').then((alerts) =>{
-			ToastAndroid.show( JSON.stringify(alerts), ToastAndroid.SHORT);
+			//ToastAndroid.show( JSON.stringify(alerts), ToastAndroid.SHORT);
             if(alerts !== '[]' && alerts !== null && alerts !== "" ){
 				alertslist = JSON.parse(alerts)
 				alertslist.push(alert)

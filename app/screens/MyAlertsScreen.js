@@ -106,7 +106,7 @@ export default class MyAlertsScreen extends Component {
             <View style={styles.cardContainer}>
               <View style={{flex:4}} >
                 <Text style={{flex:1}} style={{fontWeight:'bold', textAlign:'center'}}>
-                 You've not made alerts
+                 You have not sent alerts
                 </Text>
               </View>
             </View>

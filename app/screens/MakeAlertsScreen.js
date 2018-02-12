@@ -106,7 +106,7 @@ export default class MakeAlertsScreen extends Component {
         }
         ToastAndroid.showWithGravity( "Sending Alert..." , ToastAndroid.SHORT, ToastAndroid.CENTER);
         ServerConnection.alerts.addNewAlert(alert);
-        let newJson = OCBConnection.create(alert, "Enviada exitosamente")
+        let newJson = OCBConnection.create(alert, "The Alert has been sent")
 
         let backAction = NavigationActions.back()
         this.props.navigation.dispatch(backAction)
