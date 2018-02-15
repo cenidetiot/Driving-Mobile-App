@@ -28,12 +28,13 @@ export default class LoadingScreen extends Component {
       })
       ServerConnection.places.getCompaniesList();
       ServerConnection.places.getCampusList();
-      ServerConnection.places.getSegmentsList();
+      //ServerConnection.places.getSegmentsList();
+
        NgsiModule.deviceId((id) => {
           AsyncStorage.setItem('device', id)
         },
         (err) => {
-          ToastAndroid.show("Ocurrió un error"+id, ToastAndroid.SHORT);
+          ToastAndroid.show("Ocurrió un error"+ err, ToastAndroid.SHORT);
         });
        
   }

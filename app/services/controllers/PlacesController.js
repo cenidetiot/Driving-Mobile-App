@@ -7,11 +7,10 @@ import DBase from '../../functions/DBase'
 
 export default class Places {
 
-	getCompaniesList() {
+	async getCompaniesList() {
 		let ip = config.ip
 		let route = routes.company
-
-		Requests.doGet(`http://${ip}${route}`)
+		await Requests.doGet(`http://${ip}${route}`)
 		.then((data) => {
 			AsyncStorage.setItem('companieslist', JSON.stringify(data))
 		})
@@ -39,11 +38,15 @@ export default class Places {
 	getSegmentsList () {
 		let ip = config.ip
 		let route = routes.zones
-
 		Requests.doGet(`https://smartsdk-web-service.herokuapp.com/api/roadSegment`)
 		.then((data) => {		
-				
+			
 			AsyncStorage.setItem('segmentslist', JSON.stringify(data));
+			
+		}).catch((err) => {
+
+			//ToastAndroid.showWithGravity( JSON.stringify(err) , ToastAndroid.SHORT, ToastAndroid.CENTER);
+			
 		})
 	}
 

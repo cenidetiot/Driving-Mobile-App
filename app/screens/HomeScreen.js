@@ -37,7 +37,7 @@ export default class HomeScreen extends Component {
     this.isInside = this.isInside.bind(this)
     this.isOutside = this.isOutside.bind(this)
     this.state = {
-      message : "No te encuentras en ningun campus",
+      message : "You are not in any campus",
       campus : null,
       speed: null,
       aceleration : null,

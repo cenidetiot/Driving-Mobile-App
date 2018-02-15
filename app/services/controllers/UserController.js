@@ -19,7 +19,7 @@ export default class User {
 		let promise = new Promise((resolve, reject) => {
 			Requests.doPost(`${_ip}/user`, body )
 			.then((data) => { 
-				ToastAndroid.show( "Registrado correctamente", ToastAndroid.SHORT);
+				ToastAndroid.show( "Registered Successfully", ToastAndroid.SHORT);
 				resolve(true)
 			})
 			.catch((error)=>{
@@ -34,7 +34,7 @@ export default class User {
 		let ip = config.ip
 		let route = routes.login
 		let promise = new Promise( async (resolve, reject) => {
-			await Requests.doPost(`${_ip}/login`,{
+			await Requests.doPost(`${_ip}/keylogin`,{
 				email: user,
 				password: pass,
 			})

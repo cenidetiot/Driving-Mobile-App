@@ -33,16 +33,16 @@ export default class SpeedScreen extends Component {
 
       speedMs: 0, //Variable de velocidad en metros
       speedKs : 0, // Variabñe de velocidad en Kilometros,
-      circleColor : '#2c3e50',
+      circleColor : '#27ae60',
       circleColors : {
         informational: '#3498db',
         low: '#2c3e50',
-        medium: '#f1c40f',
+        medium: '#27ae60',
         high: '#e67e22',
         critical: '#c0392b' 
       },
-      maximumAllowedSpeed :0,
-      minimumAllowedSpeed :0,
+      maximumAllowedSpeed :10,
+      minimumAllowedSpeed :20,
       latitude : 0,
       longitude: 0,
       message : "You're driving well",
@@ -76,21 +76,41 @@ export default class SpeedScreen extends Component {
   componentDidMount(){
     let t = this
     // Obtiene los datos de velocidad maxima y minima
-    AsyncStorage.getItem('segmentslist').then((value) =>{
+    /*AsyncStorage.getItem('segmentslist').then((value) =>{
       if (value !== null) {
         list = JSON.parse(JSON.parse(value))
         road = list[0]
         t.setState({maximumAllowedSpeed: road.maximumAllowedSpeed,
            minimumAllowedSpeed: road.minimumAllowedSpeed})
       }
-    })
+    })*/
 
 
     setInterval(() =>{
       NgsiModule.deviceSpeed((speedMs,speedKs) => {  //Funcion nativa que recibe los parametros de velocidad
 
         if ((speedKs > t.state.maximumAllowedSpeed || t.state.speedKs < t.state.minimumAllowedSpeed )){
+          
+
           let timeNotAllowed = t.state.timeNotAllowed + 1;
+          if (speedKs > t.state.maximumAllowedSpeed) {
+            t.setState({ 
+              circleColor : t.state.circleColors.critical,
+              message: 'You exceeded the limit.',
+              exceeded : true,
+              timeNotAllowed : timeNotAllowed
+            })
+          }
+          if (t.state.speedKs < t.state.minimumAllowedSpeed ) {
+            t.setState({ 
+              circleColor : t.state.circleColors.low,
+              message: 'You are below the limit.',
+              exceeded : true,
+              timeNotAllowed : timeNotAllowed
+            })
+          }
+          
+
           if (!t.state.exceeded){
             t.spring()
           }
@@ -103,18 +123,13 @@ export default class SpeedScreen extends Component {
             t.updateAlert()
           }
 
-          t.setState({ 
-            circleColor : t.state.circleColors.critical,
-            message: 'You exceeded the limit.',
-            exceeded : true,
-            timeNotAllowed : timeNotAllowed
-          })
-          t.getAceleration(speedMs)
+          
+          //t.getAceleration(speedMs)
           
         }
         else {
           t.setState({
-            circleColor : t.state.circleColors.low,
+            circleColor : t.state.circleColors.medium,
             timeNotAllowed : 0, 
             message: "You're driving well",
             exceeded : false,

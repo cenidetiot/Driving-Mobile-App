@@ -11,12 +11,13 @@ class OCBConnection {
 		OCB.config(`http://${config.ip}`,config.port,config.version)
 	}
 
-	create (entity, message = "Enviado Exitosamente") {
+	create (entity, message = false) {
 		
 	    let newJson = NGSI.parseEntity(entity)
 		OCB.createEntity(newJson)
 		.then((result) =>{
-			//ToastAndroid.showWithGravity( message, ToastAndroid.SHORT, ToastAndroid.CENTER);
+			if(message != false)
+				ToastAndroid.showWithGravity( message, ToastAndroid.SHORT, ToastAndroid.CENTER);
 		})
 		.catch((err) => {
 			//ToastAndroid.showWithGravity( JSON.stringify(err) , ToastAndroid.SHORT, ToastAndroid.CENTER);
