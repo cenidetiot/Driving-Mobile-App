@@ -22,7 +22,7 @@ export default class SettingScreen extends Component {
       
       	this.state = {
 	         switchOfflineValue: false,
-	         switchMobileData: false
+	         switchMovilDataValue: false
       	}
 
       	NgsiModule.getValuePreferenceOffline((status) => {
@@ -32,8 +32,17 @@ export default class SettingScreen extends Component {
           	//ToastAndroid.show("Status: "+statusOffline, ToastAndroid.SHORT);
         },
         (err) => {
-          ToastAndroid.show("Status Error: "+statusOffline, ToastAndroid.SHORT);
+          ToastAndroid.show("Status Offline Error: "+statusOffline, ToastAndroid.SHORT);
         });
+
+       	NgsiModule.getValuePreferenceMobilData((status) =>{
+       		let statusMobilData;
+       		statusMobilData = status;
+       		this.setState({switchMovilDataValue: statusMobilData});
+       	},
+       	(err) =>{
+       		ToastAndroid.show("Status Movil Data Error: "+statusMobilData, ToastAndroid.SHORT);
+       	});
 
    }
    /*async componentDidMount() {
@@ -42,8 +51,15 @@ export default class SettingScreen extends Component {
 	toggleSwitchOffline = (value) => {
 		NgsiModule.saveValuePreferenceOffline(value);
 		this.setState({switchOfflineValue: value});
-		ToastAndroid.show("Switch 1 is: "+value, ToastAndroid.SHORT);
+		//ToastAndroid.show("Switch 1 is: "+value, ToastAndroid.SHORT);
 	}
+
+	toggleSwitchMovilData = (value) => {
+		NgsiModule.saveValuePreferenceMobilData(value);
+		this.setState({switchMovilDataValue: value});
+		//ToastAndroid.show("Switch 2 is: "+value, ToastAndroid.SHORT);
+	}
+
 
 	onBackPress(){
 	  let backAction = NavigationActions.back()
@@ -81,6 +97,17 @@ export default class SettingScreen extends Component {
 			        	</View>
 			        	<View style={[styles.box, styles.switchStyle]}>
 	 						<Switch onValueChange={this.toggleSwitchOffline} value = {this.state.switchOfflineValue}/>
+			        	</View>
+
+
+		        	</View>
+		        	<View style={[styles.row, styles.lineStyle]}>
+		        		<View style={[styles.box, styles.colums]}>
+			        		<Text style={styles.textTitle}> Do you want to use mobile data?</Text>
+			        		<Text> To send and backup information.</Text>
+			        	</View>
+			        	<View style={[styles.box, styles.switchStyle]}>
+	 						<Switch onValueChange={this.toggleSwitchMovilData} value = {this.state.switchMovilDataValue}/>
 			        	</View>
 		        	</View>       	
 		        </ScrollView>

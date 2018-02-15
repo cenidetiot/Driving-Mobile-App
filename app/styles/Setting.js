@@ -14,8 +14,8 @@ export default {
 	row: {
 	    flex: 1,
 	    flexDirection: 'row',
-	    justifyContent: 'space-between',
-	    marginBottom: 10
+	    justifyContent: 'space-between'
+	    //marginBottom: 10
 	},
 	textTitle: {
 		fontWeight: 'bold',
@@ -24,11 +24,11 @@ export default {
 	lineStyle:{
         borderTopWidth: 0.5,
         //borderBottomWidth: 0.5,
-        borderColor:'#bdc3c7',
-        margin:10
+        borderColor:'#bdc3c7'
+       // margin:4
     },
     switchStyle: {
-	    marginTop: 15,	
+	    //marginTop: 15,	
     	alignItems: 'center'
     }
 
