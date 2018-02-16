@@ -62,7 +62,7 @@ class UserContext {
                 let list = JSON.parse(JSON.parse("[" + campuslist + "]"))
                 let campus = null
                 list.map((camp) => {
-                    if (Functions.PointOnCampus([[position.coords.latitude,position.coords.longitude]],camp.location)){ // Apatzingan  
+                    if (Functions.PointOnCampus([position.coords.latitude, position.coords.longitude],camp.location)){ // Apatzingan    
                      campus = camp  
                     }
                 })

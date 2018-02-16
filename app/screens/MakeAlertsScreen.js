@@ -95,7 +95,7 @@ export default class MakeAlertsScreen extends Component {
           subCategory : t.state.typeAlert,
           location :{
             type : "geo:point",  
-            value : `18.879781, -99.221777` //`${position.coords.latitude} ,${position.coords.longitude}`
+            value : `${position.coords.latitude} ,${position.coords.longitude}`
           },
           dateObserved: new Date(),
           validFrom: new Date(),

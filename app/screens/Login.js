@@ -66,7 +66,7 @@ export default class LoginScreen extends React.Component {
             buttonStyle={{marginTop : 15,width: 200}}
             backgroundColor='#2980b9'
           />*/}
-          <Button
+          {<Button
             small
             icon={{name: 'verified-user'}}
             onPress={() =>{
@@ -75,7 +75,7 @@ export default class LoginScreen extends React.Component {
             title='Smart Security Signup' 
             buttonStyle={{marginTop : 15, width: 200}}
             backgroundColor='#2c3e50'
-            />
+          />}
         </View>
       )
     }else {

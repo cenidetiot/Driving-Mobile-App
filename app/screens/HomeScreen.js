@@ -56,8 +56,6 @@ export default class HomeScreen extends Component {
       NgsiModule.InitDevice("User:" + user.id.toString());
     })
 
-    
-
     store.subscribe(() => {
       t.setState({campus : store.getState().campus})
     })
@@ -104,8 +102,11 @@ export default class HomeScreen extends Component {
 	      <View style={styles.container}>
           <View style={styles.cardContainer}>
           <Text>{this.state.aceleration}</Text>
+            
             {this.state.campus ? this.isInside(): this.isOutside()}
-          <Text>{this.state.data}</Text>
+          <ScrollView>
+          <Text>{}</Text>
+          </ScrollView>
           </View>
           
           <MyFloatButton navigate={navigate}/>
@@ -122,3 +123,4 @@ const styles = StyleSheet.create(style);
 // if (Functions.PointOnCampus([18.879781, -99.221777],camp.location)){ // Apatzingan           
 //if (Functions.PointOnCampus([18.876438, -99.220000],camp.location)){ // PALMIRA
 //if (Functions.PointOnCampus([position.coords.latitude,position.coords.longitude],camp.location)){
+  //19.0323107, -98.31537019999999

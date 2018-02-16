@@ -50,8 +50,8 @@ export default class MyFloatButton extends Component {
           subCategory:"Unknown",
           location :{
             type : "geo:point",  
-            value : `18.876438, -99.220000` //Palmira
-            //value : `${position.coords.latitude} ,${position.coords.longitude}`
+            //value : `18.876438, -99.220000` //Palmira
+            value : `${position.coords.latitude} ,${position.coords.longitude}`
           },
           dateObserved: new Date(),
           validFrom: new Date(),
