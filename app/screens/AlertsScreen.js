@@ -46,7 +46,8 @@ export default class AlertsScreen extends Component {
     let t = this
     ServerConnection.alerts.getAlerts()
       .then((response) =>{
-        t.setState({alerts :  JSON.parse(response)})
+        t.setState({alerts :  JSON.parse(response),
+          counter : JSON.parse(JSON.parse("["+ alerts + "]")).length})
       })
       .catch((err) => {
         AsyncStorage.getItem('alerts').then((alerts) =>{
@@ -55,7 +56,8 @@ export default class AlertsScreen extends Component {
             if (campus !== "{}" && campus !== null){
               if(alerts !== '{}' && alerts !== null){
                 t.setState({
-                  alerts : JSON.parse(JSON.parse("["+ alerts + "]"))
+                  alerts : JSON.parse(JSON.parse("["+ alerts + "]")),
+                  counter : JSON.parse(JSON.parse("["+ alerts + "]")).length
                 })
               } 
             }
@@ -137,7 +139,7 @@ export default class AlertsScreen extends Component {
 		    renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/>)}>
         <MaterialToolbar
             style={{flex:1,backgroundColor:'#2d5f73'}}
-            title={'Alerts on your Campus'}
+            title={'Alerts on your Campus' + `${this.state.counter}`}
             icon={'arrow-back'}
             onIconPress={this.onBackPress.bind(this)}
             rightIconStyle={{

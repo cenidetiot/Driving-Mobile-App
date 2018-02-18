@@ -49,8 +49,7 @@ export default class MyFloatButton extends Component {
           category: "Security",
           subCategory:"Unknown",
           location :{
-            type : "geo:point",  
-            //value : `18.876438, -99.220000` //Palmira
+            type : "geo:point",   
             value : `${position.coords.latitude} ,${position.coords.longitude}`
           },
           dateObserved: new Date(),
@@ -60,8 +59,9 @@ export default class MyFloatButton extends Component {
           alertSource: device,
           severity : "high"
         }
-        ServerConnection.alerts.addNewAlert(alert);
+      
         let newJson = OCBConnection.create(alert, "The Alert has been sent")
+        ServerConnection.alerts.addNewAlert(alert);
       })
 
     },

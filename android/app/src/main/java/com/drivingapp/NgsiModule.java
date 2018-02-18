@@ -167,8 +167,10 @@ public class NgsiModule extends ReactContextBaseJavaModule {
       errorCallback.invoke(e.getMessage());
     }
   }
+
   @ReactMethod
   private void showGPSDisabledAlert(){
+
     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
     alertDialogBuilder.setMessage("GPS is disabled on the device. Do you want to enable?")
             .setCancelable(false)
@@ -181,6 +183,7 @@ public class NgsiModule extends ReactContextBaseJavaModule {
                     });
     AlertDialog alert = alertDialogBuilder.create();
     alert.show();
+    
   }
 
 

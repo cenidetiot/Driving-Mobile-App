@@ -10,61 +10,22 @@ import DBase from './functions/DBase'
 
 class UserContext {
 
-    createUserContext(){
-        let t = this
-
-        navigator.geolocation.getCurrentPosition((position) =>{
-
-            AsyncStorage.getItem('userdata').then((user) =>{
-                let userdata = JSON.parse(user);
-                AsyncStorage.getItem('device').then((device) =>{
-                    t.context = `UserContext:User_${userdata.id}`;
-                    OCBConnection.create({
-                        id : `UserContext:User_${userdata.id}`,
-                        type : "UserContext",
-                        refUser : `User_${userdata.id}`,
-                        refUserDevice : device,
-                        dateCreated : new Date(),
-                        dateModified : new Date(),
-                        location : {
-                            type : "geo:point",  
-                            value : `${position.coords.latitude} ,${position.coords.longitude}`
-                        }
-                    })
-                })
-            })
-
-
-        },(error) => {
-            //ToastAndroid.showWithGravity( error.message , ToastAndroid.SHORT, ToastAndroid.CENTER);
-            },
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-        );
-    }
-
-
    async watchContext () {
         
         let t =  this 
         this.location= ""
         t.campus = null
         Actions.outCampus();
-        AsyncStorage.getItem('userdata').then((user) =>{
-            let userdata = JSON.parse(user);
-            t.context = `UserContext:User_${userdata.id}`;
-        })
-
-        navigator.geolocation.watchPosition((position) =>{ // Funcion que se ejecuta cuando cambia ubicacion  
+        navigator.geolocation.watchPosition((position) =>{  
         
             AsyncStorage.getItem('campuslist').then((campuslist) =>{
 
-                //CALCULO DE CAMPUS
                 let list = JSON.parse(JSON.parse("[" + campuslist + "]"))
                 let campus = null
                 list.map((camp) => {
-                    if (Functions.PointOnCampus([position.coords.latitude, position.coords.longitude],camp.location)){ // Apatzingan    
+                    if (Functions.PointOnCampus([19.033347772359097 ,-98.31635484566372],camp.location)){ // Apatzingan    
                      campus = camp  
-                    }
+                    } 
                 })
                 if(campus !== null && t.campus !== campus){
                     t.campus = campus
@@ -76,22 +37,10 @@ class UserContext {
             })
             let location = `${position.coords.latitude} ,${position.coords.longitude}`
             t.location = location
-            OCBConnection.update(t.context, {
-                location : {
-                    type : "geo:point",  
-                    value : location
-                },
-                dateModified : new Date()
-            })
             
         },
         (error) => {
-            Alert.alert('Alert',error.message,
-                [
-                    {text: 'ok', onPress: () => console.log('Ask me later pressed')}
-                ],
-                { cancelable: true }
-            )
+            console.log(error.message)
         },
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.5 },
         );

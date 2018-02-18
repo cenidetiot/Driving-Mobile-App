@@ -94,7 +94,7 @@ export default class MakeAlertsScreen extends Component {
           category: "Traffic",
           subCategory : t.state.typeAlert,
           location :{
-            type : "geo:point",  
+            type : "geo:point",   
             value : `${position.coords.latitude} ,${position.coords.longitude}`
           },
           dateObserved: new Date(),
@@ -105,9 +105,9 @@ export default class MakeAlertsScreen extends Component {
           severity : t.state.severityText
         }
         ToastAndroid.showWithGravity( "Sending Alert..." , ToastAndroid.SHORT, ToastAndroid.CENTER);
+        
+        OCBConnection.create(alert, "The Alert has been sent")
         ServerConnection.alerts.addNewAlert(alert);
-        let newJson = OCBConnection.create(alert, "The Alert has been sent")
-
         let backAction = NavigationActions.back()
         this.props.navigation.dispatch(backAction)
 

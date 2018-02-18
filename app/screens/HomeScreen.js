@@ -8,9 +8,10 @@ import {
   Image,
   ToastAndroid,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  TouchableHighlight
 } from 'react-native';
-import { Avatar, TYPO, COLOR, Button } from 'react-native-material-design';
+import {Avatar} from 'react-native-elements'
 
 import UserContext  from '../UserContext'
 
@@ -33,22 +34,28 @@ export default class HomeScreen extends Component {
     super(props);
     //Servicio para realizar el Backing...
     NgsiModule.InitBackingService();
+
     this.onPress = this.onPress.bind(this)
     this.isInside = this.isInside.bind(this)
     this.isOutside = this.isOutside.bind(this)
+    this.checkGPS = this.checkGPS.bind(this)
+    this.startWatching = this.startWatching.bind(this)
     this.state = {
       message : "You are not in any campus",
       campus : null,
       speed: null,
       aceleration : null,
-      data : ""
+      data : "",
+      gps : false
     }
   } 
   
   componentDidMount(){
     let t = this
+
     
-    UserContext.watchContext()
+     this.checkGPS()
+    
     
     AsyncStorage.getItem('userdata').then((data) =>{
       let user = JSON.parse(data)
@@ -56,6 +63,38 @@ export default class HomeScreen extends Component {
       NgsiModule.InitDevice("User:" + user.id.toString());
     })
 
+  }
+
+  checkGPS(){
+    let t = this
+    navigator.geolocation.getCurrentPosition((position) =>{
+      t.startWatching()
+    },
+    (error) => {
+        t.setState({message : error.message})
+        Alert.alert('Alert First',error.message,
+          [
+            {
+              text: 'Reload',
+              onPress: () => this.checkGPS()
+            },
+            {
+              text : "Continue",
+              onPress: () => console.log("lslsls")   
+            }
+          ],
+          {
+            cancelable: false 
+          }
+        )
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+  }
+
+  startWatching() {
+    let t = this
+    UserContext.watchContext()
     store.subscribe(() => {
       t.setState({campus : store.getState().campus})
     })
@@ -70,8 +109,9 @@ export default class HomeScreen extends Component {
 
   isInside () {
     return(
-      <View style={{flex:4, alignItems:'center', marginTop : '20%' ,transform: [{'translate':[0,0,1]}] }} >
+      <View style={{flex:4, alignItems:'center', marginTop : '20%' ,transform: [{'translate':[0,0,1]}] }}>
         <Image
+          style={{height : 200 , width : 200}}
           source={require('../images/inside.png')}
         />
         <Text style={{fontWeight:'bold'}}>{this.state.campus.name}</Text>
@@ -82,12 +122,16 @@ export default class HomeScreen extends Component {
   isOutside(){
     return (
       <View style={{flex:4, alignItems:'center', marginTop : '40%',transform: [{'translate':[0,0,1]}] }} >
-        <Image
-          style={{width : 200, height: 200}}
+        <Avatar
+          xlarge
+          rounded
           source={require('../images/outside.png')}
+          onPress={() => this.checkGPS()}
+          activeOpacity={0.7}
         />
         <Text style={{fontWeight:'bold'}}>{this.state.message}</Text>
       </View>
+      
     )
   }
   render() { 
@@ -104,9 +148,7 @@ export default class HomeScreen extends Component {
           <Text>{this.state.aceleration}</Text>
             
             {this.state.campus ? this.isInside(): this.isOutside()}
-          <ScrollView>
-          <Text>{}</Text>
-          </ScrollView>
+          
           </View>
           
           <MyFloatButton navigate={navigate}/>
