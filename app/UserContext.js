@@ -15,7 +15,8 @@ class UserContext {
    async watchContext () {
         let t =  this 
         navigator.geolocation.watchPosition((position) =>{  
-            location = [19.033347772359097 ,-98.31635484566372]
+            location = [ position.coords.latitude,position.coords.longitude ]
+            //location = [19.033347772359097 ,-98.31635484566372]
             if(t.campus === null) {
                 t.searchCampus(location)
             } else {
