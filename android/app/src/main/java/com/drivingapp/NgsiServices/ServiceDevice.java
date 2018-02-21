@@ -44,6 +44,7 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
     private static final String STATUS = "Status";
     Context context;
     private double longitudeGPS, latitudeGPS, altitudeGPS;
+    private double longitudeNetwork, latitudeNetwork;
     private float speedMS = 0, speedKmHr = 0;
     private LocationManager locationManager;
     private Functions functions = new Functions();
@@ -93,11 +94,12 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
         Log.d(STATUS, "Service started...!");
         owner = intent.getStringExtra(Constants.OWNER);
         Log.i("owner", owner);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListenerGPS);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetwork);
         return START_NOT_STICKY;
     }
 
@@ -124,7 +126,7 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
                 tblTemp.setKeyword(device.getId());
                 //tvLatitud.setText(""+latitudeGPS);
                 //tvLongitud.setText(""+longitudeGPS);
-                Log.i(STATUS, "Test Status");
+                Log.i(STATUS, "Test Status GPS Latitude: "+latitudeGPS+" - Longitude"+longitudeGPS);
                 Log.i(STATUS, ""+speedMS+"m/s");
                 Log.i(STATUS, ""+speedKmHr+"km/h");
                 deviceValidateExists = controllerSQLite.getByKeywordTempCreate(tblTemp);
@@ -167,6 +169,76 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
 
         }
     };
+
+    private final LocationListener locationListenerNetwork = new LocationListener() {
+
+        @Override
+        public void onLocationChanged(Location location) {
+            longitudeNetwork = (double)location.getLongitude();
+            latitudeNetwork = (double)location.getLatitude();
+            altitudeGPS = (double)location.getAltitude();
+            speedMS = (float) (location.getSpeed());
+            speedKmHr = (float)(location.getSpeed() * 3.6);
+
+            accuracy = (float)location.getAccuracy();
+            //speedAccuracyms = (float)location.getSpeedAccuracyMetersPerSecond();
+            time = (long) location.getTime();
+            //verticalAccuracy = (float) location.getVerticalAccuracyMeters();
+
+            hasSpeed = (boolean) location.hasSpeed();
+            if (location != null) {
+                Intent localIntent = new Intent(Constants.SERVICE_CHANGE_LOCATION_DEVICE).putExtra(Constants.DEVICE_GPS_RESULT_SPEED_MS, speedMS)
+                        .putExtra(Constants.DEVICE_GPS_RESULT_SPEED_KMHR, speedKmHr);
+                LocalBroadcastManager.getInstance(ServiceDevice.this).sendBroadcast(localIntent);
+                device = createDevice(latitudeNetwork, longitudeNetwork, time, accuracy);
+                tblTemp.setKeyword(device.getId());
+                //tvLatitud.setText(""+latitudeGPS);
+                //tvLongitud.setText(""+longitudeGPS);
+                Log.i(STATUS, "Test Status Network Latitude: "+latitudeNetwork+" - Longitude"+longitudeNetwork);
+                Log.i(STATUS, ""+speedMS+"m/s");
+                Log.i(STATUS, ""+speedKmHr+"km/h");
+                deviceValidateExists = controllerSQLite.getByKeywordTempCreate(tblTemp);
+                if (deviceValidateExists == null) {
+                    //Obtener los datos para para cargarlos en el Device
+
+                    try {
+                        deviceResources.createEntity(context, device.getId(),device);
+                    } catch (Exception e) {
+                        Log.i(STATUS, "Exception Device...!");
+                        //Toast.makeText(getBaseContext(), "Exception Device...!", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    deviceUpdateModel = updateDevice(latitudeNetwork, longitudeNetwork, time, accuracy);
+                    try {
+                        deviceResources.updateEntity(context, device.getId(), deviceUpdateModel);
+                    } catch (Exception e) {
+                        Log.i(STATUS, "Exception Device Update...!");
+                        //Toast.makeText(getBaseContext(), "Exception Device Update...!", Toast.LENGTH_LONG).show();
+                    }
+                }
+            } else {
+                Log.i(STATUS, "Error GPS...!");
+                //Toast.makeText(getBaseContext(), "Error GPS...!", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+
+
 
     public Device createDevice(Double latitudeGPS, Double longitudeGPS, long time, float accuracy){
         

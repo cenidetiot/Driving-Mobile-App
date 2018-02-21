@@ -168,6 +168,18 @@ public class NgsiModule extends ReactContextBaseJavaModule {
     }
   }
 
+    @ReactMethod
+    public void getValuePreferenceMobilDataTrue(Callback successCallback, Callback errorCallback){
+        boolean status = true;
+        try{
+            status = preferences.getValuePreferenceBooleanTrue(context, Constants.PREFERENCE_MOBILE_DATA_KEY, Constants.PREFERENCE_STATUS_MOBILE_DATA);
+            //Toast.makeText(getReactApplicationContext(), "Get-Value-Offline: "+status, Toast.LENGTH_SHORT).show();
+            successCallback.invoke(status);
+        } catch (IllegalViewOperationException e) {
+            errorCallback.invoke(e.getMessage());
+        }
+    }
+
   @ReactMethod
   private void showGPSDisabledAlert(){
 

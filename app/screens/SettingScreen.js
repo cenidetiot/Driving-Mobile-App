@@ -22,7 +22,7 @@ export default class SettingScreen extends Component {
       
       	this.state = {
 	         switchOfflineValue: false,
-	         switchMovilDataValue: false
+	         switchMovilDataValue: true
       	}
 
       	NgsiModule.getValuePreferenceOffline((status) => {
@@ -35,9 +35,10 @@ export default class SettingScreen extends Component {
           ToastAndroid.show("Status Offline Error: "+statusOffline, ToastAndroid.SHORT);
         });
 
-       	NgsiModule.getValuePreferenceMobilData((status) =>{
+       	NgsiModule.getValuePreferenceMobilDataTrue((status) =>{
        		let statusMobilData;
        		statusMobilData = status;
+       		NgsiModule.saveValuePreferenceMobilData(statusMobilData);
        		this.setState({switchMovilDataValue: statusMobilData});
        	},
        	(err) =>{
@@ -103,7 +104,7 @@ export default class SettingScreen extends Component {
 		        	</View>
 		        	<View style={[styles.row, styles.lineStyle]}>
 		        		<View style={[styles.box, styles.colums]}>
-			        		<Text style={styles.textTitle}> Do you want to use mobile data?</Text>
+			        		<Text style={styles.textTitle}> Enable your mobile data?</Text>
 			        		<Text> To send and backup information.</Text>
 			        	</View>
 			        	<View style={[styles.box, styles.switchStyle]}>

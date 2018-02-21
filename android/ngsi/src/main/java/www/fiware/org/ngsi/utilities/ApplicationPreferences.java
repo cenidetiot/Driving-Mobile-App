@@ -27,4 +27,9 @@ public class ApplicationPreferences {
         SharedPreferences preferences = context.getSharedPreferences(preferenceKey, context.MODE_PRIVATE);
         return  preferences.getBoolean(preferenceName, false);
     }
+
+    public boolean getValuePreferenceBooleanTrue(Context context, String preferenceKey, String preferenceName) {
+        SharedPreferences preferences = context.getSharedPreferences(preferenceKey, context.MODE_PRIVATE);
+        return  preferences.getBoolean(preferenceName, true);
+    }
 }

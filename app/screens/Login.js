@@ -19,6 +19,7 @@ import { Button, Icon } from 'react-native-elements'
 import ServerConnection from '../services/ServerConnection'
 import UserContext from '../UserContext'
 import style from '../styles/Login'
+import NgsiModule from '../../NativeModules/NgsiModule';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -34,6 +35,17 @@ export default class LoginScreen extends React.Component {
       message:"",
       form : false
     }
+
+    NgsiModule.getValuePreferenceMobilDataTrue((status) =>{
+          let statusMobilData;
+          statusMobilData = status;
+          ToastAndroid.show("Status Data True: "+statusMobilData, ToastAndroid.SHORT);
+          NgsiModule.saveValuePreferenceMobilData(statusMobilData);
+          //this.setState({switchMovilDataValue: statusMobilData});
+        },
+        (err) =>{
+          ToastAndroid.show("Status Movil Data Error: "+statusMobilData, ToastAndroid.SHORT);
+        });
    }
 
   updateEmail = (email) => {
