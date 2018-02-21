@@ -43,8 +43,6 @@ export default class HomeScreen extends Component {
     this.state = {
       message : "You are not in any campus",
       campus : null,
-      speed: null,
-      aceleration : null,
       data : "",
       gps : false
     }
@@ -52,17 +50,12 @@ export default class HomeScreen extends Component {
   
   componentDidMount(){
     let t = this
-
-    
-     this.checkGPS()
-    
-    
+    this.checkGPS()
     AsyncStorage.getItem('userdata').then((data) =>{
       let user = JSON.parse(data)
       NgsiModule.InitDeviceModel();
       NgsiModule.InitDevice("User:" + user.id.toString());
     })
-
   }
 
   checkGPS(){
@@ -96,7 +89,7 @@ export default class HomeScreen extends Component {
     let t = this
     UserContext.watchContext()
     store.subscribe(() => {
-      t.setState({campus : store.getState().campus})
+      t.setState({campus : store.getState().campus.campus})
     })
   }
 
@@ -145,10 +138,8 @@ export default class HomeScreen extends Component {
         <Toolbar navigation={this.props.navigation} title={'      Driving App'} isHome={true} counter={this.state.conter} onPress={this.onPress.bind(this)}/>
 	      <View style={styles.container}>
           <View style={styles.cardContainer}>
-          <Text>{this.state.aceleration}</Text>
-            
-            {this.state.campus ? this.isInside(): this.isOutside()}
-          
+           
+            { this.state.campus ? this.isInside(): this.isOutside() }
           </View>
           
           <MyFloatButton navigate={navigate}/>

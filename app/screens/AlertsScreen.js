@@ -18,6 +18,7 @@ import Nav from '../components/Nav'
 import MyFloatButton from '../components/MyFloatButton'
 
 import ServerConnection from '../services/ServerConnection'
+import store from '../redux/reducers/index'
 
 import style from '../styles/Alerts'
   
@@ -44,10 +45,13 @@ export default class AlertsScreen extends Component {
   } 
   componentDidMount(){
     let t = this
-    ServerConnection.alerts.getAlerts()
+    /*ServerConnection.alerts.getAlerts()
       .then((response) =>{
         t.setState({alerts :  JSON.parse(response),
-          counter : JSON.parse(JSON.parse("["+ alerts + "]")).length})
+          counter : JSON.parse(JSON.parse("["+ alerts + "]")).length,
+          message : response
+        })
+          
       })
       .catch((err) => {
         AsyncStorage.getItem('alerts').then((alerts) =>{
@@ -64,7 +68,14 @@ export default class AlertsScreen extends Component {
 
           })
         })
-      }) 
+      }) */
+    t.setState({ alerts : store.getState().alerts.alerts, counter : store.getState().alerts.alerts.length})
+    store.subscribe(() => {
+        try {
+            t.setState({ alerts : store.getState().alerts.alerts})
+        }catch(err){}
+    })
+
   }
   onPress (){
     this.refs['DRAWER'].openDrawer()
@@ -83,6 +94,7 @@ export default class AlertsScreen extends Component {
     if (this.state.alerts.length >= 1 ){
       return(
         <ScrollView>  
+          
           {
             this.state.alerts.map((item)=>(
               <TouchableHighlight style={styles.card} underlayColor="#ecf0f1" 
@@ -98,7 +110,7 @@ export default class AlertsScreen extends Component {
                     ],
                     { cancelable: false }
                   )
-                }} key={Date.now()}>
+                }} key={item.id}>
                   <View style={styles.cardContainer}>
                     <View style={styles.cardAvatar}>
                     <Avatar  icon={'warning'} backgroundColor={this.state.colors[item.severity]}/> 
@@ -139,7 +151,7 @@ export default class AlertsScreen extends Component {
 		    renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/>)}>
         <MaterialToolbar
             style={{flex:1,backgroundColor:'#2d5f73'}}
-            title={'Alerts on your Campus' + `${this.state.counter}`}
+            title={'Alerts on your Campus'}
             icon={'arrow-back'}
             onIconPress={this.onBackPress.bind(this)}
             rightIconStyle={{
@@ -147,7 +159,6 @@ export default class AlertsScreen extends Component {
           }}
         />
         <View style={styles.container}>  
-        
           {this.hasAlerts()}
           <MyFloatButton navigate={navigate}/>
           

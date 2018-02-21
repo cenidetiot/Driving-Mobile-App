@@ -85,7 +85,7 @@ export default class MyAlertsScreen extends Component {
                     ],
                     { cancelable: false }
                   )
-                }} key={Date.now()}>
+                }} key={item.id}>
                   <View style={styles.cardContainer}>
                     <View style={styles.cardAvatar}>
                     <Avatar  icon={'warning'} backgroundColor={this.state.colors[item.severity]}/> 

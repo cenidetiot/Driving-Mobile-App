@@ -1,6 +1,7 @@
 import {AsyncStorage ,ToastAndroid} from 'react-native'
 import routes from '../../../config/routes'
 import config from '../../../config/config'
+import Actions from '../../redux/actions/Actions'
 
 import Requests from './HTTP/Requests';
 

@@ -1,5 +1,6 @@
 import {AsyncStorage,ToastAndroid,Alert} from 'react-native';
 import Functions from './functions/Functions'
+import ServerConnection from '../app/services/ServerConnection'
 
 import Actions from './redux/actions/Actions'
 import store from './redux/reducers/index'
@@ -30,9 +31,9 @@ class UserContext {
         );
     }
 
-    searchCampus (location) {
+    async searchCampus (location) {
         let t =  this 
-        AsyncStorage.getItem('campuslist').then((campuslist) =>{
+        AsyncStorage.getItem('campuslist').then(async (campuslist) =>{
             let list = JSON.parse(JSON.parse("[" + campuslist + "]"))
             let campus = null
             list.map((camp) => {
@@ -42,7 +43,14 @@ class UserContext {
             })
             if(campus !== null && t.campus !== campus){
                 t.campus = campus
+
                 Actions.inCampus(campus);
+
+                await ServerConnection.alerts.getAlerts()
+                .then((array ) => {
+                    Actions.setAlerts(JSON.parse(array))                  
+                })
+               
             }else{
                 Actions.outCampus();
             }

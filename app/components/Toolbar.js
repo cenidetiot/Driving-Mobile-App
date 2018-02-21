@@ -3,7 +3,7 @@ import { PropTypes, Text, View, AsyncStorage,ToastAndroid } from 'react-native';
 import { Toolbar as MaterialToolbar } from 'react-native-material-design';
 import SocketIOClient from 'socket.io-client'
 import { NavigationActions } from 'react-navigation'
-
+import store from '../redux/reducers/index'
 
 export default class Toolbar extends Component {
 
@@ -27,6 +27,11 @@ export default class Toolbar extends Component {
               let camp = JSON.parse(campus)
             }       
           })
+        store.subscribe(() => {
+            try {
+                t.setState({ counter : store.getState().alerts.alerts.length})
+            }catch(err){}
+        })
         
     }
 
@@ -50,7 +55,7 @@ export default class Toolbar extends Component {
                     onIconPress={this.props.onPress}
                     actions={[{
                         icon: 'warning',
-                        //badge: { value: this.state.counter, animate: true },
+                        badge: { value: this.state.counter, animate: true },
                         onPress: this.watchAlerts
                     }]}
                     rightIconStyle={{

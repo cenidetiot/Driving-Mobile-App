@@ -1,34 +1,27 @@
 import store from '../reducers/index'
-
+import {AsyncStorage,ToastAndroid} from 'react-native';
 
 class Actions {
-
-
-    loadID (id) {
-        store.dispatch({
-            type : 'ASIGN_ID',
-            id
-        })
-        return 
-    }
-
-    loadRefDevice (refDevice) {
-        store.dispatch({
-            type : 'LOAD_REFDEVICE',
-            refDevice
-        })
-        return 
-    }
 
     changeLocation (location) {
         store.dispatch({
             type : 'CHANGE_LOCATION',
-            location
+            location: location
+        })
+        return 
+    }
+
+    setAlerts (alerts) {
+        
+        store.dispatch({
+            type : 'SET_ALERTS',
+            alerts : alerts
         })
         return 
     }
 
     inCampus (campus) {
+
         store.dispatch({
             type : 'IN_CAMPUS',
             campus : campus
@@ -42,34 +35,6 @@ class Actions {
             campus : null
         })
         return 
-    }
-    // LOAD PLACES LISTS 
-    loadCampusList (campuslist) {
-        store.dispatch({
-            type : 'LOAD_CAMPUSLIST',
-            campuslist
-        })
-    }
-
-    loadSubzones (subzones) {
-        store.dispatch({
-            type : 'LOAD_SUBZONES',
-            subzones
-        })
-    }
-
-    loadRoads (roads) {
-        store.dispatch({
-            type : 'LOAD_ROADS',
-            subzones
-        })
-    }
-
-    loadRoadSegments (roadSegments) {
-        store.dispatch({
-            type : 'LOAD_ROADSEGMENTS',
-            roadSegments
-        })
     }
 }
 
