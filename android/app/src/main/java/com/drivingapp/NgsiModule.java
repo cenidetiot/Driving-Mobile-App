@@ -182,20 +182,8 @@ public class NgsiModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   private void showGPSDisabledAlert(){
-
-    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-    alertDialogBuilder.setMessage("GPS is disabled on the device. Do you want to enable?")
-            .setCancelable(false)
-            .setPositiveButton("Enable GPS",
-                    new DialogInterface.OnClickListener(){
-                      public void onClick(DialogInterface dialog, int id){
-                        Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        context.startActivity(callGPSSettingIntent);
-                      }
-                    });
-    AlertDialog alert = alertDialogBuilder.create();
-    alert.show();
-    
+      Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+      context.startActivity(callGPSSettingIntent);
   }
 
 
