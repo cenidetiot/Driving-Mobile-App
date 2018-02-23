@@ -39,13 +39,13 @@ export default class LoginScreen extends React.Component {
     NgsiModule.getValuePreferenceMobilDataTrue((status) =>{
           let statusMobilData;
           statusMobilData = status;
-          ToastAndroid.show("Status Data True: "+statusMobilData, ToastAndroid.SHORT);
+          //ToastAndroid.show("Status Data True: "+statusMobilData, ToastAndroid.SHORT);
           NgsiModule.saveValuePreferenceMobilData(statusMobilData);
           //this.setState({switchMovilDataValue: statusMobilData});
         },
         (err) =>{
           ToastAndroid.show("Status Movil Data Error: "+statusMobilData, ToastAndroid.SHORT);
-        });
+    });
    }
 
   updateEmail = (email) => {

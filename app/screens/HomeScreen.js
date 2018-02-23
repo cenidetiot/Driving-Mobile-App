@@ -65,15 +65,15 @@ export default class HomeScreen extends Component {
     },
     (error) => {
         t.setState({message : error.message})
-        Alert.alert('Alert First',error.message,
+        Alert.alert('GPS is disabled on the device. Do you want to enable?',error.message,
           [
-            {
+            /*{
               text: 'Reload',
               onPress: () => this.checkGPS()
-            },
+            },*/
             {
-              text : "Continue",
-              onPress: () => console.log("lslsls")   
+              text : "Enable GPS",
+              onPress: () => NgsiModule.showGPSDisabledAlert()  
             }
           ],
           {
