@@ -25,10 +25,10 @@ public class Constants {
     public static final String SERVICE_RUNNING_DEVICE = "service_running_device";
     public static final String SERVICE_RESULT_DEVICE = "service_result_device";
     public static final String SERVICE_CHANGE_LOCATION_DEVICE = "service_change_location_device";
-    public static final String DEVICE_LATITUDE = "device_latitude";
-    public static final String DEVICE_LONGITUDE = "device_longitude";
     public static final String DEVICE_GPS_RESULT_SPEED_MS = "device_gps_speed_ms";
     public static final String DEVICE_GPS_RESULT_SPEED_KMHR = "device_gps_speed_kmhr";
+    public static final String DEVICE_LATITUDE_RESULT = "device_latitude_result";
+    public static final String DEVICE_LONGITUDE_RESULT = "device_longitude_result";
     public static final String SERVICE_RUNNING_DEVICEMODEL= "service_running_devicemodel";
     public static final String SERVICE_RESULT_DEVICEMODEL = "service_result_devicemodel";
     public static final String SERVICE_RUNNING_SENSORS = "service_running_sensors";

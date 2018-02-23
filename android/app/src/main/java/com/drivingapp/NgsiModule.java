@@ -33,7 +33,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 public class NgsiModule extends ReactContextBaseJavaModule {
   private Context context = getReactApplicationContext();
-  private  double latitude, logitude;
+  private  double latitude = 0, longitude = 0;
   private Intent serviceDevice;
   IntentFilter filter;
   private float speedMS = 0, speedKmHr = 0;
@@ -133,6 +133,20 @@ public class NgsiModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void deviceLocation( // Nueva funcion que envia los datos de velocidad a la vista
+                           Callback successCallback,
+                           Callback errorCallback
+  ) {
+      try {
+          successCallback.invoke(latitude, longitude); // Envio de parametros a la vista
+      } catch (IllegalViewOperationException e) {
+          errorCallback.invoke(e.getMessage());
+      }
+  }
+
+
+
+  @ReactMethod
   public void saveValuePreferenceOffline(boolean value){
     preferences.saveValuePreferenceBoolean(context, value, Constants.PREFERENCE_OFFLINE_MODE_KEY, Constants.PREFERENCE_STATUS_OFFLINE_MODE);
     //Toast.makeText(getReactApplicationContext(), "Save-Value-Offline: "+value, Toast.LENGTH_SHORT).show();
@@ -215,13 +229,18 @@ public class NgsiModule extends ReactContextBaseJavaModule {
 
           speedMS = intent.getFloatExtra(Constants.DEVICE_GPS_RESULT_SPEED_MS, 0);
           speedKmHr = intent.getFloatExtra(Constants.DEVICE_GPS_RESULT_SPEED_KMHR, 0);
+          latitude = intent.getDoubleExtra(Constants.DEVICE_LATITUDE_RESULT, 0);
+          longitude = intent.getDoubleExtra(Constants.DEVICE_LONGITUDE_RESULT, 0);
+
 
           params.putDouble("speedKm", speedKmHr);
           params.putDouble("speedMs", speedMS);
+          params.putDouble("latitude", latitude);
+          params.putDouble("longitude", longitude);
           sendEvent(getReactApplicationContext(), "speed", params);
 
           //Toast.makeText(getReactApplicationContext(), "Speed: "+speedMS+"m/s ---- Speed: "+speedKmHr+"km/h", Toast.LENGTH_SHORT).show();
-          Log.i("Speed: ", ""+speedMS+"m/s  "+speedKmHr+"km/h");
+          Log.i("Speed: ", ""+speedMS+"m/s  "+speedKmHr+"km/h  Lat: "+latitude+"  Lon: "+longitude);
           break;
         case Constants.SERVICE_RUNNING_SENSORS:
 
