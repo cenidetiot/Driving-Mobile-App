@@ -43,7 +43,7 @@ import www.fiware.org.ngsi.utilities.Functions;
 public class ServiceDevice extends Service implements DeviceResources.DeviceResourceMethods{
     private static final String STATUS = "Status";
     Context context;
-    private double longitudeGPS, latitudeGPS, altitudeGPS;
+    private double longitudeGPS, latitudeGPS;
     private double longitudeNetwork, latitudeNetwork;
     private float speedMS = 0, speedKmHr = 0;
     private LocationManager locationManager;
@@ -108,7 +108,6 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
         public void onLocationChanged(Location location) {
             longitudeGPS = (double)location.getLongitude();
             latitudeGPS = (double)location.getLatitude();
-            altitudeGPS = (double)location.getAltitude();
             speedMS = (float) (location.getSpeed());
             speedKmHr = (float)(location.getSpeed() * 3.6);
 
@@ -120,15 +119,16 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
             hasSpeed = (boolean) location.hasSpeed();
             if (location != null) {
                 Intent localIntent = new Intent(Constants.SERVICE_CHANGE_LOCATION_DEVICE).putExtra(Constants.DEVICE_GPS_RESULT_SPEED_MS, speedMS)
-                        .putExtra(Constants.DEVICE_GPS_RESULT_SPEED_KMHR, speedKmHr);
+                        .putExtra(Constants.DEVICE_GPS_RESULT_SPEED_KMHR, speedKmHr).putExtra(Constants.DEVICE_LATITUDE_RESULT, latitudeGPS)
+                        .putExtra(Constants.DEVICE_LONGITUDE_RESULT, longitudeGPS);
                 LocalBroadcastManager.getInstance(ServiceDevice.this).sendBroadcast(localIntent);
                 device = createDevice(latitudeGPS, longitudeGPS, time, accuracy);
                 tblTemp.setKeyword(device.getId());
                 //tvLatitud.setText(""+latitudeGPS);
                 //tvLongitud.setText(""+longitudeGPS);
-                Log.i(STATUS, "Test Status GPS Latitude: "+latitudeGPS+" - Longitude"+longitudeGPS);
-                Log.i(STATUS, ""+speedMS+"m/s");
-                Log.i(STATUS, ""+speedKmHr+"km/h");
+               // Log.i(STATUS, "Test Status GPS Latitude: "+latitudeGPS+" - Longitude"+longitudeGPS);
+                //Log.i(STATUS, ""+speedMS+"m/s");
+                //Log.i(STATUS, ""+speedKmHr+"km/h");
                 deviceValidateExists = controllerSQLite.getByKeywordTempCreate(tblTemp);
                 if (deviceValidateExists == null) {
                     //Obtener los datos para para cargarlos en el Device
@@ -176,7 +176,6 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
         public void onLocationChanged(Location location) {
             longitudeNetwork = (double)location.getLongitude();
             latitudeNetwork = (double)location.getLatitude();
-            altitudeGPS = (double)location.getAltitude();
             speedMS = (float) (location.getSpeed());
             speedKmHr = (float)(location.getSpeed() * 3.6);
 
@@ -188,15 +187,16 @@ public class ServiceDevice extends Service implements DeviceResources.DeviceReso
             hasSpeed = (boolean) location.hasSpeed();
             if (location != null) {
                 Intent localIntent = new Intent(Constants.SERVICE_CHANGE_LOCATION_DEVICE).putExtra(Constants.DEVICE_GPS_RESULT_SPEED_MS, speedMS)
-                        .putExtra(Constants.DEVICE_GPS_RESULT_SPEED_KMHR, speedKmHr);
+                        .putExtra(Constants.DEVICE_GPS_RESULT_SPEED_KMHR, speedKmHr).putExtra(Constants.DEVICE_LATITUDE_RESULT, latitudeNetwork)
+                        .putExtra(Constants.DEVICE_LONGITUDE_RESULT, longitudeNetwork);;
                 LocalBroadcastManager.getInstance(ServiceDevice.this).sendBroadcast(localIntent);
                 device = createDevice(latitudeNetwork, longitudeNetwork, time, accuracy);
                 tblTemp.setKeyword(device.getId());
                 //tvLatitud.setText(""+latitudeGPS);
                 //tvLongitud.setText(""+longitudeGPS);
-                Log.i(STATUS, "Test Status Network Latitude: "+latitudeNetwork+" - Longitude"+longitudeNetwork);
-                Log.i(STATUS, ""+speedMS+"m/s");
-                Log.i(STATUS, ""+speedKmHr+"km/h");
+                //Log.i(STATUS, "Test Status Network Latitude: "+latitudeNetwork+" - Longitude"+longitudeNetwork);
+                //Log.i(STATUS, ""+speedMS+"m/s");
+                //Log.i(STATUS, ""+speedKmHr+"km/h");
                 deviceValidateExists = controllerSQLite.getByKeywordTempCreate(tblTemp);
                 if (deviceValidateExists == null) {
                     //Obtener los datos para para cargarlos en el Device
