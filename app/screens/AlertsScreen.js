@@ -19,6 +19,7 @@ import MyFloatButton from '../components/MyFloatButton'
 
 import ServerConnection from '../services/ServerConnection'
 import store from '../redux/reducers/index'
+import Actions from '../redux/actions/Actions'
 
 import style from '../styles/Alerts'
   
@@ -43,8 +44,17 @@ export default class AlertsScreen extends Component {
 
     }
   } 
-  componentDidMount(){
+  async componentDidMount(){
     let t = this
+    await ServerConnection.alerts.getAlerts()
+    .then(async (array ) => {
+        //ToastAndroid.show("Update the alerts", ToastAndroid.SHORT);
+        await Actions.setAlerts(JSON.parse(array))                 
+    })
+    .catch((err) =>{
+        Actions.setAlerts([])   
+        ToastAndroid.show("Error loading alerts", ToastAndroid.SHORT);            
+    })
     /*ServerConnection.alerts.getAlerts()
       .then((response) =>{
         t.setState({alerts :  JSON.parse(response),

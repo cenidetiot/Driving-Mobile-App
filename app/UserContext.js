@@ -9,32 +9,37 @@ class UserContext {
 
     constructor () {
         this.campus = null
-        Actions.outCampus();
+        //Actions.outCampus();
     }
 
    async watchContext () {
         let t =  this 
         navigator.geolocation.watchPosition((position) =>{  
+            //ToastAndroid.show("I check your position", ToastAndroid.SHORT);
             location = [ position.coords.latitude,position.coords.longitude ]
-            //location = [19.033347772359097 ,-98.31635484566372]
+
             if(t.campus === null) {
+                //ToastAndroid.show("First check", ToastAndroid.SHORT);
                 t.searchCampus(location)
             } else {
+                //ToastAndroid.show("Second check", ToastAndroid.SHORT);
                 if (!Functions.PointOnCampus(location,t.campus.location)){  
                     t.searchCampus(location)
                 } 
             }
+
         },
         (error) => {
             console.log(error.message)
         },
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.5 },
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.3 },
         );
     }
 
     async searchCampus (location) {
         let t =  this 
         AsyncStorage.getItem('campuslist').then(async (campuslist) =>{
+
             let list = JSON.parse(JSON.parse("[" + campuslist + "]"))
             let campus = null
             list.map((camp) => {
@@ -44,15 +49,19 @@ class UserContext {
             })
             if(campus !== null && t.campus !== campus){
                 t.campus = campus
-
                 Actions.inCampus(campus);
 
-                await ServerConnection.alerts.getAlerts()
+                ServerConnection.alerts.getAlerts()
                 .then((array ) => {
-                    Actions.setAlerts(JSON.parse(array))                  
+                    //ToastAndroid.show("Update the alerts", ToastAndroid.SHORT);
+                    Actions.setAlerts(JSON.parse(array))                 
                 })
-               
+                .catch((err) =>{
+                    Actions.setAlerts([])   
+                    ToastAndroid.show("Error loading alerts", ToastAndroid.SHORT);            
+                })
             }else{
+                t.campus = null;
                 Actions.outCampus();
             }
         })

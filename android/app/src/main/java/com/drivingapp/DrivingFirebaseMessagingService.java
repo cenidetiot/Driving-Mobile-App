@@ -15,6 +15,7 @@ import com.drivingapp.R;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.facebook.react.HeadlessJsTaskService;
 
 public class DrivingFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -39,10 +40,12 @@ public class DrivingFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());	
+            newAlertMessage(remoteMessage.getNotification().getTitle());
         }
     }
 
     private void showNotification(String messageTitle ,String messageBody) {
+
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -62,6 +65,16 @@ public class DrivingFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    private void newAlertMessage(String messageTitle) {
+
+        Context context = getApplicationContext();
+        Intent serviceIntent = new Intent(context, EntringAlert.class);
+        serviceIntent.putExtra("EntringAlert", messageTitle);
+        context.startService(serviceIntent);
+        HeadlessJsTaskService.acquireWakeLockNow(context);
+
     }
 
     // [END receive_message]

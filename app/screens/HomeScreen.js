@@ -24,6 +24,7 @@ import store from '../redux/reducers/index'
 
 import Functions from '../functions/Functions'
 import style from '../styles/Home'
+import User from '../services/controllers/UserController';
 
 //import { SensorManager } from 'NativeModules';
 
@@ -51,6 +52,11 @@ export default class HomeScreen extends Component {
   componentDidMount(){
     let t = this
     this.checkGPS()
+    AsyncStorage.getItem('campuslist').then((data) =>{
+      let camp = JSON.parse(data)
+
+      t.setState({data: JSON.stringify(camp[1])})
+    })
     AsyncStorage.getItem('userdata').then((data) =>{
       let user = JSON.parse(data)
       NgsiModule.InitDeviceModel();
@@ -65,15 +71,16 @@ export default class HomeScreen extends Component {
     },
     (error) => {
         t.setState({message : error.message})
-        Alert.alert('GPS is disabled on the device. Do you want to enable?',error.message,
+        Alert.alert('GPS is disabled on the device.',"You must turn on GPS",
           [
             /*{
               text: 'Reload',
               onPress: () => this.checkGPS()
             },*/
             {
-              text : "Enable GPS",
-              onPress: () => NgsiModule.showGPSDisabledAlert()  
+              text : "Reload",
+              //onPress: () => NgsiModule.showGPSDisabledAlert()  
+              onPress: () => t.checkGPS()
             }
           ],
           {
@@ -88,9 +95,13 @@ export default class HomeScreen extends Component {
   startWatching() {
     let t = this
     UserContext.watchContext()
-    store.subscribe(() => {
-      t.setState({campus : store.getState().campus.campus})
-    })
+    setInterval(() => {
+      t.setState({campus : UserContext.campus})
+    }, 1000 );
+    //store.subscribe(() => {
+      
+      //t.setState({campus : store.getState().campus.campus})
+    //})
   }
 
   onPress (){
@@ -137,8 +148,9 @@ export default class HomeScreen extends Component {
 		    renderNavigationView={() => (<Nav navigate={navigate} screen={'Home'} onClose={this.onClose.bind(this)}/>)}>
         <Toolbar navigation={this.props.navigation} title={'      Driving App'} isHome={true} counter={this.state.conter} onPress={this.onPress.bind(this)}/>
 	      <View style={styles.container}>
+         
           <View style={styles.cardContainer}>
-           
+          
             { this.state.campus ? this.isInside(): this.isOutside() }
           </View>
           
@@ -146,7 +158,7 @@ export default class HomeScreen extends Component {
         </View>
 	    </DrawerLayoutAndroid> 
     )
-  }
+  } 
   
 }
 
