@@ -3,6 +3,7 @@ import { Icon } from 'react-native-material-design';
 import { FloatingAction } from 'react-native-floating-action';
 import { Alert, AsyncStorage } from 'react-native';
 import OCBConnection from '../services/OCBConnection'
+import OCBSmartCity from '../services/OCBConnectionSmartCity'
 import ServerConnection from '../services/ServerConnection'
 
 export default class MyFloatButton extends Component {
@@ -43,23 +44,46 @@ export default class MyFloatButton extends Component {
     let t = this
     navigator.geolocation.getCurrentPosition((position) =>{
       AsyncStorage.getItem('device').then((device) =>{
+        let alertId = `Alert:${device}:${Date.now()}`
+        let dateTime  = new Date();
+
         let alert = {
-          id : `Alert:${device}:${Date.now()}`,
+          id :  alertId,
           type: "Alert",
           category: "Security",
-          subCategory:"Unknown",
+          subCategory:"UnknownAlert",
           location :{
             type : "geo:point",   
             value : `${position.coords.latitude} ,${position.coords.longitude}`
           },
-          dateObserved: new Date(),
+          dateObserved: dateTime,
           validFrom: new Date(),
           validTo: new Date(),
           description: "Unknown emergency Alert",
           alertSource: device,
           severity : "high"
         }
-      
+
+        let infoAlert = {
+          id: alertId,
+          type: "Alert",
+          alertType: "Security",
+          dataSource: device,
+          dateTime: dateTime,
+          eventObserved: "UnknownAlert",
+          description: "Unknown emergency Alert",
+          location: {
+            type: "geo:json",
+            value: {
+              type: "Point",
+              coordinates: [
+                position.coords.longitude,
+                position.coords.latitude,
+              ],
+            }
+          }
+        }
+        OCBSmartCity.create(infoAlert)
         let newJson = OCBConnection.create(alert, "The Alert has been sent")
         ServerConnection.alerts.addNewAlert(alert);
       })

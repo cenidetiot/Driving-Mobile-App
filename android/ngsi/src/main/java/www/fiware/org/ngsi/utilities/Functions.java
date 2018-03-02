@@ -49,7 +49,7 @@ public class Functions {
     public String getActualDate(){
 
         Date date = new Date();
-        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
         String strUTCDate = isoFormat.format(date);
 
         return strUTCDate;

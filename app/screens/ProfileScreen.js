@@ -114,14 +114,14 @@ export default class ProfileScreen extends Component {
           }}
         />
         <ScrollView style={styles.container}>
-           <Text style={styles.text}>Company</Text>
+           {/*<Text style={styles.text}>Company</Text>
             <Picker
               selectedValue={this.state.company}
               onValueChange={(itemValue, itemIndex) => this.setState({company: itemValue})}>
               {this.state.companies.map((comp) => (
                   <Picker.Item key={comp._id} label={comp.name} value={comp.name} />
                 ))}
-            </Picker> 
+              </Picker>*/}
            <Text style={styles.text}>First Name</Text>
            <TextInput value={this.state.first_name} onChangeText={(text) => this.setState({first_name:text})}/> 
            <Text style={styles.text}>Last name</Text>

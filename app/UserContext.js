@@ -14,26 +14,30 @@ class UserContext {
 
    async watchContext () {
         let t =  this 
-        navigator.geolocation.watchPosition((position) =>{  
-            //ToastAndroid.show("I check your position", ToastAndroid.SHORT);
-            location = [ position.coords.latitude,position.coords.longitude ]
-
-            if(t.campus === null) {
-                //ToastAndroid.show("First check", ToastAndroid.SHORT);
-                t.searchCampus(location)
-            } else {
-                //ToastAndroid.show("Second check", ToastAndroid.SHORT);
-                if (!Functions.PointOnCampus(location,t.campus.location)){  
+        setInterval(() => {
+            navigator.geolocation.getCurrentPosition((position) =>{  
+                //ToastAndroid.show("I check your position", ToastAndroid.SHORT);
+                location = [ position.coords.latitude, position.coords.longitude ]
+    
+                if(t.campus === null) {
+                    //ToastAndroid.show("First check", ToastAndroid.SHORT);
                     t.searchCampus(location)
-                } 
-            }
-
-        },
-        (error) => {
-            console.log(error.message)
-        },
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.3 },
-        );
+                } else {
+                    //ToastAndroid.show("Second check", ToastAndroid.SHORT);
+                    if (!Functions.PointOnCampus(location,t.campus.location)){  
+                        t.searchCampus(location)
+                    }  
+                }
+    
+            },
+            (error) => {
+                console.log(error.message)
+            },
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+            //{ enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter:0.3 },
+            );
+        }, 1000);
+        
     }
 
     async searchCampus (location) {

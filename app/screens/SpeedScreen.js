@@ -17,6 +17,7 @@ import Nav from '../components/Nav'
 import MyFloatButton from '../components/MyFloatButton'
 import NgsiModule from '../../NativeModules/NgsiModule'
 import OCBConnection from '../services/OCBConnection'
+import OCBSmartCity from '../services/OCBConnectionSmartCity'
 import ServerConnection from '../services/ServerConnection'
 import Functions from '../functions/Functions'
 import style from '../styles/Speed'
@@ -42,8 +43,8 @@ export default class SpeedScreen extends Component {
         high: '#e67e22',
         critical: '#c0392b' 
       },
-      maximumAllowedSpeed :10,
-      minimumAllowedSpeed :20,
+      maximumAllowedSpeed :3,
+      minimumAllowedSpeed :10,
       latitude : 0,
       longitude: 0,
       message : "You're driving well",
@@ -174,8 +175,13 @@ export default class SpeedScreen extends Component {
     
     navigator.geolocation.getCurrentPosition((position) =>{
       AsyncStorage.getItem('device').then((device) =>{
+
+       
+        let dateTime  = new Date();
+
         let alertSended = `Alert:${device}:${Date.now()}`;
         t.setState({alertSended : alertSended})
+
         let alert = {
           id : alertSended,
           type: "Alert",
@@ -188,12 +194,35 @@ export default class SpeedScreen extends Component {
           dateObserved: new Date(),
           validFrom: new Date(),
           validTo: new Date(),
-          description: "Alertas de prueba de velocidad",
+          description: "Unauthorized Speed Detection",
           alertSource: device,
           severity : 'high'
         }
+
         let newJson = OCBConnection.create(alert, "Sent alert")
         ServerConnection.alerts.addNewAlert(alert);
+
+        let infoAlert = {
+          id: alertSended ,
+          type: "Alert",
+          alertType: "Traffic",
+          dataSource: device,
+          dateTime: dateTime,
+          eventObserved: "UnauthorizedSpeedDetection",
+          description: "Unauthorized Speed Detection",
+          location: {
+            type: "geo:json",
+            value: {
+              type: "Point",
+              coordinates: [
+                position.coords.longitude,
+                position.coords.latitude,
+              ],
+            }
+          }
+        }
+
+        OCBSmartCity.create(infoAlert)
       })
     },
     (error) => {

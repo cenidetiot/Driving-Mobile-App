@@ -17,6 +17,7 @@ import {
 import { NavigationActions } from 'react-navigation'
 
 import OCBConnection from '../services/OCBConnection'
+import OCBSmartCity from '../services/OCBConnectionSmartCity'
 import ServerConnection from '../services/ServerConnection'
 
 import Toolbar from '../components/Toolbar'
@@ -87,9 +88,10 @@ export default class MakeAlertsScreen extends Component {
     navigator.geolocation.getCurrentPosition((position) =>{
     
       AsyncStorage.getItem('device').then((device) =>{
-
+        let alertId = `Alert:${device}:${Date.now()}`
+        let dateTime  = new Date();
         let alert = {
-          id : `Alert:${device}:${Date.now()}`,
+          id : alertId,
           type: "Alert",
           category: "Traffic",
           subCategory : t.state.typeAlert,
@@ -97,19 +99,41 @@ export default class MakeAlertsScreen extends Component {
             type : "geo:point",   
             value : `${position.coords.latitude} ,${position.coords.longitude}`
           },
-          dateObserved: new Date(),
+          dateObserved: dateTime,
           validFrom: new Date(),
           validTo: new Date(),
           description: t.state.description,
           alertSource: device,
           severity : t.state.severityText
         }
-        ToastAndroid.showWithGravity( "Sending Alert..." , ToastAndroid.SHORT, ToastAndroid.CENTER);
-        
-        OCBConnection.create(alert, "The Alert has been sent")
-        ServerConnection.alerts.addNewAlert(alert);
+
+        let infoAlert = {
+          id: alertId,
+          type: "Alert",
+          alertType: "Traffic",
+          dataSource: device,
+          dateTime: dateTime,
+          eventObserved: t.state.typeAlert,
+          description: t.state.description,
+          location: {
+            type: "geo:json",
+            value: {
+              type: "Point",
+              coordinates: [
+                position.coords.longitude,
+                position.coords.latitude,
+              ],
+            }
+          }
+        }
         let backAction = NavigationActions.back()
         this.props.navigation.dispatch(backAction)
+        ToastAndroid.showWithGravity( "Sending Alert..." , ToastAndroid.SHORT, ToastAndroid.CENTER);
+        OCBSmartCity.create(infoAlert)
+
+        OCBConnection.create(alert, "The Alert has been sent")
+        ServerConnection.alerts.addNewAlert(alert);
+        
 
 
       })

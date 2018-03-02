@@ -1,28 +1,38 @@
 
 import {AsyncStorage,ToastAndroid} from 'react-native'
-import OCB from 'ocb-sender';
+
 import NGSI from 'ngsi-parser'
 import NgsiModule from '../../NativeModules/NgsiModule';
 import config from '../../config/OCBconfig'
 
 class OCBConnection {
 
-	constructor () {
-		OCB.config(`http://${config.smartCityContext}`,config.port,config.version)
-	}
 
 	create (entity, message = false) {
 		
-	    let newJson = NGSI.parseEntity(entity)
-		OCB.createEntity(newJson)
-		.then((result) =>{
-			if(message != false)
-				ToastAndroid.showWithGravity( message, ToastAndroid.SHORT, ToastAndroid.CENTER);
+		let newJson = NGSI.parseEntity(entity)
+		
+		const options = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(newJson)
+		};
+		
+		fetch('http://207.249.127.132:1026/v2/entities', options)
+		.then(function(res) {                    
+			if(res.status === 201){
+				//ToastAndroid.showWithGravity( "enviada", ToastAndroid.SHORT, ToastAndroid.CENTER);
+			}else{
+				//ToastAndroid.showWithGravity( JSON.stringify(newJson), ToastAndroid.SHORT, ToastAndroid.CENTER);
+			}
+			
 		})
-		.catch((err) => {
-			//ToastAndroid.showWithGravity( JSON.stringify(err) , ToastAndroid.SHORT, ToastAndroid.CENTER);
-		})
-		return newJson
+		.catch(function(err){
+			//ToastAndroid.showWithGravity( "error promesa", ToastAndroid.SHORT, ToastAndroid.CENTER);
+		});
+		console.log("Enviada")
 	}
 
 	update(entity, attr) {
