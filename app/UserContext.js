@@ -17,7 +17,8 @@ class UserContext {
         setInterval(() => {
             navigator.geolocation.getCurrentPosition((position) =>{  
                 //ToastAndroid.show("I check your position", ToastAndroid.SHORT);
-                location = [ position.coords.latitude, position.coords.longitude ]
+                //location = [ position.coords.latitude, position.coords.longitude ]
+                location = [ 18.87977439, -99.22162518  ]
     
                 if(t.campus === null) {
                     //ToastAndroid.show("First check", ToastAndroid.SHORT);

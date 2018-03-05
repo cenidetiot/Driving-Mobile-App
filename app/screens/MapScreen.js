@@ -96,9 +96,9 @@ export default class MapScreen extends Component {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             let temp = {
-              latitude: position.coords.latitude, longitude: position.coords.longitude
+              //latitude: position.coords.latitude, longitude: position.coords.longitude
               //latitude: 19.0323107, longitude: -98.31537019999999
-              //latitude: 18.87977439, longitude: -99.22162518 //APATZINGAN
+              latitude: 18.87977439, longitude: -99.22162518 //APATZINGAN
             }
 
             

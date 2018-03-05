@@ -159,6 +159,7 @@ export default class LoginScreen extends React.Component {
           AsyncStorage.getItem('fcmtoken').then((value) =>{
             ServerConnection.fire.sendFcmToken(value)
             .catch((err)=> console.error(err))
+            ServerConnection.fire.updateFcmToken(value)
           })
           await UserContext.createUserContext()
         }catch (err) {
